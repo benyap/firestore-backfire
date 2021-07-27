@@ -1,0 +1,48 @@
+{
+  "name": "full-firestore-backup",
+  "version": "0.0.0",
+  "description": "Back up and restore your Firestore database - including subcollections!",
+  "repository": "git@github.com:benyap/full-firestore-backup.git",
+  "author": "Ben Yap <contact@benyap.com>",
+  "license": "MIT",
+  "module": "lib/main.js",
+  "types": "lib/main.d.ts",
+  "files": [
+    "lib/**"
+  ],
+  "bin": {
+    "firestore-backup": "lib/main.js"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "setup": "yarn setup:install && yarn setup:husky",
+    "setup:install": "yarn install",
+    "setup:husky": "husky install",
+    "clean": "rm -rf ./lib/*",
+    "format": "prettier --write \"./src/**/*.ts\"",
+    "prebuild": "yarn clean && yarn format",
+    "build": "tsc",
+    "start": "node lib/main.js",
+    "dev": "ts-node src/main.ts",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch --interactive",
+    "release-rc": "standard-version --prerelease rc",
+    "release": "standard-version"
+  },
+  "dependencies": {
+    "commander": "8.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "13.1.0",
+    "@commitlint/config-conventional": "13.1.0",
+    "@types/node": "16.4.3",
+    "husky": "7.0.1",
+    "prettier": "2.3.2",
+    "standard-version": "9.3.1",
+    "ts-node": "10.1.0",
+    "typescript": "4.3.5"
+  }
+}

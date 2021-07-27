@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["ESNext"],
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "noEmit": false,
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "lib",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es6"
+  },
+  "include": ["node_modules/@types", "src/**/*"],
+  "exclude": ["node_modules"]
+}
