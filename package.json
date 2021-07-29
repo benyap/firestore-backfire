@@ -1,6 +1,6 @@
 {
   "name": "full-firestore-backup",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Back up and restore your Firestore database - including subcollections!",
   "repository": "git@github.com:benyap/full-firestore-backup.git",
   "author": "Ben Yap <contact@benyap.com>",
