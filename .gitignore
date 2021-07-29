@@ -71,6 +71,8 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.keyfiles
 
 # Builds
 lib
+output

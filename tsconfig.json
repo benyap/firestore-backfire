@@ -5,6 +5,7 @@
     "lib": ["ESNext"],
     "module": "CommonJS",
     "moduleResolution": "Node",
+    "esModuleInterop": true,
     "noEmit": false,
     "noErrorTruncation": true,
     "noFallthroughCasesInSwitch": true,
