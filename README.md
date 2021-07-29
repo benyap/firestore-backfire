@@ -2,7 +2,7 @@
 
 > Ultimate control over backing up and restoring your Firestore data
 
-## ⚠️ Project is a WIP
+### ⚠️ Project is a WIP
 
 This project is still under development and is not feature complete. Not recommended
 for production use yet.
@@ -50,8 +50,8 @@ of the following:
 
 ## Contributing
 
-See [CONTRIBUTING.md].
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-See [LICENSE].
+See [LICENSE](LICENSE).
