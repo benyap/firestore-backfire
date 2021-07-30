@@ -1,8 +1,8 @@
 {
-  "name": "full-firestore-backup",
+  "name": "backfire",
   "version": "0.0.1",
-  "description": "Back up and restore your Firestore database - including subcollections!",
-  "repository": "git@github.com:benyap/full-firestore-backup.git",
+  "description": "Ultimate control over backing up and restoring your Firestore data",
+  "repository": "git@github.com:benyap/backfire.git",
   "author": "Ben Yap <contact@benyap.com>",
   "license": "MIT",
   "module": "lib/main.js",

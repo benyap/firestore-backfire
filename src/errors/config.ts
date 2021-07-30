@@ -1,3 +1,5 @@
+import { Constants } from "../config";
+
 import { ErrorWithDetails } from "./base";
 
 export class ConfigError extends ErrorWithDetails {}
@@ -7,13 +9,13 @@ export class ConfigNotFoundError extends ConfigError {
     super(
       "Configuration file not found.",
       `Please provide configuration in one of the following places:
-  - package.json > firebasebackup
-  - .firebasebackuprc
-  - .firebasebackuprc.json
-  - .firebasebackuprc.yaml
-  - .firebasebackuprc.yml
-  - .firebasebackuprc.js
-  - .firebasebackuprc.config.js
+  - package.json > ${Constants.NAME}
+  - .${Constants.NAME}rc
+  - .${Constants.NAME}rc.json
+  - .${Constants.NAME}rc.yaml
+  - .${Constants.NAME}rc.yml
+  - .${Constants.NAME}rc.js
+  - .${Constants.NAME}rc.config.js
 `
     );
   }

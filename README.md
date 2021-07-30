@@ -1,6 +1,6 @@
-# Full Firestore Backup
+# BackFire
 
-> Ultimate control over backing up and restoring your Firestore data
+_Ultimate control over backing up and restoring your Firestore data_
 
 ### ⚠️ Project is a WIP
 
@@ -50,14 +50,14 @@ Options:
 Global options can be provided directly inline, or read from a configuration file
 named any of the following:
 
-- .firebasebackuprc
-- .firebasebackuprc.json
-- .firebasebackuprc.yaml
-- .firebasebackuprc.yml
-- .firebasebackuprc.js
-- .firebasebackuprc.cjs
-- firebasebackup.config.js
-- firebasebackup.config.cjs
+- .backfirerc
+- .backfirerc.json
+- .backfirerc.yaml
+- .backfirerc.yml
+- .backfirerc.js
+- .backfirerc.cjs
+- backfire.config.js
+- backfire.config.cjs
 
 ## Road map
 

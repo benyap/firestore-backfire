@@ -27,7 +27,7 @@ export async function getGlobalOptions(program: Command) {
  * @returns The configuration from a config file.
  */
 export async function getGlobalOptionsFromFile() {
-  const explorer = cosmiconfig(Constants.MODULE_NAME);
+  const explorer = cosmiconfig(Constants.NAME);
   const result = await explorer.search();
   return (result?.config as GlobalOptions) ?? {};
 }

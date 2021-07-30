@@ -14,7 +14,8 @@ async function main() {
   // Create program for parsing command line arguments
   const program = new Command()
     .version(Constants.VERSION)
-    .name(Constants.MODULE_NAME);
+    .name(Constants.NAME)
+    .description(Constants.DESCRIPTION);
 
   // Define global options
   program.option("--verbose", "output verbose logs");
