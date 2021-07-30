@@ -55,6 +55,11 @@ export function createProgram() {
       (value: string, _) => validateMinMaxInteger(value, 0, Constants.MAX_DEPTH),
       Constants.MAX_DEPTH
     )
+    .option(
+      "--json",
+      "outputs data in JSON array format (only applies to local file streams)"
+    )
+
     .option("--verbose", "output verbose logs");
 
   return program;

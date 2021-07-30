@@ -1,10 +1,11 @@
 import { Config } from "./config";
 import { LogLevel } from "./logging";
 
-export type ParentMessage =
+export type ToParentMessage =
   | LogMessage
   | CollectionPathMessage
-  | DocumentPathCompleteMessage;
+  | DocumentPathCompleteMessage
+  | FatalErrorMessage;
 
 export interface LogMessage {
   type: "log";
@@ -23,7 +24,12 @@ export interface DocumentPathCompleteMessage {
   path: string;
 }
 
-export type ChildMessage = DocumentMessage | ConfigMessage | FinishMessage;
+export interface FatalErrorMessage {
+  type: "fatal-error";
+  message: string;
+}
+
+export type ToChildMessage = ConfigMessage | DocumentMessage | KillMessage;
 
 export interface ConfigMessage {
   type: "config";
@@ -39,6 +45,6 @@ export interface DocumentMessage {
   data: any;
 }
 
-export interface FinishMessage {
-  type: "finish";
+export interface KillMessage {
+  type: "kill";
 }

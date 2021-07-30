@@ -13,7 +13,7 @@ This program backs up data from Firestore to a local directory (back up to remot
 storage locations WIP). Support for reading from Local Firestore Emulator is
 supported. Run this program on the command line.
 
-```
+````
 Usage: firestorebackup [options]
 
 Options:
@@ -26,8 +26,9 @@ Options:
   --patterns [regex...]           regex patterns that a document path must match to be backed up
   --concurrency <number>          number of concurrent processes allowed (default: 10)
   --depth <number>                subcollection depth to back up (default: 100)
+  --json                          outputs data in JSON array format (only applies to local file streams)
   --verbose                       output verbose logs
-  -h, --help                      display help for command
+  -h, --help                      display help for command\
 ```
 
 Options can be provided directly inline, or read from a configuration file named any
@@ -55,3 +56,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 See [LICENSE](LICENSE).
+````

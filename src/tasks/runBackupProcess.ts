@@ -1,17 +1,16 @@
-import { log, time, wait, serializeDocument } from "../utils";
-import { LogLevel } from "../types";
+import { log, time, wait, createOutStream } from "../utils";
+import { FatalErrorMessage, LogLevel } from "../types";
 
 import { createCredentials } from "./createCredentials";
 import { createFirestore } from "./createFirestore";
-import { createOutStream } from "./createOutStream";
 
-import type { WriteStream } from "fs";
 import type {
-  ChildMessage,
+  ToChildMessage,
   CollectionPathMessage,
   Config,
   DocumentMessage,
   DocumentPathCompleteMessage,
+  IWriteStreamHandler,
 } from "../types";
 
 /* ======================================================
@@ -31,7 +30,7 @@ const WAIT_TIME = 500;
 const documents: DocumentMessage[] = [];
 
 // React to messages from the parent process
-process.on("message", (message: ChildMessage) => {
+process.on("message", (message: ToChildMessage) => {
   switch (message.type) {
     // Start the main loop when we receive a config
     case "config":
@@ -47,7 +46,7 @@ process.on("message", (message: ChildMessage) => {
       break;
 
     // Start the termination process
-    case "finish":
+    case "kill":
       run = false;
       break;
   }
@@ -59,63 +58,68 @@ async function main(identifier: string | number, config: Config) {
   const firestore = createFirestore(config.project, credentials);
 
   // Mapping of out streams
-  const streams: Record<string, WriteStream> = {};
+  const streams: Record<string, IWriteStreamHandler> = {};
 
-  while (run) {
-    const document = documents.pop();
+  try {
+    while (run) {
+      const document = documents.pop();
 
-    if (!document) {
-      await wait(WAIT_TIME);
-      continue;
-    }
-
-    const { duration } = await time(async () => {
-      let stream = streams[document.root];
-
-      // Create stream if it doesn't exist
-      if (!stream) {
-        stream = createOutStream(`${document.root}.snapshot`, config);
-        streams[document.root] = stream;
-        log(LogLevel.DEBUG, `Opened out stream to ${stream.path}`);
+      if (!document) {
+        await wait(WAIT_TIME);
+        continue;
       }
 
-      // Stream data to output
-      await new Promise<void>((resolve, reject) => {
-        const data = serializeDocument(document) + "\n";
-        stream.write(data, (error) => {
-          if (error) reject(error);
-          else resolve();
-        });
+      const { duration } = await time(async () => {
+        let stream = streams[document.root];
+
+        // Create stream if it doesn't exist
+        if (!stream) {
+          stream = createOutStream(`${config.out}/${document.root}`, config);
+          await stream.open();
+          streams[document.root] = stream;
+          log(LogLevel.DEBUG, `Opened out stream to ${stream.path}`);
+        }
+
+        // Stream data to output
+        await stream.write(document);
+
+        // Get subcollections and send them to parent
+        const subcollections = await firestore.doc(document.path).listCollections();
+        if (subcollections.length > 0) {
+          subcollections.forEach(({ path }) => {
+            process.send?.({ type: "path", path } as CollectionPathMessage);
+          });
+        }
       });
 
-      // Get subcollections and send them to parent
-      const subcollections = await firestore.doc(document.path).listCollections();
-      if (subcollections.length > 0) {
-        subcollections.forEach(({ path }) => {
-          process.send?.({ type: "path", path } as CollectionPathMessage);
-        });
-      }
-    });
+      log(
+        LogLevel.DEBUG,
+        `Document path ${document.path} complete (${duration.timeString})`
+      );
 
-    log(
-      LogLevel.DEBUG,
-      `Document path ${document.path} complete (${duration.timeString})`
+      // Signal the completion of the document to the parent
+      process.send?.({
+        type: "document-complete",
+        path: document.path,
+      } as DocumentPathCompleteMessage);
+    }
+
+    // Close streams
+    await Promise.all(
+      Object.keys(streams).map(async (key) => {
+        const stream = streams[key];
+        await stream.close();
+        log(LogLevel.DEBUG, `Closed out stream ${stream.path}`);
+      })
     );
-
-    // Signal the completion of the document to the parent
+  } catch (error) {
+    log(LogLevel.ERROR, error.message);
     process.send?.({
-      type: "document-complete",
-      path: document.path,
-    } as DocumentPathCompleteMessage);
+      type: "fatal-error",
+      message: error.message,
+    } as FatalErrorMessage);
   }
 
-  // Close out streams
-  Object.keys(streams).forEach((key) => {
-    const stream = streams[key];
-    stream.end();
-    log(LogLevel.DEBUG, `Closed out stream ${stream.path}`);
-  });
-
-  log(LogLevel.DEBUG, `Child ${identifier} (${process.pid}) finished`);
+  log(LogLevel.DEBUG, `Child process ${identifier} (${process.pid}) exited`);
   process.exit(0);
 }

@@ -3,3 +3,5 @@ export class ErrorWithDetails extends Error {
     super(message);
   }
 }
+
+export class NotImplementedError extends Error {}

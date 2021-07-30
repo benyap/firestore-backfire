@@ -18,3 +18,15 @@ export class ConfigNotFoundError extends ConfigError {
     );
   }
 }
+
+export class InvalidOutputPathError extends ConfigError {
+  constructor(public readonly path: string, message?: string, details?: string) {
+    super(message ?? `Invalid output path provided: ${path}`, details);
+  }
+}
+
+export class UnsupportedOutputPathProtocolError extends InvalidOutputPathError {
+  constructor(public readonly protocol: string, path: string) {
+    super(path, `The file protocol ${protocol}://* is currently not supported.`);
+  }
+}

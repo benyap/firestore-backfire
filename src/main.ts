@@ -7,9 +7,10 @@ import {
   getConfig,
   getOptions,
   createCredentials,
-  createDirectory,
   createFirestore,
+  clearLocalOutput,
   runBackup,
+  validateOutputPath,
 } from "./tasks";
 
 async function main() {
@@ -43,14 +44,22 @@ async function main() {
     );
   }
 
+  // Validate output directory
+  const protocol = validateOutputPath(config.out);
+
+  if (protocol !== "file" && config.json)
+    logger.warn(
+      `The --json flag has no effect when using the ${protocol}:// protocol.`
+    );
+
   // Connect to Firestore
   const credentials = createCredentials(config);
   const firestore = createFirestore(config.project, credentials);
   logger.info(`Connected to Firestore for "${config.project}"`);
 
-  // Create directory for output
-  const created = createDirectory(config.out, { recursive: true });
-  if (created) logger.debug(`Created output directory ${config.out}`);
+  // Clear output directory if it using local file
+  const removed = clearLocalOutput(config);
+  if (removed) logger.debug(`Cleared local directory: ${config.out}`);
 
   // Create backup files
   await runBackup(firestore, config);

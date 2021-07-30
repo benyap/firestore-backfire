@@ -9,8 +9,8 @@ import type {
   Config,
   DocumentMessage,
   ConfigMessage,
-  ParentMessage,
-  FinishMessage,
+  KillMessage,
+  ToParentMessage,
 } from "../types";
 
 /**
@@ -59,6 +59,8 @@ export async function runBackup(
     terminated: Promise<any>;
   }[] = [];
 
+  const errors: string[] = [];
+
   // Create child processes
   for (let i = 0; i < config.concurrency; i++) {
     const identifier = i + 1;
@@ -74,13 +76,16 @@ export async function runBackup(
     children.push({ identifier, process, terminated });
 
     // Listen for messages from child process
-    process.on("message", (message: ParentMessage) => {
+    process.on("message", (message: ToParentMessage) => {
       switch (message.type) {
         case "path":
           collectionPaths.push(message.path);
           break;
         case "document-complete":
           pendingPaths.delete(message.path);
+          break;
+        case "fatal-error":
+          errors.push(message.message);
           break;
       }
     });
@@ -93,7 +98,7 @@ export async function runBackup(
   let run = true;
   let childIndex = 0;
 
-  while (run) {
+  while (run && errors.length === 0) {
     const path = collectionPaths.pop();
 
     if (!path) {
@@ -154,13 +159,19 @@ export async function runBackup(
   // Clean up all child processes
   await Promise.all(
     children.map(async ({ process, terminated }) => {
-      process.send({ type: "finish" } as FinishMessage);
+      process.send({ type: "kill" } as KillMessage);
       await terminated;
     })
   );
 
-  logger.info(
-    `Finished back up task for ${rootCollections.length} path(s)`,
-    rootCollections
-  );
+  if (errors.length) {
+    logger.error(
+      `Back up task for ${rootCollections.length} path(s) terminated with errors`
+    );
+  } else {
+    logger.info(
+      `Finished back up task for ${rootCollections.length} path(s)`,
+      rootCollections
+    );
+  }
 }

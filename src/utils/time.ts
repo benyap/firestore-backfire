@@ -17,8 +17,12 @@ export class TimerResult {
     if (d > 1) parts.push(`${Math.floor(d)}d`);
     if (h > 1 || parts.length > 0) parts.push(`${Math.floor(h)}h`);
     if (m > 1 || parts.length > 0) parts.push(`${Math.floor(m)}m`);
-    if (s > 1 || parts.length > 0) parts.push(`${Math.floor(s)}s`);
-    parts.push(`${Math.floor(ms)}ms`);
+    if (s > 1 || parts.length > 0) {
+      if (d > 1 || h > 1 || m > 1) parts.push(`${Math.floor(s)}s`);
+      else parts.push(`${s.toFixed(3)}s`);
+    } else {
+      parts.push(`${Math.floor(ms)}ms`);
+    }
 
     return parts.join(" ");
   }
