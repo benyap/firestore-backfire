@@ -63,7 +63,10 @@ named any of the following:
 
 ## Road map
 
-- [ ] Restore data from file backup
+- [x] Export data to file
+- [ ] Restore data from file
+- [x] Export data to file as JSON
+- [ ] Restore data from JSON export
 - [ ] Write tests... haha
 - [ ] Export data to Google Cloud Storage
 - [ ] Restore data to Google Cloud Storage
