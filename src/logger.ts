@@ -21,10 +21,13 @@ export class LoggingService {
    * Create a new local logger instance.
    *
    * @param source The logger's source, e.g. the component the logger is used in.
-   * @param levels The levels to print to the console. Defaults to `LoggingService.DEFAULT_LEVELS`.
+   * @param verbose If `true`, outputs all log levels.
    */
-  static create(source: string, levels?: LogLevel[]) {
-    return new LoggingService(source, levels ?? LoggingService.DEFAULT_LEVELS);
+  static create(source: string, options: { verbose?: boolean } = {}) {
+    return new LoggingService(
+      source,
+      options.verbose ? Object.values(LogLevel) : LoggingService.DEFAULT_LEVELS
+    );
   }
 
   private readonly outputMap: { [key in LogLevel]: (...data: any[]) => void };

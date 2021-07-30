@@ -13,12 +13,27 @@ This program backs up data from Firestore to a local directory (back up to remot
 storage locations WIP). Support for reading from Local Firestore Emulator is
 supported. Run this program on the command line.
 
-````
-Usage: firestorebackup [options]
+```
+Usage: firestorebackup [options] [command]
+
+Global Options:
+  -V, --version               output the version number
+  -h, --help                  display help for command
+  --verbose                   output verbose logs
+
+Commands:
+  export [options] <project>  export data from Firestore
+  help [command]              display help for command
+```
+
+### Export command
+
+```
+Usage: firestorebackup export [options] <project>
+
+export data from Firestore
 
 Options:
-  -V, --version                   output the version number
-  -p, --project <projectId>       the Firebase project id
   -o, --out <path>                path to output directory
   -k, --keyfile <path>            path to account credentials JSON file
   --emulator <host>               back up data from Firestore emulator
@@ -27,12 +42,13 @@ Options:
   --concurrency <number>          number of concurrent processes allowed (default: 10)
   --depth <number>                subcollection depth to back up (default: 100)
   --json                          outputs data in JSON array format (only applies to local file streams)
-  --verbose                       output verbose logs
-  -h, --help                      display help for command\
+  -h, --help                      display help for command
 ```
 
-Options can be provided directly inline, or read from a configuration file named any
-of the following:
+### Global options
+
+Global options can be provided directly inline, or read from a configuration file
+named any of the following:
 
 - .firebasebackuprc
 - .firebasebackuprc.json
@@ -51,9 +67,8 @@ of the following:
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
-See [LICENSE](LICENSE).
-````
+See [LICENSE](LICENSE)

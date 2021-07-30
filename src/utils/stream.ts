@@ -1,16 +1,16 @@
 import { NotImplementedError } from "../errors";
 import { FileStream, JSONArrayStream } from "../streams";
 
-import type { Config, IWriteStreamHandler } from "../types";
+import type { IWriteStreamHandler } from "../types";
 
 /**
  * Create an output stream where data can be backed up to.
  *
  * @param path The path to write to.
- * @param config The program configuration.
+ * @param json Flag for indicating that a JSONArrayStream should be used. Only relevant for file paths.
  * @returns A stream that data can be written to.
  */
-export function createOutStream(path: string, config: Config): IWriteStreamHandler {
+export function createOutStream(path: string, json?: boolean): IWriteStreamHandler {
   // TODO:
   if (path.startsWith("gs://"))
     throw new NotImplementedError(
@@ -23,7 +23,7 @@ export function createOutStream(path: string, config: Config): IWriteStreamHandl
       "AWS S3 output paths (s3://*) are not yet supported."
     );
 
-  if (config.json) return new JSONArrayStream(path);
+  if (json) return new JSONArrayStream(path);
 
   return new FileStream(path);
 }

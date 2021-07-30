@@ -1,38 +1,63 @@
-import type { firestore as Firestore } from "firebase-admin";
 import { ChildProcess } from "child_process";
 
-import { forkChild, stringToRegex, time, wait } from "../utils";
-import { LoggingService } from "../logger";
-import { LogLevel } from "../types";
+import { LoggingService } from "../../logger";
+import { forkChild, stringToRegex, time, wait } from "../../utils";
+
+import {
+  validateExportCredentials,
+  getOutuptProtocol,
+  validateOutputProtocol,
+  createCredentials,
+  createFirestore,
+  clearLocalOutputDirectory,
+} from "../../tasks";
 
 import type {
-  Config,
+  ExportOptionsMessage,
   DocumentMessage,
-  ConfigMessage,
+  ExportOptions,
+  GlobalOptions,
   KillMessage,
   ToParentMessage,
-} from "../types";
+} from "../../types";
 
 /**
- * Back up Firestore documents as specified by the program configuration.
+ * Export Firestore data.
  *
- * @param firestore The Firestore instance.
- * @param config The program configuration.
+ * @param project The id of the Firebase project.
+ * @param options The export action options.
+ * @param globalOptions Global program options.
  */
-export async function runBackup(
-  firestore: ReturnType<typeof Firestore>,
-  config: Config
+export async function exportAction(
+  project: string,
+  options: ExportOptions,
+  globalOptions: GlobalOptions
 ) {
-  const logger = LoggingService.create(
-    "tasks.runBackup",
-    config.verbose
-      ? [LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARN, LogLevel.ERROR]
-      : undefined
-  );
+  const logger = LoggingService.create("export", globalOptions);
+
+  const protocol = getOutuptProtocol(options.out);
+  validateOutputProtocol(protocol);
+  validateExportCredentials(project, options);
+
+  if (protocol !== "file" && options.json)
+    logger.warn(
+      `The --json flag has no effect when using the ${protocol}:// output protocol.`
+    );
+
+  // Clear output directory if it using local file output
+  if (protocol === "file") {
+    const removed = clearLocalOutputDirectory(options.out);
+    if (removed) logger.debug(`Cleared local directory: ${options.out}`);
+  }
+
+  // Connect to Firestore
+  const credentials = createCredentials(options);
+  const firestore = createFirestore(project, credentials);
+  logger.info(`Connected to Firestore for "${project}"`);
 
   const rootCollections =
-    config.collections ?? (await firestore.listCollections()).map((c) => c.id);
-  const patterns = (config.patterns ?? []).map((string) => stringToRegex(string));
+    options.collections ?? (await firestore.listCollections()).map((c) => c.id);
+  const patterns = (options.patterns ?? []).map((string) => stringToRegex(string));
 
   logger.info(
     `Starting back up task for ${rootCollections.length} path(s)`,
@@ -62,15 +87,15 @@ export async function runBackup(
   const errors: string[] = [];
 
   // Create child processes
-  for (let i = 0; i < config.concurrency; i++) {
+  for (let i = 0; i < options.concurrency; i++) {
     const identifier = i + 1;
 
     // Spawn process
-    const { process, terminated } = forkChild<ConfigMessage>(
+    const { process, terminated } = forkChild<ExportOptionsMessage>(
       identifier,
-      "tasks/runBackupProcess",
+      "actions/exportAction/subprocess",
       logger,
-      { type: "config", identifier, config }
+      { type: "config-export", identifier, project, options }
     );
 
     children.push({ identifier, process, terminated });
@@ -95,17 +120,13 @@ export async function runBackup(
   const collectionPaths = [...rootCollections];
   const pendingPaths = new Set<string>();
 
-  let run = true;
   let childIndex = 0;
 
-  while (run && errors.length === 0) {
+  do {
     const path = collectionPaths.pop();
 
     if (!path) {
-      // We should be done if there are no more pending paths
-      run = pendingPaths.size > 0;
-
-      // Wait a little before we continue
+      // If we don't have a path, wait before we continue and try again
       await wait(WAIT_TIME);
       continue;
     }
@@ -116,8 +137,10 @@ export async function runBackup(
       // Check path depth
       const parts = path.split("/");
       const pathDepth = (parts.length - 1) / 2;
-      if (pathDepth > config.depth) {
-        logger.debug(`Skipping path ${path} (exceeds max depth of ${config.depth})`);
+      if (pathDepth > options.depth) {
+        logger.debug(
+          `Skipping path ${path} (exceeds max depth of ${options.depth})`
+        );
         return;
       }
 
@@ -154,7 +177,7 @@ export async function runBackup(
       logger.info(
         `Start processing ${size} document(s) from collection ${path} (${duration.timeString})`
       );
-  }
+  } while (pendingPaths.size > 0 && errors.length === 0);
 
   // Clean up all child processes
   await Promise.all(

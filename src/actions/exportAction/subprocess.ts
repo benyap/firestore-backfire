@@ -1,21 +1,20 @@
-import { log, time, wait, createOutStream } from "../utils";
-import { FatalErrorMessage, LogLevel } from "../types";
+import { log, time, wait, createOutStream } from "../../utils";
+import { ExportOptions, FatalErrorMessage, LogLevel } from "../../types";
 
-import { createCredentials } from "./createCredentials";
-import { createFirestore } from "./createFirestore";
+import { createCredentials } from "../../tasks/createCredentials";
+import { createFirestore } from "../../tasks/createFirestore";
 
 import type {
   ToChildMessage,
   CollectionPathMessage,
-  Config,
   DocumentMessage,
   DocumentPathCompleteMessage,
   IWriteStreamHandler,
-} from "../types";
+} from "../../types";
 
 /* ======================================================
 
-    This file is forked from `runBackup.ts` to write the
+    This file is forked from `action.ts` to write the
     data of document snapshots to the output stream, then
     notify the parent of any subcollections that the
     document has.
@@ -33,11 +32,11 @@ const documents: DocumentMessage[] = [];
 process.on("message", (message: ToChildMessage) => {
   switch (message.type) {
     // Start the main loop when we receive a config
-    case "config":
+    case "config-export":
       if (started) break;
       started = true;
       run = true;
-      main(message.identifier, message.config);
+      main(message.identifier, message.project, message.options);
       break;
 
     // Add documents to process
@@ -52,10 +51,14 @@ process.on("message", (message: ToChildMessage) => {
   }
 });
 
-async function main(identifier: string | number, config: Config) {
+async function main(
+  identifier: string | number,
+  project: string,
+  options: ExportOptions
+) {
   // Create Firestore instance
-  const credentials = createCredentials(config);
-  const firestore = createFirestore(config.project, credentials);
+  const credentials = createCredentials(options);
+  const firestore = createFirestore(project, credentials);
 
   // Mapping of out streams
   const streams: Record<string, IWriteStreamHandler> = {};
@@ -74,7 +77,7 @@ async function main(identifier: string | number, config: Config) {
 
         // Create stream if it doesn't exist
         if (!stream) {
-          stream = createOutStream(`${config.out}/${document.root}`, config);
+          stream = createOutStream(`${options.out}/${document.root}`, options.json);
           await stream.open();
           streams[document.root] = stream;
           log(LogLevel.DEBUG, `Opened out stream to ${stream.path}`);

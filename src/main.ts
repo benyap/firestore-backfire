@@ -1,68 +1,62 @@
-import { ConfigError, ErrorWithDetails } from "./errors";
-import { LoggingService } from "./logger";
-import { LogLevel } from "./types";
+import { Command } from "commander";
 
-import {
-  createProgram,
-  getConfig,
-  getOptions,
-  createCredentials,
-  createFirestore,
-  clearLocalOutput,
-  runBackup,
-  validateOutputPath,
-} from "./tasks";
+import { Constants } from "./config";
+import { ErrorWithDetails } from "./errors";
+import { LoggingService } from "./logger";
+import { validateMinMaxInteger } from "./utils";
+import { getGlobalOptions } from "./tasks";
+
+import { exportAction } from "./actions";
+
+import { ExportOptions } from "./types";
 
 async function main() {
   // Create program for parsing command line arguments
-  const program = createProgram();
+  const program = new Command()
+    .version(Constants.VERSION)
+    .name(Constants.MODULE_NAME);
 
-  // Merge config from configuration and command line
-  // Command line options take priority
-  const config = {
-    ...(await getConfig()),
-    ...getOptions(program),
-  };
+  // Define global options
+  program.option("--verbose", "output verbose logs");
 
-  // Create logger
-  const logger = LoggingService.create(
-    "main",
-    config.verbose
-      ? [LogLevel.DEBUG, LogLevel.INFO, LogLevel.WARN, LogLevel.ERROR]
-      : undefined
-  );
+  // Define export command
+  program
+    .command("export <project>", { isDefault: true })
+    .description("export data from Firestore")
+    .requiredOption("-o, --out <path>", "path to output directory")
+    .option("-k, --keyfile <path>", "path to account credentials JSON file")
+    .option("--emulator <host>", "back up data from Firestore emulator")
+    .option(
+      "--collections [collections...]",
+      "name of the root collections to back up (all collections backed up if not specified)"
+    )
+    .option(
+      "--patterns [regex...]",
+      "regex patterns that a document path must match to be backed up"
+    )
+    .option(
+      "--concurrency <number>",
+      "number of concurrent processes allowed",
+      (value: string, _) =>
+        validateMinMaxInteger(value, 1, Constants.MAX_CONCURRENCY),
+      Constants.MAX_CONCURRENCY
+    )
+    .option(
+      "--depth <number>",
+      "subcollection depth to back up",
+      (value: string, _) => validateMinMaxInteger(value, 0, Constants.MAX_DEPTH),
+      Constants.MAX_DEPTH
+    )
+    .option(
+      "--json",
+      "outputs data in JSON array format (only applies to local file streams)"
+    )
+    .action(async (projectId: string, options: ExportOptions) => {
+      const globalOptions = await getGlobalOptions(program);
+      await exportAction(projectId, options, globalOptions);
+    });
 
-  logger.debug("Parsed configuration", config);
-
-  // Ensure keyfile is present if not using emulator
-  if (!config.emulator && !config.keyfile) {
-    throw new ConfigError(
-      "Either --keyfile or --emulator is required.",
-      `Please provide either:
-  - a path to the service account credentials to the project "${config.project}" using --keyfile option, or
-  - the emulator host (e.g. localhost:8080) if using Firebase Emulator using the --emulator option`
-    );
-  }
-
-  // Validate output directory
-  const protocol = validateOutputPath(config.out);
-
-  if (protocol !== "file" && config.json)
-    logger.warn(
-      `The --json flag has no effect when using the ${protocol}:// protocol.`
-    );
-
-  // Connect to Firestore
-  const credentials = createCredentials(config);
-  const firestore = createFirestore(config.project, credentials);
-  logger.info(`Connected to Firestore for "${config.project}"`);
-
-  // Clear output directory if it using local file
-  const removed = clearLocalOutput(config);
-  if (removed) logger.debug(`Cleared local directory: ${config.out}`);
-
-  // Create backup files
-  await runBackup(firestore, config);
+  await program.parseAsync();
 }
 
 // Run program

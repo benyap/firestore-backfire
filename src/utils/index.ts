@@ -1,4 +1,5 @@
 export * from "./batch";
+export * from "./command";
 export * from "./directory";
 export * from "./firestore";
 export * from "./process";

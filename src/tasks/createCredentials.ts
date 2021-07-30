@@ -1,27 +1,26 @@
 import { resolve } from "path";
 import * as admin from "firebase-admin";
 
-import type { Config } from "../types";
-
 /**
  * Creates the credentials for connecting to Firebase using either
- * `config.keyfile` or `config.emulator`.
+ * `keyfile` or `emulator`.
  *
- * If `config.keyfile` is provided, a service account credentials
- * file at `config.keyfile` will be used.
+ * If `keyfile` is provided, a service account credentials file at
+ * the path given by `keyfile` will be used.
  *
- * If `config.emulator` is provided, the default credentials will
- * be used and the `FIRESTORE_EMULATOR_HOST` environment variable
- * will be set.
+ * If `emulator` is provided, the default credentials will be used
+ * and the `FIRESTORE_EMULATOR_HOST` environment variable will be set.
  *
- * @param config The program configuration.
+ * @param keyfile The path to a service account credentials file.
+ * @param emulator The host and port to use if connecting to Firestore emulator.
  * @returns The Firebase Admin credentials object.
  */
-export function createCredentials(config: Config) {
-  if (config.emulator) {
-    process.env.FIRESTORE_EMULATOR_HOST = config.emulator;
+export function createCredentials(options: { keyfile?: string; emulator?: string }) {
+  const { keyfile, emulator } = options;
+  if (emulator) {
+    process.env.FIRESTORE_EMULATOR_HOST = emulator;
     return admin.credential.applicationDefault();
   }
-  const path = resolve(__dirname, "..", "..", config.keyfile!);
+  const path = resolve(__dirname, "..", "..", keyfile!);
   return admin.credential.cert(require(path));
 }

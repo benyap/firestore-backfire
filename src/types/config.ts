@@ -1,7 +1,9 @@
-export interface Config {
+export interface GlobalOptions {
   verbose?: boolean;
+}
+
+export interface ExportOptions {
   out: string;
-  project: string;
   concurrency: number;
   depth: number;
   json?: boolean;

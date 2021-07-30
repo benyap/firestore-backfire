@@ -1,5 +1,6 @@
-import { Config } from "./config";
 import { LogLevel } from "./logging";
+
+import type { ExportOptions } from "./config";
 
 export type ToParentMessage =
   | LogMessage
@@ -29,12 +30,13 @@ export interface FatalErrorMessage {
   message: string;
 }
 
-export type ToChildMessage = ConfigMessage | DocumentMessage | KillMessage;
+export type ToChildMessage = ExportOptionsMessage | DocumentMessage | KillMessage;
 
-export interface ConfigMessage {
-  type: "config";
+export interface ExportOptionsMessage {
+  type: "config-export";
   identifier: string | number;
-  config: Config;
+  project: string;
+  options: ExportOptions;
 }
 
 export interface DocumentMessage {
