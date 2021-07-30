@@ -16,6 +16,8 @@ supported. Run this program on the command line.
 ```
 Usage: firestorebackup [options] [command]
 
+Ultimate control over backing up and restoring your Firestore data
+
 Global Options:
   -V, --version               output the version number
   -h, --help                  display help for command
@@ -61,9 +63,13 @@ named any of the following:
 
 ## Road map
 
-- [ ] Restore data from backup
-- [ ] Back up data to Google Cloud Storage
-- [ ] Back up data to AWS S3
+- [ ] Restore data from file backup
+- [ ] Write tests... haha
+- [ ] Export data to Google Cloud Storage
+- [ ] Restore data to Google Cloud Storage
+- [ ] Export data to AWS S3
+- [ ] Restore data to AWS S3
+- [ ] Add documentation site (GitHub pages?)
 
 ## Contributing
 
