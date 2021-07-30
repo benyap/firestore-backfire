@@ -69,9 +69,9 @@ named any of the following:
 - [ ] Restore data from JSON export
 - [ ] Write tests... haha
 - [ ] Export data to Google Cloud Storage
-- [ ] Restore data to Google Cloud Storage
+- [ ] Restore data from Google Cloud Storage
 - [ ] Export data to AWS S3
-- [ ] Restore data to AWS S3
+- [ ] Restore data from AWS S3
 - [ ] Add documentation site (GitHub pages?)
 
 ## Contributing
