@@ -14,7 +14,7 @@ storage locations WIP). Support for reading from Local Firestore Emulator is
 supported. Run this program on the command line.
 
 ```
-Usage: firestorebackup [options] [command]
+Usage: backfire [options] [command]
 
 Ultimate control over backing up and restoring your Firestore data
 
@@ -31,7 +31,7 @@ Commands:
 ### Export command
 
 ```
-Usage: firestorebackup export [options] <project>
+Usage: backfire export [options] <project>
 
 export data from Firestore
 
