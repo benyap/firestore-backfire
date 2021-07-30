@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/benyap/backfire/compare/v0.0.1...v0.0.2) (2021-07-30)
+
+
+### Features
+
+* add --json flag to export data to local files in JSON format ([1bc2d24](https://github.com/benyap/backfire/commit/1bc2d24c7a8852a3f9d11139c7a966ff0c279bba))
+* make export action a command ([55b4b37](https://github.com/benyap/backfire/commit/55b4b37cab8cd9990307bb61ec39ceb611642aac))
+* rename project to BackFire ([85d9a04](https://github.com/benyap/backfire/commit/85d9a04598fc1b7a1b91aa5e0062e166e144c3b7))
+
+
+### Internal
+
+* update dependencies ([2e89758](https://github.com/benyap/backfire/commit/2e89758c348d59d772a3c5550af2cf5e0c31d2b5))
+
 ### 0.0.1 (2021-07-29)
 
 
