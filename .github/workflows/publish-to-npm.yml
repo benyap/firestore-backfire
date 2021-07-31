@@ -1,10 +1,10 @@
 name: Publish to npm
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "*"
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

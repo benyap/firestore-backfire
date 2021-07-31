@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/benyap/backfire/compare/v0.0.3...v0.0.4) (2021-07-31)
+
+
+### Internal
+
+* add Github actions config ([9f74abc](https://github.com/benyap/backfire/commit/9f74abc32f800f1cfc6410c4c416fdd1cd936179))
+* fix build configuration ([35c87f0](https://github.com/benyap/backfire/commit/35c87f03c075903d4282b09906507652b8534a9b))
+
 ### [0.0.3](https://github.com/benyap/backfire/compare/v0.0.2...v0.0.3) (2021-07-31)
 
 
