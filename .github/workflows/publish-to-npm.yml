@@ -1,8 +1,8 @@
 name: Publish to npm
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "*"
 jobs:
   publish:
     runs-on: ubuntu-latest
