@@ -32,7 +32,7 @@ export async function importAction(
   options: ImportOptions & GlobalOptions
 ) {
   const logger = LoggingService.create("import", options);
-  logger.debug("Import configuration", { path, options, root });
+  logger.debug("Import configuration", { path, options, root: root.toString() });
 
   if (!options.project)
     throw new ConfigMissingError(

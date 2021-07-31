@@ -1,4 +1,4 @@
-import { readdir } from "fs";
+import { existsSync, readdir } from "fs";
 import { resolve } from "path";
 import root from "app-root-path";
 
@@ -16,6 +16,7 @@ export class FileSource implements IStorageSource {
 
   async listCollections() {
     return new Promise<string[]>((resolve, reject) => {
+      if (!existsSync(this.sourcePath)) return resolve([]);
       readdir(this.sourcePath, (error, files) => {
         if (error) reject(error);
         else resolve(files);

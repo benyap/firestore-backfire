@@ -35,7 +35,7 @@ export async function exportAction(
   options: ExportOptions & GlobalOptions
 ) {
   const logger = LoggingService.create("export", options);
-  logger.debug("Export configuration", { path, options, root });
+  logger.debug("Export configuration", { path, options, root: root.toString() });
 
   if (!options.project)
     throw new ConfigMissingError(
