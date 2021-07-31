@@ -1,4 +1,5 @@
 import { dim } from "ansi-colors";
+import root from "app-root-path";
 
 import { Constants } from "../../config";
 import { LoggingService } from "../../logger";
@@ -25,14 +26,13 @@ import type {
  *
  * @param path The path to import the data from.
  * @param options The import action options.
- * @param globalOptions Global program options.
  */
 export async function importAction(
   path: string,
   options: ImportOptions & GlobalOptions
 ) {
   const logger = LoggingService.create("import", options);
-  logger.debug("Import configuration", { path, options });
+  logger.debug("Import configuration", { path, options, root });
 
   if (!options.project)
     throw new ConfigMissingError(

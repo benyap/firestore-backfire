@@ -1,4 +1,5 @@
 import { dim } from "ansi-colors";
+import root from "app-root-path";
 
 import { Constants } from "../../config";
 import { LoggingService } from "../../logger";
@@ -28,17 +29,13 @@ import type {
  *
  * @param path The path to export the data to.
  * @param options The export action options.
- * @param globalOptions Global program options.
  */
 export async function exportAction(
   path: string,
   options: ExportOptions & GlobalOptions
 ) {
   const logger = LoggingService.create("export", options);
-  logger.debug("Export configuration", {
-    path,
-    options,
-  });
+  logger.debug("Export configuration", { path, options, root });
 
   if (!options.project)
     throw new ConfigMissingError(
