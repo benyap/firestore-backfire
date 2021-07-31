@@ -5,27 +5,43 @@
   "repository": "git@github.com:benyap/backfire.git",
   "author": "Ben Yap <contact@benyap.com>",
   "license": "MIT",
+  "main": "dist/main.js",
   "module": "lib/main.js",
   "types": "lib/main.d.ts",
+  "keywords": [
+    "firebase",
+    "firestore",
+    "import",
+    "export",
+    "backup",
+    "restore"
+  ],
   "files": [
-    "lib/**"
+    "lib/**",
+    "dist/**"
   ],
   "bin": {
-    "backfire": "lib/main.js"
+    "backfire": "dist/main.js"
   },
   "directories": {
     "lib": "lib"
   },
+  "bugs": {
+    "url": "https://github.com/benyap/backfire/issues"
+  },
+  "homepage": "https://github.com/benyap/backfire",
   "scripts": {
     "setup": "yarn setup:install && yarn setup:husky",
     "setup:install": "yarn install",
     "setup:husky": "husky install",
-    "clean": "rm -rf ./lib/*",
+    "clean": "rm -rf ./lib/* ./dist/*",
     "format": "prettier --write \"./src/**/*.ts\"",
     "prebuild": "yarn clean && yarn format",
-    "build": "tsc",
-    "start": "node lib/main.js",
+    "build": "yarn build:esm && yarn build:cjs",
+    "build:esm": "tsc -p ./tsconfig.esm.json",
+    "build:cjs": "tsc -p ./tsconfig.cjs.json",
     "dev": "ts-node src/main.ts",
+    "start": "node dist/main.js",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch --interactive",

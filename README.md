@@ -1,5 +1,9 @@
 # 🔥 BackFire ‎️‍
 
+[![npm version](https://badge.fury.io/js/%40benyap%2Fbackfire.svg)](https://badge.fury.io/js/%40benyap%2Fbackfire)
+[![Dependency Status](https://david-dm.org/benyap/backfire.svg)](https://david-dm.org/benyap/backfire)
+[![License](https://img.shields.io/:license-mit-blue.svg)](LICENSE)
+
 Ultimate control over backing up and restoring your Firestore data! Use BackFire to
 import and export data from Firestore, including the Local Firestore Emulator.
 
@@ -16,7 +20,7 @@ import and export data from Firestore, including the Local Firestore Emulator.
 This project is still under development and may contain bugs. Not recommended for
 production use yet.
 
-## <a name="installation"> Installation
+## Installation
 
 Install this program using `yarn` or `npm`.
 
@@ -28,10 +32,10 @@ yarn add @benyap/backfire
 npm install @benyap/backfire
 ```
 
-## <a name="usage"> Usage
+## Usage
 
 All commands are accessed through the `backfire` program. Options can be provided
-either as command line arguments or via a [configuration file](#configuration-file).
+either as command line arguments or via a [configuration file](#-configuration-file).
 
 ```
 Usage: backfire [options] [command]
@@ -49,7 +53,7 @@ Commands:
   help [command]           display help for command
 ```
 
-### <a name="export-command"> Export command
+### Export command
 
 The `export` command will export data from a Firestore instance. The `path` argument
 must be provided, and this should be a path to one of:
@@ -62,7 +66,7 @@ must be provided, and this should be a path to one of:
 
 The `--json` option can be provided when exporting data to a **local directory**.
 Data will be exported from Firestore in JSON format rather than the default
-`.snapshot` format. See [this section](#the-snapshot-data-format) for more
+`.snapshot` format. See [this section](#-the-snapshot-data-format) for more
 information about the `.snpahsot` format.
 
 **Caveat**: Exporting in JSON format is provided for specific use cases where you
@@ -74,8 +78,8 @@ to parse JSON data from a stream, so right now it will just consume the entire f
 before it parses all of it, then imports the data to Firestore. This may be improved
 as a future enhancement once I figure out how solve this problem.
 
-_All other command options are listed in the [shared commands
-options](#shared-command-options) section._
+_All other command options are listed in the_
+_[shared commands options](#-shared-command-options) section._
 
 **Command reference**
 
@@ -96,7 +100,7 @@ Options:
   -h, --help                      display help for command
 ```
 
-### <a name="import-command"> Import command
+### Import command
 
 The `import` command will import data to a Firestore instance. The `path` argument
 must be provided, and this should be a path to one of:
@@ -105,11 +109,11 @@ must be provided, and this should be a path to one of:
 - (WIP) a path to a GCS bucket where data should be imported from
 - (WIP) a path to an S3 bucket where data should be imported from
 
-The data should be in the `.snapshot` [format](#the-snapshot-data-format) (or the
+The data should be in the `.snapshot` [format](#-the-snapshot-data-format) (or the
 JSON version of it).
 
-_All other command options are listed in the [shared commands
-options](#shared-command-options) section._
+_All other command options are listed in the_
+_[shared commands options](#-shared-command-options) section._
 
 **Command reference**
 
@@ -129,7 +133,7 @@ Options:
   -h, --help                      display help for command
 ```
 
-### <a name="shared-command-options"> Shared command options
+### Shared command options
 
 The following options are shared between the `import` and `export` commands.
 
@@ -216,7 +220,7 @@ backfire export my-folder -P my-project -K service-account.json --concurrency 4
 
 The above command will run the export task using 4 sub processes.
 
-### <a name="configuration-file"> Configuration file
+### Configuration file
 
 Instead of providing options on the command line, they can also be provided through a
 configuration file. The configuration file can be any of the following JSON or YAML
@@ -260,7 +264,7 @@ Sample JSON config:
 }
 ```
 
-## <a name name="the-snapshot-data-format"> The `.snapshot` data format
+## The `.snapshot` data format
 
 The `.snapshot` format used to save exported documents from Firestore was designed to
 support the following requirements:

@@ -75,5 +75,6 @@ typings/
 
 # Builds
 lib
+dist
 output
 *.backup
