@@ -1,5 +1,3 @@
-import { resolve } from "path";
-
 import { ReadStreamNotOpenError } from "../../errors";
 import { deserializeDocuments } from "../../utils";
 import { FileReadStream } from "../../sources";
@@ -7,13 +5,7 @@ import { FileReadStream } from "../../sources";
 export class JSONArrayReadStream extends FileReadStream {
   constructor(public readonly path: string) {
     super(path);
-    this.inPath = resolve(
-      __dirname,
-      "..",
-      "..",
-      "..",
-      this.path.endsWith(".json") ? this.path : this.path + ".json"
-    );
+    this.inPath = this.path.endsWith(".json") ? this.path : this.path + ".json";
   }
 
   /**

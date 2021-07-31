@@ -1,6 +1,4 @@
 import { createReadStream } from "fs";
-import { resolve } from "path";
-import root from "app-root-path";
 
 import { ReadStreamNotOpenError, ReadStreamOpenError } from "../../errors";
 import { deserializeDocuments } from "../../utils";
@@ -15,10 +13,9 @@ export class FileReadStream implements IReadStreamHandler {
   private chunkData: string = "";
 
   constructor(public readonly path: string) {
-    this.inPath = resolve(
-      root.toString(),
-      this.path.endsWith(".snapshot") ? this.path : this.path + ".snapshot"
-    );
+    this.inPath = this.path.endsWith(".snapshot")
+      ? this.path
+      : this.path + ".snapshot";
   }
 
   async open() {
@@ -52,6 +49,5 @@ export class FileReadStream implements IReadStreamHandler {
   async close() {
     if (!this.stream) throw new ReadStreamNotOpenError(this.path);
     this.stream.close();
-    resolve();
   }
 }

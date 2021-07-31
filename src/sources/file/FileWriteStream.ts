@@ -1,6 +1,5 @@
 import { createWriteStream } from "fs";
 import { resolve } from "path";
-import root from "app-root-path";
 
 import { WriteStreamNotOpenError, WriteStreamOpenError } from "../../errors";
 import { serializeDocument, createDirectory } from "../../utils";
@@ -13,7 +12,7 @@ export class FileWriteStream implements IWriteStreamHandler {
   protected outPath: string;
 
   constructor(public readonly path: string) {
-    this.outPath = resolve(root.toString(), this.path + ".snapshot");
+    this.outPath = this.path + ".snapshot";
   }
 
   async open() {

@@ -1,5 +1,6 @@
 import { readdir } from "fs";
 import { resolve } from "path";
+import root from "app-root-path";
 
 import { FileReadStream } from "./FileReadStream";
 import { FileWriteStream } from "./FileWriteStream";
@@ -10,7 +11,7 @@ export class FileSource implements IStorageSource {
   protected sourcePath: string;
 
   constructor(public readonly path: string) {
-    this.sourcePath = resolve(__dirname, "..", "..", "..", this.path);
+    this.sourcePath = resolve(root.toString(), this.path);
   }
 
   async listCollections() {

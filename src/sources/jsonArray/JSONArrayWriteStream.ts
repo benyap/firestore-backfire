@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import { replaceInFile } from "replace-in-file";
 
 import { WriteStreamNotOpenError } from "../../errors";
@@ -10,7 +9,7 @@ import type { DocumentMessage } from "../../types";
 export class JSONArrayWriteStream extends FileWriteStream {
   constructor(public readonly path: string) {
     super(path);
-    this.outPath = resolve(__dirname, "..", "..", "..", this.path + ".json");
+    this.outPath = this.path + ".json";
   }
 
   /**
