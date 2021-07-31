@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/benyap/backfire/compare/v0.0.4...v0.0.5) (2021-07-31)
+
+
+### Internal
+
+* publish on tags ([cd7951c](https://github.com/benyap/backfire/commit/cd7951c27da779087ff3a1461d608e1867eea346))
+
 ### [0.0.4](https://github.com/benyap/backfire/compare/v0.0.3...v0.0.4) (2021-07-31)
 
 
