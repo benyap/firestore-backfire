@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/benyap/backfire/compare/v0.0.2...v0.0.3) (2021-07-31)
+
+
+### Features
+
+* add ability to import data to Firestore from export files ([af1b9ce](https://github.com/benyap/backfire/commit/af1b9ce07407eab4938582ea6f6b47cd27557b2d))
+
+
+### Internal
+
+* update README ([bc06a28](https://github.com/benyap/backfire/commit/bc06a283683ee866922ae41bc48c90b7166c965e))
+
 ### [0.0.2](https://github.com/benyap/backfire/compare/v0.0.1...v0.0.2) (2021-07-30)
 
 
