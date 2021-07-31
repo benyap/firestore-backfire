@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/benyap/backfire/compare/v0.0.6...v0.0.7) (2021-07-31)
+
+
+### Bug Fixes
+
+* make path relative to project root (try again) ([d3b94a2](https://github.com/benyap/backfire/commit/d3b94a27db9b68eeeccfc74a28c9605b88850776))
+
 ### [0.0.6](https://github.com/benyap/backfire/compare/v0.0.5...v0.0.6) (2021-07-31)
 
 
