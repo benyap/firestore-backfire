@@ -6,8 +6,8 @@
   "author": "Ben Yap <contact@benyap.com>",
   "license": "MIT",
   "main": "dist/main.js",
-  "module": "lib/main.js",
-  "types": "lib/main.d.ts",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "firebase",
     "firestore",
@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "ansi-colors": "4.1.1",
+    "app-root-path": "3.0.0",
     "commander": "8.1.0",
     "cosmiconfig": "7.0.0",
     "dotenv": "10.0.0",
@@ -60,7 +61,8 @@
   "devDependencies": {
     "@commitlint/cli": "13.1.0",
     "@commitlint/config-conventional": "13.1.0",
-    "@types/node": "16.4.7",
+    "@types/app-root-path": "1.2.4",
+    "@types/node": "16.4.8",
     "husky": "7.0.1",
     "prettier": "2.3.2",
     "standard-version": "9.3.1",
