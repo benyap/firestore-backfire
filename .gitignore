@@ -76,3 +76,4 @@ typings/
 # Builds
 lib
 output
+*.backup

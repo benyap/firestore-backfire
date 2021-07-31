@@ -1,78 +1,327 @@
-# BackFire
+# 🔥 BackFire ‎️‍
 
-_Ultimate control over backing up and restoring your Firestore data_
+Ultimate control over backing up and restoring your Firestore data! Use BackFire to
+import and export data from Firestore, including the Local Firestore Emulator.
 
-### ⚠️ Project is a WIP
+**Key features**
 
-This project is still under development and is not feature complete. Not recommended
-for production use yet.
+- Control which collections are imported/exported
+- Control which documents are imported/exported based on path
+- Control the depth of subcollections to import/export
+- Import/export data from local directories
+- (WIP) Import/export data from remote sources such as Google Cloud Storage or S3
 
-## Usage
+#### ⚠️ Project is a WIP
 
-This program backs up data from Firestore to a local directory (back up to remote
-storage locations WIP). Support for reading from Local Firestore Emulator is
-supported. Run this program on the command line.
+This project is still under development and may contain bugs. Not recommended for
+production use yet.
+
+## <a name="installation"> Installation
+
+Install this program using `yarn` or `npm`.
+
+```bash
+# Using yarn
+yarn add @benyap/backfire
+
+# Using npm
+npm install @benyap/backfire
+```
+
+## <a name="usage"> Usage
+
+All commands are accessed through the `backfire` program. Options can be provided
+either as command line arguments or via a [configuration file](#configuration-file).
 
 ```
 Usage: backfire [options] [command]
 
 Ultimate control over backing up and restoring your Firestore data
 
-Global Options:
-  -V, --version               output the version number
-  -h, --help                  display help for command
-  --verbose                   output verbose logs
+Options:
+  -V, --version            output the version number
+  --verbose                output verbose logs
+  -h, --help               display help for command
 
 Commands:
-  export [options] <project>  export data from Firestore
-  help [command]              display help for command
+  export [options] <path>  Export data from Firestore to the given path
+  import [options] <path>  Import data to Firestore from the given path
+  help [command]           display help for command
 ```
 
-### Export command
+### <a name="export-command"> Export command
+
+The `export` command will export data from a Firestore instance. The `path` argument
+must be provided, and this should be a path to one of:
+
+- a local directory where the exported data will be created
+- (WIP) a path to a GCS bucket where the exported data will be saved
+- (WIP) a path to an S3 bucket where the exported data will be saved
+
+#### `--json`
+
+The `--json` option can be provided when exporting data to a **local directory**.
+Data will be exported from Firestore in JSON format rather than the default
+`.snapshot` format. See [this section](#the-snapshot-data-format) for more
+information about the `.snpahsot` format.
+
+**Caveat**: Exporting in JSON format is provided for specific use cases where you
+want to import/export a relatively small amount of data (e.g. a few documents which
+define some settings for your app) which you want to be easily read and edited by a
+human. It's not recommended to use this format for exporting your entire database,
+especially if there are a lot of documents. Reason: I haven't figured out a good way
+to parse JSON data from a stream, so right now it will just consume the entire file
+before it parses all of it, then imports the data to Firestore. This may be improved
+as a future enhancement once I figure out how solve this problem.
+
+_All other command options are listed in the [shared commands
+options](#shared-command-options) section._
+
+**Command reference**
 
 ```
-Usage: backfire export [options] <project>
+Usage: backfire export [options] <path>
 
-export data from Firestore
+Export data from Firestore to the given path
 
 Options:
-  -o, --out <path>                path to output directory
-  -k, --keyfile <path>            path to account credentials JSON file
-  --emulator <host>               back up data from Firestore emulator
-  --collections [collections...]  name of the root collections to back up (all collections backed up if not specified)
-  --patterns [regex...]           regex patterns that a document path must match to be backed up
+  -P, --project <project>         the Firebase project id
+  -K, --keyfile <path>            path to account credentials JSON file
+  -E, --emulator <host>           use the local Firestore emulator
+  --collections [collections...]  name of the root collections to export (all collections exported if not specified)
+  --patterns [regex...]           regex patterns that a document path must match to be exported
+  --depth <number>                subcollection depth to export (default: 100)
   --concurrency <number>          number of concurrent processes allowed (default: 10)
-  --depth <number>                subcollection depth to back up (default: 100)
-  --json                          outputs data in JSON array format (only applies to local file streams)
+  --json                          outputs data in JSON array format (only applies when exporting to local files)
   -h, --help                      display help for command
 ```
 
-### Global options
+### <a name="import-command"> Import command
 
-Global options can be provided directly inline, or read from a configuration file
-named any of the following:
+The `import` command will import data to a Firestore instance. The `path` argument
+must be provided, and this should be a path to one of:
 
-- .backfirerc
+- a local directory where the data should be imported from
+- (WIP) a path to a GCS bucket where data should be imported from
+- (WIP) a path to an S3 bucket where data should be imported from
+
+The data should be in the `.snapshot` [format](#the-snapshot-data-format) (or the
+JSON version of it).
+
+_All other command options are listed in the [shared commands
+options](#shared-command-options) section._
+
+**Command reference**
+
+```
+Usage: backfire import [options] <path>
+
+Import data to Firestore from the given path
+
+Options:
+  -P, --project <project>         the Firebase project id
+  -K, --keyfile <path>            path to service account credentials JSON file
+  -E, --emulator <host>           use the local Firestore emulator
+  --collections [collections...]  name of the root collections to import (all collections imported if not specified)
+  --patterns [regex...]           regex patterns that a document path must match to be imported
+  --depth <number>                subcollection depth to import (default: 100)
+  --concurrency <number>          number of concurrent processes allowed (default: 10)
+  -h, --help                      display help for command
+```
+
+### <a name="shared-command-options"> Shared command options
+
+The following options are shared between the `import` and `export` commands.
+
+#### `-P, --project`
+
+Specify the Firebase project to import/export data from.
+
+#### `-K, --keyfile`
+
+The path to a service account credentials. This will be used to connect to your
+Firestore database.
+
+```
+backfire export my-folder -P my-project -K service-account.json
+```
+
+The above example will connect to `my-project` using the service account credentials
+file `service-account.json` in the current directory.
+
+#### `-E, --emulator`
+
+Provide the emulator host to connect to using the `--emulator` flag.
+
+```
+backfire export my-folder -P my-project -E localhost:8080
+```
+
+The `-E, --emulator` flag takes precendence over the `-K, --keyfile` flag. This means
+that if both options are provided, the emulator will be used.
+
+#### `--collections`
+
+You can also specify which root collections to import/export by using the
+`--collections` flag. Provide a list of space-separated collection names. If not
+specified, all available collections will be imported/exported.
+
+```
+backfire export my-folder -P my-project -K service-account.json --collections users settings
+```
+
+The above command will export data from the `users` and `settings` collection,
+including all subcollections.
+
+#### `--patterns`
+
+You can provide a list of patterns in the form of regular expressions to filter which
+documents to import/export. If more than one pattern is provided, a document must
+match at least one pattern to be imported/exported. If you are providing more than
+one pattern, they should be space-separated. You may need to wrap your patterns in
+quotes if they include special characters, such as an asterisk (\*).
+
+Regular expressions are parsed by
+[regex-parser](https://www.npmjs.com/package/regex-parser).
+
+```
+backfire export my-folder -P my-project -K service-account.json --patterns '^logs\/[^/]*F$' '^settings'
+```
+
+The above command will only export documents from the `logs` collection with a
+document id that ends with "F", in addition to any documents and documents from
+subcollections from within the `settings` collection.
+
+#### `--depth`
+
+Limit the subcollection depth to import/export. A document in a root collection has a
+depth of 0. Subcollections from a document in a root collection has a depth of 1, and
+so on. If not provided, all subcollections are imported/exported.
+
+```
+backfire export my-folder -P my-project -K service-account.json --depth 1
+```
+
+The above command will only export documents from any root collections and documents
+up to one subcollection deep.
+
+#### `--concurrency`
+
+Control the number of sub processes that will be used to read/write data from
+Firestore. If not provided, the maximum concurrency of 10 will be used.
+
+```
+backfire export my-folder -P my-project -K service-account.json --concurrency 4
+```
+
+The above command will run the export task using 4 sub processes.
+
+### <a name="configuration-file"> Configuration file
+
+Instead of providing options on the command line, they can also be provided through a
+configuration file. The configuration file can be any of the following JSON or YAML
+formats:
+
 - .backfirerc.json
 - .backfirerc.yaml
-- .backfirerc.yml
 - .backfirerc.js
-- .backfirerc.cjs
 - backfire.config.js
-- backfire.config.cjs
+
+Sample YAML config:
+
+```yaml
+project: my-project
+keyfile: ./service-account.json
+emulator: localhost:8080
+collections:
+  - logs
+  - settings
+patterns:
+  - ^logs\/[^/]*F$
+  - ^settings
+depth: 100
+concurrency: 10
+json: true
+```
+
+Sample JSON config:
+
+```json
+{
+  "project": "my-project",
+  "keyfile": "./service-account.json",
+  "emulator": "localhost:8080",
+  "collections": ["logs", "settings"],
+  "patterns": ["^logs\\/[^/]*F$", "^settings"],
+  "depth": 100,
+  "concurrency": 10,
+  "json": true,
+  "verbose": true
+}
+```
+
+## <a name name="the-snapshot-data-format"> The `.snapshot` data format
+
+The `.snapshot` format used to save exported documents from Firestore was designed to
+support the following requirements:
+
+- It should be inspectable by a human (text rather than binary)
+- It should be relatively easy to parse and unparse (JSON was the obvious choice)
+- It should be able to be parsed while the data is being streamed in
+- It should be able to be streamed to the same file by multiple processes
+
+The resulting format is a text file which contains a stringfied JSON object per line.
+The JSON object follows this interface:
+
+```typescript
+interface SerializedFirestoreDocument {
+  /**
+   * The full document path.
+   */
+  path: string;
+
+  /**
+   * The data in the document, converted to JSON.
+   */
+  data: any;
+
+  /**
+   * Paths to any Firestore Timestamp fields in `data`
+   * which need to be deserialized.
+   */
+  timestamps?: string[];
+
+  /**
+   * Paths to any Firestore GeoPoint fields in `data`
+   * which need to be deserialized.
+   */
+  geopoints?: string[];
+
+  /**
+   * Paths to any Firestore Document Reference fields
+   * in `data` which need to be deserialized.
+   */
+  references?: string[];
+}
+```
+
+When saving data in true JSON format (using the `--json` flag), the data is written
+object by object, then cleaned up at the end to ensure that the objects are a valid
+JSON array.
 
 ## Road map
 
 - [x] Export data to file
-- [ ] Restore data from file
+- [x] Restore data from file
 - [x] Export data to file as JSON
-- [ ] Restore data from JSON export
+- [x] Restore data from JSON export
 - [ ] Write tests... haha
 - [ ] Export data to Google Cloud Storage
 - [ ] Restore data from Google Cloud Storage
 - [ ] Export data to AWS S3
 - [ ] Restore data from AWS S3
 - [ ] Add documentation site (GitHub pages?)
+- [ ] Add option for importing/exporting by collection group?
 
 ## Contributing
 

@@ -6,6 +6,11 @@ export interface SerializedFirestoreDocument<T = any> {
   references?: string[];
 }
 
+export interface DeserializedFirestoreDocument<T = any> {
+  path: string;
+  data: T;
+}
+
 export interface SerializedTimestamp {
   _seconds: number;
   _nanoseconds: number;

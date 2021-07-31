@@ -1,11 +1,11 @@
 import { LogLevel } from "./logging";
 
-import type { ExportOptions } from "./config";
+import type { ExportOptions, ImportOptions } from "./config";
 
 export type ToParentMessage =
   | LogMessage
   | CollectionPathMessage
-  | DocumentPathCompleteMessage
+  | PathCompleteMessage
   | FatalErrorMessage;
 
 export interface LogMessage {
@@ -16,12 +16,12 @@ export interface LogMessage {
 }
 
 export interface CollectionPathMessage {
-  type: "path";
+  type: "collection-path";
   path: string;
 }
 
-export interface DocumentPathCompleteMessage {
-  type: "document-complete";
+export interface PathCompleteMessage {
+  type: "path-complete";
   path: string;
 }
 
@@ -30,13 +30,25 @@ export interface FatalErrorMessage {
   message: string;
 }
 
-export type ToChildMessage = ExportOptionsMessage | DocumentMessage | KillMessage;
+export type ToChildMessage =
+  | ExportOptionsMessage
+  | ImportOptionsMessage
+  | DocumentMessage
+  | CollectionSnapshotMessage
+  | KillMessage;
 
 export interface ExportOptionsMessage {
   type: "config-export";
   identifier: string | number;
-  project: string;
+  path: string;
   options: ExportOptions;
+}
+
+export interface ImportOptionsMessage {
+  type: "config-import";
+  identifier: string | number;
+  path: string;
+  options: ImportOptions;
 }
 
 export interface DocumentMessage {
@@ -45,6 +57,11 @@ export interface DocumentMessage {
   root: string;
   path: string;
   data: any;
+}
+
+export interface CollectionSnapshotMessage {
+  type: "collection-snapshot";
+  path: string;
 }
 
 export interface KillMessage {

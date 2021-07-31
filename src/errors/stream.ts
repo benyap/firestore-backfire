@@ -13,3 +13,17 @@ export class WriteStreamNotOpenError extends WriteStreamError {
     super(`The write stream to ${path} has not been opened.`);
   }
 }
+
+export class ReadStreamError extends ErrorWithDetails {}
+
+export class ReadStreamOpenError extends ReadStreamError {
+  constructor(path: string) {
+    super(`The read stream to ${path} is already open.`);
+  }
+}
+
+export class ReadStreamNotOpenError extends ReadStreamError {
+  constructor(path: string) {
+    super(`The read stream to ${path} has not been opened.`);
+  }
+}

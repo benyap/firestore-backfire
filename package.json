@@ -11,7 +11,7 @@
     "lib/**"
   ],
   "bin": {
-    "firestorebackup": "lib/main.js"
+    "backfire": "lib/main.js"
   },
   "directories": {
     "lib": "lib"

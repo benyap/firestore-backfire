@@ -5,10 +5,9 @@ import { ErrorWithDetails } from "./errors";
 import { LoggingService } from "./logger";
 import { validateMinMaxInteger } from "./utils";
 import { getGlobalOptions } from "./tasks";
+import { exportAction, importAction } from "./actions";
 
-import { exportAction } from "./actions";
-
-import { ExportOptions } from "./types";
+import type { ExportOptions, ImportOptions } from "./types";
 
 async function main() {
   // Create program for parsing command line arguments
@@ -22,18 +21,24 @@ async function main() {
 
   // Define export command
   program
-    .command("export <project>", { isDefault: true })
-    .description("export data from Firestore")
-    .requiredOption("-o, --out <path>", "path to output directory")
-    .option("-k, --keyfile <path>", "path to account credentials JSON file")
-    .option("--emulator <host>", "back up data from Firestore emulator")
+    .command("export <path>", { isDefault: true })
+    .description("Export data from Firestore to the given path")
+    .option("-P, --project <project>", "the Firebase project id")
+    .option("-K, --keyfile <path>", "path to account credentials JSON file")
+    .option("-E, --emulator <host>", "use the local Firestore emulator")
     .option(
       "--collections [collections...]",
-      "name of the root collections to back up (all collections backed up if not specified)"
+      "name of the root collections to export (all collections exported if not specified)"
     )
     .option(
       "--patterns [regex...]",
-      "regex patterns that a document path must match to be backed up"
+      "regex patterns that a document path must match to be exported"
+    )
+    .option(
+      "--depth <number>",
+      "subcollection depth to export",
+      (value: string, _) => validateMinMaxInteger(value, 0, Constants.MAX_DEPTH),
+      Constants.MAX_DEPTH
     )
     .option(
       "--concurrency <number>",
@@ -43,18 +48,47 @@ async function main() {
       Constants.MAX_CONCURRENCY
     )
     .option(
+      "--json",
+      "outputs data in JSON array format (only applies when exporting to local files)"
+    )
+    .action(async (path: string, options: ExportOptions) => {
+      const globalOptions = await getGlobalOptions(program);
+      const allOptions = { ...globalOptions, ...options };
+      await exportAction(path, allOptions);
+    });
+
+  // Define import command
+  program
+    .command("import <path>")
+    .description("Import data to Firestore from the given path")
+    .option("-P, --project <project>", "the Firebase project id")
+    .option("-K, --keyfile <path>", "path to service account credentials JSON file")
+    .option("-E, --emulator <host>", "use the local Firestore emulator")
+    .option(
+      "--collections [collections...]",
+      "name of the root collections to import (all collections imported if not specified)"
+    )
+    .option(
+      "--patterns [regex...]",
+      "regex patterns that a document path must match to be imported"
+    )
+    .option(
       "--depth <number>",
-      "subcollection depth to back up",
+      "subcollection depth to import",
       (value: string, _) => validateMinMaxInteger(value, 0, Constants.MAX_DEPTH),
       Constants.MAX_DEPTH
     )
     .option(
-      "--json",
-      "outputs data in JSON array format (only applies to local file streams)"
+      "--concurrency <number>",
+      "number of concurrent processes allowed",
+      (value: string, _) =>
+        validateMinMaxInteger(value, 1, Constants.MAX_CONCURRENCY),
+      Constants.MAX_CONCURRENCY
     )
-    .action(async (projectId: string, options: ExportOptions) => {
+    .action(async (path: string, options: ImportOptions) => {
       const globalOptions = await getGlobalOptions(program);
-      await exportAction(projectId, options, globalOptions);
+      const allOptions = { ...globalOptions, ...options };
+      await importAction(path, allOptions);
     });
 
   await program.parseAsync();

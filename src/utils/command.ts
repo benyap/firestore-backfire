@@ -14,5 +14,5 @@ export function validateMinMaxInteger(rawValue: string, min: number, max: number
   const value = parseInt(rawValue, 10);
   if (isNaN(value) || value < min || value > max)
     throw new InvalidArgumentError(`Must be an integer between ${min} and ${max}.`);
-  return Math.min(min, value, max);
+  return Math.max(min, Math.min(value, max));
 }

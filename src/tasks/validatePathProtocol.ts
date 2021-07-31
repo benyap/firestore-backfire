@@ -6,7 +6,7 @@ import { UnsupportedOutputProtocolError } from "../errors";
  *
  * @param path The protocol to validate.
  */
-export function validateOutputProtocol(protocol: string) {
+export function validatePathProtocol(protocol: string) {
   if (!Constants.SUPPORTED_PROTOCOLS.has(protocol))
     throw new UnsupportedOutputProtocolError(protocol);
 }

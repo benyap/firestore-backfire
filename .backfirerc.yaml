@@ -1,0 +1,13 @@
+project: demo-cccvcommunity
+keyfile: ./service-account.json
+emulator: localhost:8080
+collections:
+  - logs
+  - settings
+patterns:
+  - ^logs\/[^/]*F$
+  - ^settings
+depth: 100
+concurrency: 10
+json: true
+verbose: true

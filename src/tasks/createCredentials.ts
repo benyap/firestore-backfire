@@ -11,6 +11,9 @@ import * as admin from "firebase-admin";
  * If `emulator` is provided, the default credentials will be used
  * and the `FIRESTORE_EMULATOR_HOST` environment variable will be set.
  *
+ * If both `keyfile` and `emulator` are provided, the `emulator`
+ * configuration takes precedence.
+ *
  * @param keyfile The path to a service account credentials file.
  * @param emulator The host and port to use if connecting to Firestore emulator.
  * @returns The Firebase Admin credentials object.

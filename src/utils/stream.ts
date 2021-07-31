@@ -1,29 +1,30 @@
 import { NotImplementedError } from "../errors";
-import { FileStream, JSONArrayStream } from "../streams";
+import { FileSource, JSONArraySource } from "../sources";
 
-import type { IWriteStreamHandler } from "../types";
+import type { IStorageSource } from "../types";
 
 /**
- * Create an output stream where data can be backed up to.
+ * Create a storage source interface based on the given path.
  *
- * @param path The path to write to.
- * @param json Flag for indicating that a JSONArrayStream should be used. Only relevant for file paths.
- * @returns A stream that data can be written to.
+ * @param path The path in the storage source.
+ * @param options
+ * @returns The storage source.
  */
-export function createOutStream(path: string, json?: boolean): IWriteStreamHandler {
+export function createStorageSource(
+  path: string,
+  options: { json?: boolean } = {}
+): IStorageSource {
   // TODO:
   if (path.startsWith("gs://"))
     throw new NotImplementedError(
-      "Google Storage output paths (gs://*) are not yet supported."
+      "Google Storage sources (gs://*) are not yet supported."
     );
 
   // TODO:
   if (path.startsWith("s3://"))
-    throw new NotImplementedError(
-      "AWS S3 output paths (s3://*) are not yet supported."
-    );
+    throw new NotImplementedError("AWS S3 sources (s3://*) are not yet supported.");
 
-  if (json) return new JSONArrayStream(path);
+  if (options.json) return new JSONArraySource(path);
 
-  return new FileStream(path);
+  return new FileSource(path);
 }

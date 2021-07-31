@@ -1,19 +1,21 @@
-import { ChildProcess } from "child_process";
+import { dim } from "ansi-colors";
 
+import { Constants } from "../../config";
 import { LoggingService } from "../../logger";
-import { forkChild, stringToRegex, time, wait } from "../../utils";
+import { stringToRegex, time, wait } from "../../utils";
+import { ConfigMissingError } from "../../errors";
 
 import {
   validateExportCredentials,
-  getOutuptProtocol,
-  validateOutputProtocol,
+  getPathProtocol,
+  validatePathProtocol,
   createCredentials,
   createFirestore,
   clearLocalOutputDirectory,
+  createExportChildProcesses,
 } from "../../tasks";
 
 import type {
-  ExportOptionsMessage,
   DocumentMessage,
   ExportOptions,
   GlobalOptions,
@@ -24,20 +26,29 @@ import type {
 /**
  * Export Firestore data.
  *
- * @param project The id of the Firebase project.
+ * @param path The path to export the data to.
  * @param options The export action options.
  * @param globalOptions Global program options.
  */
 export async function exportAction(
-  project: string,
-  options: ExportOptions,
-  globalOptions: GlobalOptions
+  path: string,
+  options: ExportOptions & GlobalOptions
 ) {
-  const logger = LoggingService.create("export", globalOptions);
+  const logger = LoggingService.create("export", options);
+  logger.debug("Export configuration", {
+    path,
+    options,
+  });
 
-  const protocol = getOutuptProtocol(options.out);
-  validateOutputProtocol(protocol);
-  validateExportCredentials(project, options);
+  if (!options.project)
+    throw new ConfigMissingError(
+      "Project is required.",
+      `Please specify a Firebase project id using the --project or -P option, or provide it through a configuration file.`
+    );
+
+  const protocol = getPathProtocol(path);
+  validatePathProtocol(protocol);
+  validateExportCredentials(options);
 
   if (protocol !== "file" && options.json)
     logger.warn(
@@ -46,21 +57,21 @@ export async function exportAction(
 
   // Clear output directory if it using local file output
   if (protocol === "file") {
-    const removed = clearLocalOutputDirectory(options.out);
-    if (removed) logger.debug(`Cleared local directory: ${options.out}`);
+    const removed = clearLocalOutputDirectory(path);
+    if (removed) logger.debug(`Cleared local directory: ${path}`);
   }
 
   // Connect to Firestore
   const credentials = createCredentials(options);
-  const firestore = createFirestore(project, credentials);
-  logger.info(`Connected to Firestore for "${project}"`);
+  const firestore = createFirestore(options.project, credentials);
+  logger.info(`Connected to Firestore for "${options.project}"`);
 
   const rootCollections =
     options.collections ?? (await firestore.listCollections()).map((c) => c.id);
   const patterns = (options.patterns ?? []).map((string) => stringToRegex(string));
 
   logger.info(
-    `Starting back up task for ${rootCollections.length} path(s)`,
+    `Starting export task for ${rootCollections.length} path(s)`,
     rootCollections
   );
 
@@ -78,35 +89,24 @@ export async function exportAction(
   //  - return any subocllections in that document to the parent
   //
 
-  const children: {
-    identifier: string | number;
-    process: ChildProcess;
-    terminated: Promise<any>;
-  }[] = [];
-
   const errors: string[] = [];
+  const collectionPaths = [...rootCollections];
+  const pendingPaths = new Set<string>();
 
-  // Create child processes
-  for (let i = 0; i < options.concurrency; i++) {
-    const identifier = i + 1;
+  const children = createExportChildProcesses(
+    Math.min(options.concurrency, rootCollections.length),
+    { path, options },
+    logger
+  );
 
-    // Spawn process
-    const { process, terminated } = forkChild<ExportOptionsMessage>(
-      identifier,
-      "actions/exportAction/subprocess",
-      logger,
-      { type: "config-export", identifier, project, options }
-    );
-
-    children.push({ identifier, process, terminated });
-
-    // Listen for messages from child process
+  // Listen for messages from child process
+  children.forEach(({ process }) => {
     process.on("message", (message: ToParentMessage) => {
       switch (message.type) {
-        case "path":
+        case "collection-path":
           collectionPaths.push(message.path);
           break;
-        case "document-complete":
+        case "path-complete":
           pendingPaths.delete(message.path);
           break;
         case "fatal-error":
@@ -114,11 +114,7 @@ export async function exportAction(
           break;
       }
     });
-  }
-
-  const WAIT_TIME = 500;
-  const collectionPaths = [...rootCollections];
-  const pendingPaths = new Set<string>();
+  });
 
   let childIndex = 0;
 
@@ -127,7 +123,7 @@ export async function exportAction(
 
     if (!path) {
       // If we don't have a path, wait before we continue and try again
-      await wait(WAIT_TIME);
+      await wait(Constants.WAIT_TIME);
       continue;
     }
 
@@ -139,7 +135,7 @@ export async function exportAction(
       const pathDepth = (parts.length - 1) / 2;
       if (pathDepth > options.depth) {
         logger.debug(
-          `Skipping path ${path} (exceeds max depth of ${options.depth})`
+          `Skipping path ${path} (exceeds max subcollection depth of ${options.depth})`
         );
         return;
       }
@@ -152,32 +148,38 @@ export async function exportAction(
       snapshot.forEach((doc) => {
         if (patterns.length > 0) {
           // Check if path matches any patterns
-          const desiredPath = patterns.some((regex) => regex.test(doc.ref.path));
-          if (!desiredPath) {
+          const matched = patterns.some((regex) => regex.test(doc.ref.path));
+          if (!matched) {
             logger.debug(`Skipping document ${doc.ref.path} (not matched)`);
             size -= 1;
             return;
           }
         }
 
-        const child = children[childIndex];
         pendingPaths.add(doc.ref.path);
-        child.process.send({
+
+        children[childIndex].process.send({
           type: "document",
           id: doc.id,
           root: doc.ref.parent.path.split("/")[0],
           path: doc.ref.path,
           data: doc.data(),
         } as DocumentMessage);
+
         childIndex = (childIndex + 1) % children.length;
       });
     });
 
     if (size > 0)
       logger.info(
-        `Start processing ${size} document(s) from collection ${path} (${duration.timeString})`
+        `Start processing ${size} document(s) from collection ${path} ${dim(
+          duration.timeString
+        )}`
       );
-  } while (pendingPaths.size > 0 && errors.length === 0);
+  } while (
+    (pendingPaths.size > 0 || collectionPaths.length > 0) &&
+    errors.length === 0
+  );
 
   // Clean up all child processes
   await Promise.all(
@@ -189,11 +191,11 @@ export async function exportAction(
 
   if (errors.length) {
     logger.error(
-      `Back up task for ${rootCollections.length} path(s) terminated with errors`
+      `Export task for ${rootCollections.length} path(s) terminated with errors`
     );
   } else {
     logger.info(
-      `Finished back up task for ${rootCollections.length} path(s)`,
+      `Finished export task for ${rootCollections.length} path(s)`,
       rootCollections
     );
   }

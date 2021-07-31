@@ -1,25 +1,27 @@
 import { createWriteStream } from "fs";
 import { resolve } from "path";
 
-import { WriteStreamNotOpenError, WriteStreamOpenError } from "../errors";
-import { serializeDocument, createDirectory } from "../utils";
+import { WriteStreamNotOpenError, WriteStreamOpenError } from "../../errors";
+import { serializeDocument, createDirectory } from "../../utils";
 
 import type { WriteStream } from "fs";
-import type { DocumentMessage, IWriteStreamHandler } from "../types";
+import type { DocumentMessage, IWriteStreamHandler } from "../../types";
 
-export class FileStream implements IWriteStreamHandler {
-  private stream?: WriteStream;
-  private outPath: string;
+export class FileWriteStream implements IWriteStreamHandler {
+  protected stream?: WriteStream;
+  protected outPath: string;
 
   constructor(public readonly path: string) {
-    this.outPath = resolve(__dirname, "..", "..", this.path + ".snapshot");
+    this.outPath = resolve(__dirname, "..", "..", "..", this.path + ".snapshot");
   }
 
   async open() {
     if (this.stream) throw new WriteStreamOpenError(this.path);
     createDirectory(resolve(this.outPath, ".."), { recursive: true });
-    this.stream = createWriteStream(this.outPath, { flags: "a" });
-    // writeFileSync(this.outPath, "");
+    this.stream = createWriteStream(this.outPath, {
+      flags: "a",
+      encoding: "utf-8",
+    });
   }
 
   async write(message: DocumentMessage) {
