@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/benyap/backfire/compare/v0.0.5...v0.0.6) (2021-07-31)
+
+
+### Features
+
+* export importAction and exportAction from module ([ec0116b](https://github.com/benyap/backfire/commit/ec0116ba2e65b36c9e2a57ff58c3e363071d26b3))
+
+
+### Bug Fixes
+
+* make path relative to project root ([aeb6ea6](https://github.com/benyap/backfire/commit/aeb6ea624d6c800ffbe8a8e584fb33f6a08b6ffd))
+
 ### [0.0.5](https://github.com/benyap/backfire/compare/v0.0.4...v0.0.5) (2021-07-31)
 
 
