@@ -1,8 +1,8 @@
 # 🔥 BackFire ‎️‍
 
-[![npm version](https://badge.fury.io/js/%40benyap%2Fbackfire.svg)](https://badge.fury.io/js/%40benyap%2Fbackfire)
-[![Dependency Status](https://david-dm.org/benyap/backfire.svg)](https://david-dm.org/benyap/backfire)
-[![License](https://img.shields.io/:license-mit-blue.svg)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/@benyap/backfire)](https://npmjs.com/package/@benyap/backfire)
+[![dependency status](https://david-dm.org/benyap/backfire.svg)](https://david-dm.org/benyap/backfire)
+[![License](https://img.shields.io/github/license/benyap/backfire)](LICENSE)
 
 Ultimate control over backing up and restoring your Firestore data! Use BackFire to
 import and export data from Firestore, including the Local Firestore Emulator.
@@ -35,7 +35,7 @@ npm install @benyap/backfire
 ## Usage
 
 All commands are accessed through the `backfire` program. Options can be provided
-either as command line arguments or via a [configuration file](#-configuration-file).
+either as command line arguments or via a [configuration file](#configuration-file).
 
 ```
 Usage: backfire [options] [command]
@@ -66,7 +66,7 @@ must be provided, and this should be a path to one of:
 
 The `--json` option can be provided when exporting data to a **local directory**.
 Data will be exported from Firestore in JSON format rather than the default
-`.snapshot` format. See [this section](#-the-snapshot-data-format) for more
+`.snapshot` format. See [this section](#the-snapshot-data-format) for more
 information about the `.snpahsot` format.
 
 **Caveat**: Exporting in JSON format is provided for specific use cases where you
@@ -79,7 +79,7 @@ before it parses all of it, then imports the data to Firestore. This may be impr
 as a future enhancement once I figure out how solve this problem.
 
 _All other command options are listed in the_
-_[shared commands options](#-shared-command-options) section._
+_[shared commands options](#shared-command-options) section._
 
 **Command reference**
 
@@ -109,11 +109,11 @@ must be provided, and this should be a path to one of:
 - (WIP) a path to a GCS bucket where data should be imported from
 - (WIP) a path to an S3 bucket where data should be imported from
 
-The data should be in the `.snapshot` [format](#-the-snapshot-data-format) (or the
+The data should be in the `.snapshot` [format](#the-snapshot-data-format) (or the
 JSON version of it).
 
 _All other command options are listed in the_
-_[shared commands options](#-shared-command-options) section._
+_[shared commands options](#shared-command-options) section._
 
 **Command reference**
 
