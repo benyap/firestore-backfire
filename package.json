@@ -6,8 +6,8 @@
   "author": "Ben Yap <contact@benyap.com>",
   "license": "MIT",
   "main": "dist/main.js",
-  "module": "lib/main.js",
-  "types": "lib/main.d.ts",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "firebase",
     "firestore",
