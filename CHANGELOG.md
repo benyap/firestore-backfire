@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/benyap/backfire/compare/v0.0.7...v0.0.8) (2021-07-31)
+
+
+### Bug Fixes
+
+* crash when importing from non-existent folder ([803a5cd](https://github.com/benyap/backfire/commit/803a5cdc2c2ac1446d5c4c9b98128a844d59a94e))
+
 ### [0.0.7](https://github.com/benyap/backfire/compare/v0.0.6...v0.0.7) (2021-07-31)
 
 
