@@ -1,4 +1,5 @@
 import { resolve } from "path";
+import root from "app-root-path";
 import * as admin from "firebase-admin";
 
 /**
@@ -24,6 +25,6 @@ export function createCredentials(options: { keyfile?: string; emulator?: string
     process.env.FIRESTORE_EMULATOR_HOST = emulator;
     return admin.credential.applicationDefault();
   }
-  const path = resolve(__dirname, "..", "..", keyfile!);
+  const path = resolve(root.toString(), keyfile!);
   return admin.credential.cert(require(path));
 }
