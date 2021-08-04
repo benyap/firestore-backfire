@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/benyap/backfire/compare/v0.0.9...v0.0.10) (2021-08-04)
+
+
+### Bug Fixes
+
+* --keyfile not being read from correct directory ([5a435db](https://github.com/benyap/backfire/commit/5a435db73a411016c3476dc2b2e298b443bf5a57))
+
 ### [0.0.9](https://github.com/benyap/backfire/compare/v0.0.8...v0.0.9) (2021-08-04)
 
 
