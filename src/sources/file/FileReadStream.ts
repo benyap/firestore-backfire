@@ -1,14 +1,14 @@
 import { createReadStream } from "fs";
 
-import { ReadStreamNotOpenError, ReadStreamOpenError } from "../../errors";
+import { ReadStreamNotOpenError } from "../../errors";
 import { deserializeDocuments } from "../../utils";
 
 import type { ReadStream } from "fs";
 import type { IReadStreamHandler } from "../../types";
 
 export class FileReadStream implements IReadStreamHandler {
-  protected stream?: ReadStream;
-  protected inPath: string;
+  private stream?: ReadStream;
+  private inPath: string;
 
   private chunkData: string = "";
 
@@ -19,12 +19,10 @@ export class FileReadStream implements IReadStreamHandler {
   }
 
   async open() {
-    if (this.stream) throw new ReadStreamOpenError(this.inPath);
     this.stream = createReadStream(this.inPath, { encoding: "utf-8" });
     this.chunkData = "";
-    return new Promise<void>((resolve, reject) => {
-      this.stream!.on("readable", () => resolve());
-      this.stream!.on("error", (error) => reject(error));
+    await new Promise<void>((resolve) => {
+      this.stream?.on("readable", () => resolve());
     });
   }
 
