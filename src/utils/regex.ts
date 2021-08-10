@@ -1,6 +1,6 @@
 import parseRegex from "regex-parser";
 
-import { RegExpError } from "../errors";
+import { ErrorWithDetails } from "../errors";
 
 /**
  * Escape the provided value to return a Regex safe string
@@ -21,6 +21,6 @@ export function stringToRegex(string: string) {
   try {
     return parseRegex(string);
   } catch (error) {
-    throw new RegExpError(error.message);
+    throw new ErrorWithDetails(error.message);
   }
 }

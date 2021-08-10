@@ -1,6 +1,7 @@
 import { LogLevel } from "./logging";
 
-import type { ExportOptions, ImportOptions } from "./config";
+import type { StorageProtocol } from "../storage";
+import type { ExportActionOptions, ImportActionOptions } from "./config";
 
 export type ToParentMessage =
   | LogMessage
@@ -40,15 +41,17 @@ export type ToChildMessage =
 export interface ExportOptionsMessage {
   type: "config-export";
   identifier: string | number;
+  protocol: StorageProtocol;
   path: string;
-  options: ExportOptions;
+  options: ExportActionOptions;
 }
 
 export interface ImportOptionsMessage {
   type: "config-import";
   identifier: string | number;
+  protocol: StorageProtocol;
   path: string;
-  options: ImportOptions;
+  options: ImportActionOptions;
 }
 
 export interface DocumentMessage {

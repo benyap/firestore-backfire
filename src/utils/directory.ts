@@ -13,7 +13,7 @@ import {
  * already exists, no action is taken.
  *
  * @param path The path to create the directory at.
- * @returns True if the directory was created, false otherwise.
+ * @returns `true` if the directory was created.
  */
 export function createDirectory(path: string, options?: MakeDirectoryOptions) {
   if (!existsSync(path)) {
@@ -24,10 +24,21 @@ export function createDirectory(path: string, options?: MakeDirectoryOptions) {
 }
 
 /**
+ * List the names of the files in a directory.
+ *
+ * @param path The path to the directory.
+ * @returns A list of file names.
+ */
+export function listDirectory(path: string) {
+  return readdirSync(path);
+}
+
+/**
  * Clears the given directory.
  *
  * @param path The path to clear.
  * @param options.recursive If `true`, all subdirectories will be recursively deleted.
+ * @returns `true` if the directory was cleared.
  */
 export function clearDirectory(path: string, options: { recursive?: boolean } = {}) {
   const { recursive } = options;

@@ -1,17 +1,18 @@
 import { dim } from "ansi-colors";
 
-import { Constants } from "../../config";
-import { log, time, wait, createStorageSource } from "../../utils";
-import { createCredentials, createFirestore } from "../../tasks";
 import { LogLevel } from "../../types";
+import { Constants } from "../../config";
+import { log, time, wait } from "../../utils";
+import { createStorageSource } from "../../storage";
+import { createFirestore, createFirestoreCredentials } from "../../tasks";
 
+import type { IWriteStreamHandler, StorageProtocol } from "../../storage";
 import type {
   ToChildMessage,
   CollectionPathMessage,
   DocumentMessage,
   PathCompleteMessage,
-  IWriteStreamHandler,
-  ExportOptions,
+  ExportActionOptions,
   FatalErrorMessage,
 } from "../../types";
 
@@ -37,7 +38,7 @@ process.on("message", (message: ToChildMessage) => {
       if (started) break;
       started = true;
       run = true;
-      main(message.identifier, message.path, message.options);
+      main(message.identifier, message.protocol, message.path, message.options);
       break;
 
     // Add documents to process
@@ -54,11 +55,12 @@ process.on("message", (message: ToChildMessage) => {
 
 async function main(
   identifier: string | number,
+  protocol: StorageProtocol,
   path: string,
-  options: ExportOptions
+  options: ExportActionOptions
 ) {
   // Create Firestore instance
-  const credentials = createCredentials(options);
+  const credentials = createFirestoreCredentials(options);
   const firestore = createFirestore(options.project, credentials);
 
   // Mapping of write streams
@@ -76,8 +78,14 @@ async function main(
       const { duration } = await time(async () => {
         // Create write stream if it doesn't exist
         if (!(document.root in streams)) {
-          const source = createStorageSource(path, options);
-          streams[document.root] = await source.openWriteStream(document.root);
+          const source = createStorageSource(protocol, path, options);
+          await source.connect();
+
+          streams[document.root] = await source.openWriteStream(
+            document.root,
+            identifier
+          );
+
           log(LogLevel.DEBUG, `Opened write stream to ${document.root}`);
         }
 
