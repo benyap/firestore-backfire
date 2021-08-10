@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.11](https://github.com/benyap/backfire/compare/v0.0.10...v0.0.11) (2021-08-10)
+
+
+### Features
+
+* add import/export from Google Cloud Storage ([6dd9f6a](https://github.com/benyap/backfire/commit/6dd9f6af8e6ce5e79bdf03fc0833e9350a93e05b))
+
 ### [0.0.10](https://github.com/benyap/backfire/compare/v0.0.9...v0.0.10) (2021-08-04)
 
 
