@@ -4,7 +4,7 @@ import { ErrorWithDetails } from "./base";
 
 export class ConfigError extends ErrorWithDetails {}
 
-export class ConfigMissingError extends ConfigError {}
+export class IncorrectConfigError extends ConfigError {}
 
 export class ConfigNotFoundError extends ConfigError {
   constructor() {

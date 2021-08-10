@@ -1,5 +1,16 @@
-import { DeserializedFirestoreDocument } from "./firestore";
-import { DocumentMessage } from "./message";
+import type { DocumentMessage, DeserializedFirestoreDocument } from "../types";
+
+export enum StorageProtocol {
+  SnapshotFile = "file",
+  JSONFile = "json",
+  GoogleCloudStorage = "gs",
+  // S3 = 's3'
+}
+
+/**
+ * List of supported storage protocols.
+ */
+export const SUPPORTED_STORAGE_PROTOCOLS = new Set(Object.values(StorageProtocol));
 
 /**
  * A storage source represents a medium that allows us to read data for
@@ -12,23 +23,38 @@ export interface IStorageSource {
   path: string;
 
   /**
-   * Return a list of the collections stored in the storage path.
+   * Connect to the storage source. Throws an error if the connection fails.
    */
-  listCollections(): Promise<string[]>;
+  connect(): Promise<void>;
+
+  /**
+   * Return a list of the paths available for import from the storage
+   * source. If a list of prefixes are provided, only paths that match
+   * a prefix are returned.
+   */
+  listImportPaths(prefixes?: string[]): Promise<string[]>;
 
   /**
    * Create a read stream at the specified path in the storage source.
    *
    * @param path The path to read from.
+   * @param identifier An identifier for the stream, required if streams are writing to immutable objects.
    */
-  openReadStream(path: string): Promise<IReadStreamHandler>;
+  openReadStream(
+    path: string,
+    identifier?: string | number
+  ): Promise<IReadStreamHandler>;
 
   /**
    * Create a write stream at the specified path in the storage source.
    *
    * @param path The path to write to.
+   * @param identifier An identifier for the stream, required if streams are writing to immutable objects.
    */
-  openWriteStream(path: string): Promise<IWriteStreamHandler>;
+  openWriteStream(
+    path: string,
+    identifier?: string | number
+  ): Promise<IWriteStreamHandler>;
 }
 
 /**

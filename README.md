@@ -1,7 +1,6 @@
 # 🔥 BackFire ‎️‍
 
 [![npm version](https://img.shields.io/npm/v/@benyap/backfire)](https://npmjs.com/package/@benyap/backfire)
-[![dependency status](https://david-dm.org/benyap/backfire.svg)](https://david-dm.org/benyap/backfire)
 [![License](https://img.shields.io/github/license/benyap/backfire)](LICENSE)
 
 Ultimate control over backing up and restoring your Firestore data! Use BackFire to
@@ -12,13 +11,14 @@ import and export data from Firestore, including the Local Firestore Emulator.
 - Control which collections are imported/exported
 - Control which documents are imported/exported based on path
 - Control the depth of subcollections to import/export
-- Import/export data from local directories
-- (WIP) Import/export data from remote sources such as Google Cloud Storage or S3
+- Import/export data from local files
+- Import/export data from Google Cloud Storage
+- (WIP) Import/export data from S3
 
 #### ⚠️ Project is a WIP
 
-This project is still under development and may contain bugs. Not recommended for
-production use yet.
+This project is still under development. It has an unstable API and may contain bugs.
+Not recommended for production use yet.
 
 ## Installation
 
@@ -32,9 +32,22 @@ yarn add @benyap/backfire
 npm install @benyap/backfire
 ```
 
-## Usage
+### Optional peer dependencies
 
-All commands are accessed through the `backfire` program. Options can be provided
+If you plan to import/export data from Google Cloud Storage, you must also install
+`@google-cloud/storage`:
+
+```bash
+# Using yarn
+yarn add @google-cloud/storage
+
+# Using npm
+npm install @google-cloud/storage
+```
+
+## CLI Usage
+
+All commands are accessed through `backfire` on the CLI. Options can be provided
 either as command line arguments or via a [configuration file](#configuration-file).
 
 ```
@@ -58,25 +71,9 @@ Commands:
 The `export` command will export data from a Firestore instance. The `path` argument
 must be provided, and this should be a path to one of:
 
-- a local directory where the exported data will be created
-- (WIP) a path to a GCS bucket where the exported data will be saved
-- (WIP) a path to an S3 bucket where the exported data will be saved
-
-#### `--json`
-
-The `--json` option can be provided when exporting data to a **local directory**.
-Data will be exported from Firestore in JSON format rather than the default
-`.snapshot` format. See [this section](#the-snapshot-data-format) for more
-information about the `.snpahsot` format.
-
-**Caveat**: Exporting in JSON format is provided for specific use cases where you
-want to import/export a relatively small amount of data (e.g. a few documents which
-define some settings for your app) which you want to be easily read and edited by a
-human. It's not recommended to use this format for exporting your entire database,
-especially if there are a lot of documents. Reason: I haven't figured out a good way
-to parse JSON data from a stream, so right now it will just consume the entire file
-before it parses all of it, then imports the data to Firestore. This may be improved
-as a future enhancement once I figure out how solve this problem.
+- a local directory where the exported data will be created (e.g. `./data-folder`)
+- a path to a GCS bucket where the exported data will be saved (e.g.
+  `gs://my-gcs-bucket`)
 
 _All other command options are listed in the_
 _[shared commands options](#shared-command-options) section._
@@ -90,13 +87,15 @@ Export data from Firestore to the given path
 
 Options:
   -P, --project <project>         the Firebase project id
-  -K, --keyfile <path>            path to account credentials JSON file
+  -K, --keyfile <path>            path to Firebase service account credentials JSON file
   -E, --emulator <host>           use the local Firestore emulator
   --collections [collections...]  name of the root collections to export (all collections exported if not specified)
   --patterns [regex...]           regex patterns that a document path must match to be exported
   --depth <number>                subcollection depth to export (default: 100)
   --concurrency <number>          number of concurrent processes allowed (default: 10)
   --json                          outputs data in JSON array format (only applies when exporting to local files)
+  --gcs-project <project>         the Google Cloud project id (required if using GCS)
+  --gcs-keyfile <path>            path to Google Cloud service account credentials JSON file (required if using GCS)
   -h, --help                      display help for command
 ```
 
@@ -105,9 +104,9 @@ Options:
 The `import` command will import data to a Firestore instance. The `path` argument
 must be provided, and this should be a path to one of:
 
-- a local directory where the data should be imported from
-- (WIP) a path to a GCS bucket where data should be imported from
-- (WIP) a path to an S3 bucket where data should be imported from
+- a local directory where the data should be imported from (e.g. `./data-folder`)
+- a path to a GCS bucket where data should be imported from (e.g.
+  `gs://my-gcs-bucket`)
 
 The data should be in the `.snapshot` [format](#the-snapshot-data-format) (or the
 JSON version of it).
@@ -124,12 +123,15 @@ Import data to Firestore from the given path
 
 Options:
   -P, --project <project>         the Firebase project id
-  -K, --keyfile <path>            path to service account credentials JSON file
+  -K, --keyfile <path>            path to Firebase service account credentials JSON file
   -E, --emulator <host>           use the local Firestore emulator
   --collections [collections...]  name of the root collections to import (all collections imported if not specified)
   --patterns [regex...]           regex patterns that a document path must match to be imported
   --depth <number>                subcollection depth to import (default: 100)
   --concurrency <number>          number of concurrent processes allowed (default: 10)
+  --json                          import data from JSON array format (only applies when importing from local files)
+  --gcs-project <project>         the Google Cloud project id (required if using GCS)
+  --gcs-keyfile <path>            path to Google Cloud service account credentials JSON file (required if using GCS)
   -h, --help                      display help for command
 ```
 
@@ -137,38 +139,39 @@ Options:
 
 The following options are shared between the `import` and `export` commands.
 
-#### `-P, --project`
+#### `-P, --project <project>`
 
-Specify the Firebase project to import/export data from.
+The Firebase project to import/export data from.
 
-#### `-K, --keyfile`
+#### `-K, --keyfile <path>`
 
-The path to a service account credentials. This will be used to connect to your
-Firestore database.
+The path to service account credentials for connecting to Firestore.
 
-```
+For example, to connect to `my-project` using the service account credentials file
+`service-account.json` in the current directory:
+
+```bash
 backfire export my-folder -P my-project -K service-account.json
 ```
 
-The above example will connect to `my-project` using the service account credentials
-file `service-account.json` in the current directory.
+#### `-E, --emulator <host>`
 
-#### `-E, --emulator`
+Provide the emulator host to connect to using the `--emulator` option.
 
-Provide the emulator host to connect to using the `--emulator` flag.
+For example, to connect to the emulator at `http://localhost:8080`:
 
-```
+```bash
 backfire export my-folder -P my-project -E localhost:8080
 ```
 
-The `-E, --emulator` flag takes precendence over the `-K, --keyfile` flag. This means
-that if both options are provided, the emulator will be used.
+The `-E, --emulator` option takes precendence over the `-K, --keyfile` option. This
+means that if both options are provided, the emulator will be used.
 
-#### `--collections`
+#### `--collections [collections...]`
 
-You can also specify which root collections to import/export by using the
-`--collections` flag. Provide a list of space-separated collection names. If not
-specified, all available collections will be imported/exported.
+You can specify which root collections to import/export by using the `--collections`
+option. Provide a list of space-separated collection names. If not specified, all
+available collections will be imported/exported.
 
 ```
 backfire export my-folder -P my-project -K service-account.json --collections users settings
@@ -177,7 +180,7 @@ backfire export my-folder -P my-project -K service-account.json --collections us
 The above command will export data from the `users` and `settings` collection,
 including all subcollections.
 
-#### `--patterns`
+#### `--patterns [regex...]`
 
 You can provide a list of patterns in the form of regular expressions to filter which
 documents to import/export. If more than one pattern is provided, a document must
@@ -196,7 +199,7 @@ The above command will only export documents from the `logs` collection with a
 document id that ends with "F", in addition to any documents and documents from
 subcollections from within the `settings` collection.
 
-#### `--depth`
+#### `--depth <number>`
 
 Limit the subcollection depth to import/export. A document in a root collection has a
 depth of 0. Subcollections from a document in a root collection has a depth of 1, and
@@ -209,7 +212,7 @@ backfire export my-folder -P my-project -K service-account.json --depth 1
 The above command will only export documents from any root collections and documents
 up to one subcollection deep.
 
-#### `--concurrency`
+#### `--concurrency <number>`
 
 Control the number of sub processes that will be used to read/write data from
 Firestore. If not provided, the maximum concurrency of 10 will be used.
@@ -219,6 +222,33 @@ backfire export my-folder -P my-project -K service-account.json --concurrency 4
 ```
 
 The above command will run the export task using 4 sub processes.
+
+#### `--json`
+
+The `--json` option can be specified when importing/exporting from **local files**.
+This option indicates to the program to read/parse data in JSON format rather than
+default `.snapshot` format. See [this section](#the-snapshot-data-format) for more
+information about the `.snpahsot` format.
+
+**Caveat**: Using the JSON format is provided for specific use cases where you want
+to import/export a relatively small amount of data (e.g. a few documents which define
+some settings for your app) which you want to be easily read and edited by a human.
+It's not recommended to use this format for exporting your entire database,
+especially if there are a lot of documents. Reason: I haven't figured out a good way
+to parse JSON data from a stream, so right now it will just consume the entire file
+before it parses all of it, then imports the data to Firestore. This may be improved
+as a future enhancement once I figure out how solve this problem.
+
+#### `--gcs-project <project>`
+
+If you are importing or exporting data to a Google Cloud Storage bucket, you must
+specify the Google Cloud project the bucket belongs to.
+
+#### `--gcs-keyfile <path>`
+
+If you are importing or exporting data to a Google Cloud Storage bucket, you must
+specify a path to the service account credentials to use in order to read/write data
+from the bucket.
 
 ### Configuration file
 
@@ -234,7 +264,7 @@ formats:
 Sample YAML config:
 
 ```yaml
-project: my-project
+project: my-firebase-project
 keyfile: ./service-account.json
 emulator: localhost:8080
 collections:
@@ -246,13 +276,15 @@ patterns:
 depth: 100
 concurrency: 10
 json: true
+gcsProject: my-gcp-project
+gcsKeyfile: ./service-account.json
 ```
 
 Sample JSON config:
 
 ```json
 {
-  "project": "my-project",
+  "project": "my-firebase-project",
   "keyfile": "./service-account.json",
   "emulator": "localhost:8080",
   "collections": ["logs", "settings"],
@@ -260,7 +292,9 @@ Sample JSON config:
   "depth": 100,
   "concurrency": 10,
   "json": true,
-  "verbose": true
+  "verbose": true,
+  "gcsProject": "my-gcp-project",
+  "gcsKeyfile": "./service-account.json"
 }
 ```
 
@@ -309,23 +343,18 @@ interface SerializedFirestoreDocument {
 }
 ```
 
-When saving data in true JSON format (using the `--json` flag), the data is written
+When saving data in true JSON format (using the `--json` option), the data is written
 object by object, then cleaned up at the end to ensure that the objects are a valid
 JSON array.
 
 ## Road map
 
-- [x] Export data to file
-- [x] Restore data from file
-- [x] Export data to file as JSON
-- [x] Restore data from JSON export
+- [x] Import/export data from local files
+- [x] Import/export data from local files as JSON
+- [x] Import/export data to Google Cloud Storage
+- [ ] Import/export data from AWS S3
 - [ ] Write tests... haha
-- [ ] Export data to Google Cloud Storage
-- [ ] Restore data from Google Cloud Storage
-- [ ] Export data to AWS S3
-- [ ] Restore data from AWS S3
 - [ ] Add documentation site (GitHub pages?)
-- [ ] Add option for importing/exporting by collection group?
 
 ## Contributing
 

@@ -1,12 +1,15 @@
 import { dim } from "ansi-colors";
 
-import { Constants } from "../../config";
-import { log, time, wait, createStorageSource, stringToRegex } from "../../utils";
-import { createCredentials, createFirestore } from "../../tasks";
 import { LogLevel } from "../../types";
+import { Constants } from "../../config";
+import { log, time, wait, stringToRegex } from "../../utils";
 
+import { createStorageSource } from "../../storage";
+import { createFirestoreCredentials, createFirestore } from "../../tasks";
+
+import type { StorageProtocol } from "../../storage";
 import type {
-  ImportOptions,
+  ImportActionOptions,
   ToChildMessage,
   PathCompleteMessage,
   FatalErrorMessage,
@@ -34,7 +37,7 @@ process.on("message", (message: ToChildMessage) => {
       if (started) break;
       started = true;
       run = true;
-      main(message.identifier, message.path, message.options);
+      main(message.identifier, message.protocol, message.path, message.options);
       break;
 
     // Add documents to process
@@ -51,15 +54,18 @@ process.on("message", (message: ToChildMessage) => {
 
 async function main(
   identifier: string | number,
+  protocol: StorageProtocol,
   path: string,
-  options: ImportOptions
+  options: ImportActionOptions
 ) {
   // Create Firestore instance
-  const credentials = createCredentials(options);
+  const credentials = createFirestoreCredentials(options);
   const firestore = createFirestore(options.project, credentials);
 
   // Generate patterns
-  const patterns = (options.patterns ?? []).map((string) => stringToRegex(string));
+  const patterns = (options.patterns ?? []).map((pattern) =>
+    pattern instanceof RegExp ? pattern : stringToRegex(pattern)
+  );
 
   try {
     while (run) {
@@ -72,9 +78,8 @@ async function main(
 
       const { duration } = await time(async () => {
         // Create read stream
-        const source = createStorageSource(path, {
-          json: collection.endsWith(".json"),
-        });
+        const source = createStorageSource(protocol, path, options);
+        await source.connect();
         const stream = await source.openReadStream(collection);
         log(LogLevel.DEBUG, `Opened read stream to ${stream.path}`);
 
@@ -114,10 +119,7 @@ async function main(
         }
       });
 
-      log(
-        LogLevel.DEBUG,
-        `Collection ${collection} complete ${dim(duration.timeString)}`
-      );
+      log(LogLevel.DEBUG, `Path ${collection} complete ${dim(duration.timeString)}`);
 
       // Signal the completion of the path to the parent
       process.send?.({

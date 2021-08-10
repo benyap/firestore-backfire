@@ -1,9 +1,11 @@
 import { createReadStream, ReadStream } from "fs";
 
-import { ReadStreamNotOpenError } from "../../errors";
 import { deserializeDocuments } from "../../utils";
 
-import { DeserializedFirestoreDocument, IReadStreamHandler } from "../../types";
+import { ReadStreamNotOpenError } from "../storage.errors";
+
+import type { DeserializedFirestoreDocument } from "../../types";
+import type { IReadStreamHandler } from "../storage.types";
 
 export class JSONArrayReadStream implements IReadStreamHandler {
   private stream?: ReadStream;
@@ -28,6 +30,8 @@ export class JSONArrayReadStream implements IReadStreamHandler {
 
     return new Promise<DeserializedFirestoreDocument<any>[] | null>(
       (resolve, reject) => {
+        this.stream!.on("error", (error) => reject(error));
+
         let chunk: string | null = null;
         let allChunks: string | null = null;
 
@@ -38,8 +42,6 @@ export class JSONArrayReadStream implements IReadStreamHandler {
             else allChunks += chunk;
           }
         });
-
-        this.stream!.on("error", (error) => reject(error));
 
         // Return the deserialized documents
         this.stream!.on("end", () => {

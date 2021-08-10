@@ -50,7 +50,7 @@ function createChildProcesses<T extends Serializable & object>(
  */
 export function createExportChildProcesses(
   concurrency: number,
-  optionsForChild: Pick<ExportOptionsMessage, "path" | "options">,
+  optionsForChild: Pick<ExportOptionsMessage, "protocol" | "path" | "options">,
   logger: LoggingService
 ) {
   return createChildProcesses<
@@ -76,7 +76,7 @@ export function createExportChildProcesses(
  */
 export function createImportChildProcesses(
   concurrency: number,
-  optionsForChild: Pick<ImportOptionsMessage, "path" | "options">,
+  optionsForChild: Pick<ImportOptionsMessage, "protocol" | "path" | "options">,
   logger: LoggingService
 ) {
   return createChildProcesses<
