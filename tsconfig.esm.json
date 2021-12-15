@@ -3,7 +3,7 @@
   "compilerOptions": {
     "noEmit": false,
     "module": "es6",
-    "outDir": "lib"
+    "outDir": "esm"
   },
   "include": ["node_modules/@types", "src/**/*"],
   "exclude": ["node_modules", "**/*.spec.*", "**/*.test.*"]

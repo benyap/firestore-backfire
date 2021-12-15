@@ -5,9 +5,9 @@
   "repository": "git@github.com:benyap/backfire.git",
   "author": "Ben Yap <contact@benyap.com>",
   "license": "MIT",
-  "main": "dist/main.js",
-  "module": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
   "keywords": [
     "firebase",
     "firestore",
@@ -17,11 +17,11 @@
     "restore"
   ],
   "files": [
-    "lib/**",
-    "dist/**"
+    "cjs/**",
+    "esm/**"
   ],
   "bin": {
-    "backfire": "dist/main.js"
+    "backfire": "cjs/main.js"
   },
   "directories": {
     "lib": "lib"
@@ -37,7 +37,7 @@
     "setup": "yarn setup:install && yarn setup:husky",
     "setup:install": "yarn install",
     "setup:husky": "husky install",
-    "clean": "rm -rf ./lib/* ./dist/*",
+    "clean": "rm -rf ./cjs/* ./esm/*",
     "format": "prettier --write \"./src/**/*.ts\"",
     "build": "yarn clean && yarn build:esm && yarn build:cjs",
     "build:esm": "tsc -p ./tsconfig.esm.json",
