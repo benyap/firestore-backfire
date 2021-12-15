@@ -127,7 +127,7 @@ async function main(
         path: collection,
       } as PathCompleteMessage);
     }
-  } catch (error) {
+  } catch (error: any) {
     log(LogLevel.ERROR, error.message);
     process.send?.({
       type: "fatal-error",

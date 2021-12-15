@@ -20,7 +20,7 @@ export function escapeRegExp(string: string) {
 export function stringToRegex(string: string) {
   try {
     return parseRegex(string);
-  } catch (error) {
+  } catch (error: any) {
     throw new ErrorWithDetails(error.message);
   }
 }

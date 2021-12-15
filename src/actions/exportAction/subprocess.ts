@@ -125,7 +125,7 @@ async function main(
         log(LogLevel.DEBUG, `Closed write stream ${stream.path}`);
       })
     );
-  } catch (error) {
+  } catch (error: any) {
     log(LogLevel.ERROR, error.message);
     process.send?.({
       type: "fatal-error",

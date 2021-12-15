@@ -76,5 +76,7 @@ typings/
 # Builds
 cjs
 esm
-output
+
+# Other
+.export
 *.backup
