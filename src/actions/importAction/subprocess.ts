@@ -92,10 +92,11 @@ async function main(
               // Check path depth
               const parts = document.path.split("/");
               const pathDepth = parts.length / 2 - 1;
-              if (pathDepth > options.depth) {
+              const depth = options.depth ?? Constants.MAX_DEPTH;
+              if (pathDepth > depth) {
                 log(
                   LogLevel.DEBUG,
-                  `Skipping path ${document.path} (exceeds max subcollection depth of ${options.depth})`
+                  `Skipping path ${document.path} (exceeds max subcollection depth of ${depth})`
                 );
                 return;
               }

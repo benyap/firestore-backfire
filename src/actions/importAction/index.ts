@@ -82,7 +82,7 @@ export async function importAction(
   const pendingPaths = new Set<string>();
 
   const children = createImportChildProcesses(
-    Math.min(options.concurrency, rootPaths.length),
+    Math.min(options.concurrency ?? Constants.MAX_CONCURRENCY, rootPaths.length),
     { protocol, path: pathOnly, options },
     logger
   );

@@ -56,7 +56,7 @@ export interface SharedOptions {
    *
    * If not provided, all subcollections are imported/exported.
    */
-  depth: number;
+  depth?: number;
 
   /**
    * Control the number of sub processes that will be used to read/write
@@ -64,7 +64,7 @@ export interface SharedOptions {
    *
    * If not provided, the maximum concurrency of 10 will be used.
    */
-  concurrency: number;
+  concurrency?: number;
 
   /**
    * The `--json` option can be specified when importing/exporting from

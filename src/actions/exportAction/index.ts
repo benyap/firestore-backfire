@@ -93,7 +93,10 @@ export async function exportAction(
   const pendingPaths = new Set<string>();
 
   const children = createExportChildProcesses(
-    Math.min(options.concurrency, rootCollections.length),
+    Math.min(
+      options.concurrency ?? Constants.MAX_CONCURRENCY,
+      rootCollections.length
+    ),
     { protocol, path: pathOnly, options },
     logger
   );
@@ -132,9 +135,10 @@ export async function exportAction(
       // Check path depth
       const parts = path.split("/");
       const pathDepth = (parts.length - 1) / 2;
-      if (pathDepth > options.depth) {
+      const depth = options.depth ?? Constants.MAX_DEPTH;
+      if (pathDepth > depth) {
         logger.debug(
-          `Skipping path ${path} (exceeds max subcollection depth of ${options.depth})`
+          `Skipping path ${path} (exceeds max subcollection depth of ${depth})`
         );
         return;
       }
