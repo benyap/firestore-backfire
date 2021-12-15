@@ -1,3 +1,19 @@
+## [0.2.0](https://github.com/benyap/firestore-backfire/compare/v0.1.0...v0.2.0) (2021-12-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename package to firestore-backfire
+
+### Features
+
+* rename package to firestore-backfire ([bf70025](https://github.com/benyap/firestore-backfire/commit/bf70025be37cf39e22fc548c91624af08f121bf7))
+
+
+### Tooling
+
+* configure dependabot ([d59262a](https://github.com/benyap/firestore-backfire/commit/d59262a9156aa42e8ecbc0c7bc5009a7e6fd7c48))
+
 ## [0.1.0](https://github.com/benyap/firestore-backfire/compare/v0.0.11...v0.1.0) (2021-12-15)
 
 
