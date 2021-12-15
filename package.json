@@ -81,5 +81,8 @@
     "@google-cloud/storage": {
       "optional": true
     }
+  },
+  "resolutions": {
+    "conventional-commits-parser": "3.2.3"
   }
 }
