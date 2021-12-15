@@ -1,7 +1,7 @@
 # 🔥 Firestore BackFire
 
-[![npm version](https://img.shields.io/npm/v/@benyap/backfire)](https://npmjs.com/package/@benyap/backfire)
-[![License](https://img.shields.io/github/license/benyap/backfire)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/firestore-backfire)](https://npmjs.com/package/firestore-backfire)
+[![License](https://img.shields.io/github/license/benyap/firestore-backfire)](LICENSE)
 
 Ultimate control over backing up and restoring your Firestore data! Use BackFire to
 import and export data from Firestore, including the Local Firestore Emulator.
@@ -26,10 +26,10 @@ Install this program using `yarn` or `npm`.
 
 ```bash
 # Using yarn
-yarn add firebase-backfire
+yarn add firestore-backfire
 
 # Using npm
-npm install firebase-backfire
+npm install firestore-backfire
 ```
 
 ### Optional peer dependencies
