@@ -1,3 +1,10 @@
+### [0.2.1](https://github.com/benyap/firestore-backfire/compare/v0.2.0...v0.2.1) (2021-12-15)
+
+
+### Internal
+
+* update README ([09d6126](https://github.com/benyap/firestore-backfire/commit/09d61260e10399f3a89753c533858f8b8e5cb5f1))
+
 ## [0.2.0](https://github.com/benyap/firestore-backfire/compare/v0.1.0...v0.2.0) (2021-12-15)
 
 
