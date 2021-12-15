@@ -1,8 +1,8 @@
 {
-  "name": "@benyap/backfire",
+  "name": "firestore-backfire",
   "version": "0.1.0",
   "description": "Ultimate control over backing up and restoring your Firestore data",
-  "repository": "git@github.com:benyap/backfire.git",
+  "repository": "git@github.com:benyap/firestore-backfire.git",
   "author": "Ben Yap <contact@benyap.com>",
   "license": "MIT",
   "main": "cjs/index.js",
@@ -30,9 +30,9 @@
     "access": "public"
   },
   "bugs": {
-    "url": "https://github.com/benyap/backfire/issues"
+    "url": "https://github.com/benyap/firestore-backfire/issues"
   },
-  "homepage": "https://github.com/benyap/backfire",
+  "homepage": "https://github.com/benyap/firestore-backfire",
   "scripts": {
     "setup": "yarn setup:install && yarn setup:husky",
     "setup:install": "yarn install",

@@ -1,4 +1,4 @@
-# 🔥 BackFire ‎️‍
+# 🔥 Firestore BackFire
 
 [![npm version](https://img.shields.io/npm/v/@benyap/backfire)](https://npmjs.com/package/@benyap/backfire)
 [![License](https://img.shields.io/github/license/benyap/backfire)](LICENSE)
@@ -26,10 +26,10 @@ Install this program using `yarn` or `npm`.
 
 ```bash
 # Using yarn
-yarn add @benyap/backfire
+yarn add firebase-backfire
 
 # Using npm
-npm install @benyap/backfire
+npm install firebase-backfire
 ```
 
 ### Optional peer dependencies
@@ -95,7 +95,7 @@ Options:
   --concurrency <number>          number of concurrent processes allowed (default: 10)
   --json                          outputs data in JSON array format (only applies when exporting to local files)
   --gcs-project <project>         the Google Cloud project id (required if using GCS)
-  --gcs-keyfile <path>            path to Google Cloud service account credentials JSON file (required if using GCS)
+  --gcs-keyfile <path>            path to Google Cloud service account credentials JSON file (required if using GCS)
   -h, --help                      display help for command
 ```
 
@@ -131,7 +131,7 @@ Options:
   --concurrency <number>          number of concurrent processes allowed (default: 10)
   --json                          import data from JSON array format (only applies when importing from local files)
   --gcs-project <project>         the Google Cloud project id (required if using GCS)
-  --gcs-keyfile <path>            path to Google Cloud service account credentials JSON file (required if using GCS)
+  --gcs-keyfile <path>            path to Google Cloud service account credentials JSON file (required if using GCS)
   -h, --help                      display help for command
 ```
 
@@ -164,7 +164,7 @@ For example, to connect to the emulator at `http://localhost:8080`:
 backfire export my-folder -P my-project -E localhost:8080
 ```
 
-The `-E, --emulator` option takes precendence over the `-K, --keyfile` option. This
+The `-E, --emulator` option takes precendence over the `-K, --keyfile` option. This
 means that if both options are provided, the emulator will be used.
 
 #### `--collections [collections...]`
@@ -225,7 +225,7 @@ The above command will run the export task using 4 sub processes.
 
 #### `--json`
 
-The `--json` option can be specified when importing/exporting from **local files**.
+The `--json` option can be specified when importing/exporting from **local files**.
 This option indicates to the program to read/parse data in JSON format rather than
 default `.snapshot` format. See [this section](#the-snapshot-data-format) for more
 information about the `.snpahsot` format.
