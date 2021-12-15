@@ -1,3 +1,25 @@
+## [0.1.0](https://github.com/benyap/backfire/compare/v0.0.11...v0.1.0) (2021-12-15)
+
+
+### Features
+
+* expose Firestore document types ([e015ee6](https://github.com/benyap/backfire/commit/e015ee62639f111b2eb3375dcc5ffda64b64ec85))
+* make depth and concurrency optional ([3ac8e40](https://github.com/benyap/backfire/commit/3ac8e401e52a04dad69565de8db3cab15e23e459))
+
+
+### Bug Fixes
+
+* export index.ts file instead of main.ts for cjs (fixes [#4](https://github.com/benyap/backfire/issues/4)) ([9b07eb1](https://github.com/benyap/backfire/commit/9b07eb1d8560728fa8d796333b3240d0ab11ad13))
+
+
+### Internal
+
+* add emulators for testing ([ea55821](https://github.com/benyap/backfire/commit/ea55821ce3a0eacc81e98b2972f8a5547865873b))
+* update changelog ([c7497dc](https://github.com/benyap/backfire/commit/c7497dc623d3026bb638352204049dca6b600a17))
+* update dependencies ([471dc3d](https://github.com/benyap/backfire/commit/471dc3dfece34aa0d9a38ff5717f3300d1a09bce))
+* upgrade dependencies ([ec16637](https://github.com/benyap/backfire/commit/ec16637b72d3f0aacdbcfb88ffa7378a475bbae1))
+* use release-it instead of standard-version ([9dfb004](https://github.com/benyap/backfire/commit/9dfb0045acd6966477f7f202c086f1d5cd5402bd))
+
 ### [0.0.11](https://github.com/benyap/backfire/compare/v0.0.10...v0.0.11) (2021-08-10)
 
 
