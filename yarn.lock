@@ -836,12 +836,7 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
-"@types/node@*", "@types/node@>=12.12.47", "@types/node@>=13.7.0":
-  version "16.4.3"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.3.tgz#c01c1a215721f6dec71b47d88b4687463601ba48"
-  integrity sha512-GKM4FLMkWDc0sfx7tXqPWkM6NBow1kge0fgQh0bOnlqo4iT1kvTvMEKE0c1RtUGnbLlGRXiAA8SumE//90uKAg==
-
-"@types/node@16.11.13":
+"@types/node@*", "@types/node@16.11.13", "@types/node@>=12.12.47", "@types/node@>=13.7.0":
   version "16.11.13"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.13.tgz#6b71641b81a98c6a538d89892440c06f147edddc"
   integrity sha512-eUXZzHLHoZqj1frtUetNkUetYoJ6X55UmrVnFD4DMhVeAmwLjniZhtBmsRiemQh4uq4G3vUra/Ws/hs9vEvL3Q==
@@ -2822,10 +2817,10 @@ find-up@^5.0.0:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
 
-firebase-admin@10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/firebase-admin/-/firebase-admin-10.0.0.tgz#0638cd50d2395fddc9d8af4e1699d0a10b1b22d8"
-  integrity sha512-EOAk5ZaqXhBBvx9ZyXd28kw8glMTt3xl0g3BepGRCy0RSSUPGOzfAqjGhc65guSKgFOpT5mAUycYcJbqullKUQ==
+firebase-admin@10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/firebase-admin/-/firebase-admin-10.0.1.tgz#dae1f3d2f75049b88d8255a390e7e4bedec85146"
+  integrity sha512-p8nrhNJyuAj/Pc3M0TWVU8rd4rPoeCREfRt7dJ+EwkMvFCdJ6Cb21y3ZlN3Qsbok8PEQjuWLNy+C3LQMTfUOcQ==
   dependencies:
     "@firebase/database-compat" "^0.1.1"
     "@firebase/database-types" "^0.7.2"
