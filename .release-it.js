@@ -24,6 +24,7 @@ module.exports = {
           { type: "feat", section: "Features" },
           { type: "fix", section: "Bug Fixes" },
           { type: "chore", section: "Internal" },
+          { type: "deps", section: "Dependencies" },
           { type: "tooling", section: "Tooling" },
           { type: "revert", section: "Reverts" },
         ],
