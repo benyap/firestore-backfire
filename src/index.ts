@@ -1,3 +1,26 @@
-export * from "./actions";
-export * from "./types/config";
-export * from "./types/firestore";
+export {
+  ExportFirestoreDataOptions,
+  exportFirestoreData,
+  ImportFirestoreDataOptions,
+  importFirestoreData,
+} from "./actions";
+
+export {
+  BackfireError,
+  ConfigurationError,
+  ConnectionError,
+  UnimplementedStorageSourceTypeError,
+} from "./errors";
+
+export {
+  FirestoreConnectionOptions,
+  FirestoreDataOptions,
+  DeserializedFirestoreDocument,
+  SerializedFirestoreDocument,
+  SerializedDocumentReference,
+  SerializedTimestamp,
+  SerializedGeoPoint,
+  SerializedQuery,
+} from "./types";
+
+export { StorageSourceOptions } from "./services/StorageSourceService";

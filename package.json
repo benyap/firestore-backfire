@@ -4,11 +4,12 @@
   "description": "Ultimate control over backing up and restoring your Firestore data",
   "repository": "git@github.com:benyap/firestore-backfire.git",
   "author": "Ben Yap <contact@benyap.com>",
-  "bugs": {
-    "url": "https://github.com/benyap/firestore-backfire/issues"
-  },
+  "bugs": "https://github.com/benyap/firestore-backfire/issues",
   "homepage": "https://github.com/benyap/firestore-backfire",
   "license": "MIT",
+  "engines": {
+    "node": ">=12"
+  },
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
@@ -38,33 +39,43 @@
     "build": "yarn build:esm && yarn build:cjs",
     "build:esm": "tsc -p tsconfig.esm.json && resolve-tspaths -p tsconfig.esm.json",
     "build:cjs": "tsc -p tsconfig.cjs.json && resolve-tspaths -p tsconfig.cjs.json",
-    "dev": "ts-node src/backfire.ts",
-    "start": "node dist/backfire.js",
+    "dev": "rm -rf ./cjs/* && yarn build:cjs && yarn start",
+    "start": "node cjs/backfire.js",
     "emulator": "firebase emulators:start --project demo",
     "test": "jest --passWithNoTests",
     "release": "yarn format && yarn lint && yarn test && yarn build && release-it"
   },
   "dependencies": {
+    "@firebase/app-compat": "0.1.12",
+    "@firebase/app-types": "0.7.0",
     "ansi-colors": "4.1.1",
     "app-root-path": "3.0.0",
     "commander": "8.3.0",
     "cosmiconfig": "7.0.1",
-    "dotenv": "10.0.0",
-    "firebase-admin": "10.0.1",
-    "regex-parser": "2.2.11",
-    "replace-in-file": "6.3.2"
+    "regex-parser": "2.2.11"
+  },
+  "peerDependencies": {
+    "@google-cloud/firestore": "5.0.1",
+    "@google-cloud/storage": "5.12.0"
+  },
+  "peerDependenciesMeta": {
+    "@google-cloud/storage": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "@commitlint/cli": "16.0.0",
+    "@commitlint/cli": "16.0.1",
     "@commitlint/config-conventional": "16.0.0",
+    "@google-cloud/firestore": "5.0.1",
+    "@google-cloud/storage": "5.16.1",
     "@release-it/bumper": "3.0.1",
     "@release-it/conventional-changelog": "3.3.0",
     "@types/app-root-path": "1.2.4",
-    "@types/jest": "27.0.3",
-    "@types/node": "17.0.5",
-    "@typescript-eslint/eslint-plugin": "5.8.1",
-    "@typescript-eslint/parser": "5.8.1",
-    "eslint": "8.5.0",
+    "@types/jest": "27.4.0",
+    "@types/node": "17.0.7",
+    "@typescript-eslint/eslint-plugin": "5.9.0",
+    "@typescript-eslint/parser": "5.9.0",
+    "eslint": "8.6.0",
     "firebase-tools": "10.0.1",
     "husky": "7.0.4",
     "jest": "27.4.5",
@@ -74,16 +85,5 @@
     "ts-jest": "27.1.2",
     "ts-node": "10.4.0",
     "typescript": "4.5.4"
-  },
-  "peerDependencies": {
-    "@google-cloud/storage": "5.12.0"
-  },
-  "peerDependenciesMeta": {
-    "@google-cloud/storage": {
-      "optional": true
-    }
-  },
-  "resolutions": {
-    "conventional-commits-parser": "3.2.3"
   }
 }

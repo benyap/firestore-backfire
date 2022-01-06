@@ -22,20 +22,20 @@ Not recommended for production use yet.
 
 ## Installation
 
-Install this program using `yarn` or `npm`.
+Install the package and peer dependencies using `yarn` or `npm`.
 
 ```bash
 # Using yarn
-yarn add firestore-backfire
+yarn add @google-cloud/firestore firestore-backfire
 
 # Using npm
-npm install firestore-backfire
+npm install @google-cloud/firestore firestore-backfire
 ```
 
 ### Optional peer dependencies
 
 If you plan to import/export data from Google Cloud Storage, you must also install
-`@google-cloud/storage`:
+the peer dependency `@google-cloud/storage`:
 
 ```bash
 # Using yarn
@@ -298,62 +298,13 @@ Sample JSON config:
 }
 ```
 
-## The `.snapshot` data format
-
-The `.snapshot` format used to save exported documents from Firestore was designed to
-support the following requirements:
-
-- It should be inspectable by a human (text rather than binary)
-- It should be relatively easy to parse and unparse (JSON was the obvious choice)
-- It should be able to be parsed while the data is being streamed in
-- It should be able to be streamed to the same file by multiple processes
-
-The resulting format is a text file which contains a stringfied JSON object per line.
-The JSON object follows this interface:
-
-```typescript
-interface SerializedFirestoreDocument {
-  /**
-   * The full document path.
-   */
-  path: string;
-
-  /**
-   * The data in the document, converted to JSON.
-   */
-  data: any;
-
-  /**
-   * Paths to any Firestore Timestamp fields in `data`
-   * which need to be deserialized.
-   */
-  timestamps?: string[];
-
-  /**
-   * Paths to any Firestore GeoPoint fields in `data`
-   * which need to be deserialized.
-   */
-  geopoints?: string[];
-
-  /**
-   * Paths to any Firestore Document Reference fields
-   * in `data` which need to be deserialized.
-   */
-  references?: string[];
-}
-```
-
-When saving data in true JSON format (using the `--json` option), the data is written
-object by object, then cleaned up at the end to ensure that the objects are a valid
-JSON array.
-
 ## Road map
 
 - [x] Import/export data from local files
 - [x] Import/export data from local files as JSON
 - [x] Import/export data to Google Cloud Storage
 - [ ] Import/export data from AWS S3
-- [ ] Write tests... haha
+- [x] Write tests
 - [ ] Add documentation site (GitHub pages?)
 
 ## Contributing

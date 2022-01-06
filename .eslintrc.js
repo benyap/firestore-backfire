@@ -1,6 +1,5 @@
 module.exports = {
   env: {
-    browser: true,
     es2021: true,
     node: true,
     jest: true,
@@ -13,5 +12,8 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   ignorePatterns: ["cjs", "esm"],
-  rules: {},
+  rules: {
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+  },
 };
