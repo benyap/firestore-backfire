@@ -1,3 +1,52 @@
+## [1.0.0](https://github.com/benyap/firestore-backfire/compare/v0.2.1...v1.0.0) (2022-01-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* rewrite import and export functions using worker threads
+* require `@google-cloud/firestore` to be installed as a peer dependency
+* require peer dependencies to be installed to support GCP and AWS data sources
+* export and import now use JSON format (no more custom `.snapshot` format)
+
+### Features
+
+New options available. See [README](README.md) for more details.
+
+* `--config <path>` specify the path to the config file to use
+* `--logLevel <level>` specify the logging output level
+* `--prettify` prettify JSON output when exporting
+* `--force` overwrite existing data when exporting
+* `--mode <write_mode>` specify whether existing documents should be overwritten
+* new options for AWS S3 data source
+* rename Google Cloud option names
+* rename `--concurrency` to `--workers`
+* remove `--verbose` and `--json`
+
+Commits:
+
+* add S3 data source and add some new data options ([fc308b1](https://github.com/benyap/firestore-backfire/commit/fc308b191426e8f55c44bb03988846cd4fda6839))
+* rewrite import and export functions using worker threads ([75d3b90](https://github.com/benyap/firestore-backfire/commit/75d3b9016abcf32868e4680ec04811e893bb5ff6))
+
+
+### Internal
+
+* update README ([edabcee](https://github.com/benyap/firestore-backfire/commit/edabcee19ecea83c4f9f6d2c293900f1eb84c4c2))
+
+
+### Dependencies
+
+* bump @commitlint/cli, @commitlint/config-conventional, @types/node ([5f56879](https://github.com/benyap/firestore-backfire/commit/5f568792840e1a7f33ff79f77da904f8b51ae71f))
+* upgrade devDependencies ([4f1afdc](https://github.com/benyap/firestore-backfire/commit/4f1afdc1bc62c7424604dc63b97d0d1e949de2a7))
+
+
+### Tooling
+
+* add linting and testing frameworks ([649e431](https://github.com/benyap/firestore-backfire/commit/649e43153734787a3620a0913a3028aefa27b9bf))
+* clean up tsconfig ([0c69a0a](https://github.com/benyap/firestore-backfire/commit/0c69a0a4b193935ffbd381c8c759123f96b6129f))
+* publish package on releases ([351b0f2](https://github.com/benyap/firestore-backfire/commit/351b0f2fca745cc44e9ea4fe481636d2a31bf01f))
+* use "deps" prefix for dependencies ([006b4da](https://github.com/benyap/firestore-backfire/commit/006b4da56f15a7bbe6782cd3049a9c6c327866ec))
+* update commitlint config ([d90c4e1](https://github.com/benyap/firestore-backfire/commit/d90c4e1d7f1594fc65addb42f37f10582b73e76f))
+
 ### [0.2.1](https://github.com/benyap/firestore-backfire/compare/v0.2.0...v0.2.1) (2021-12-15)
 
 
