@@ -38,7 +38,7 @@ export interface FirestoreDataOptions {
    * is not too much higher the actual cores available on your
    * machine as it probably won't be of much a benefit.
    */
-  concurrency?: number;
+  workers?: number;
 
   /**
    * Specify the logging level, or provide a custom list of log

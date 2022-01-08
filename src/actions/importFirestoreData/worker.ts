@@ -1,5 +1,6 @@
 import { isMainThread, parentPort, workerData } from "worker_threads";
-import { bold, yellow } from "ansi-colors";
+import { BulkWriterError } from "@google-cloud/firestore";
+import { cyan, green, yellow } from "ansi-colors";
 
 import { DeserializedFirestoreDocument } from "~/types";
 import {
@@ -8,6 +9,7 @@ import {
   getCPUCount,
   Logger,
   padNumberStart,
+  plural,
   styledCount,
   Timer,
   ToParentMessenger,
@@ -24,27 +26,28 @@ import { ImportFirestoreDataOptions } from "./types";
 import { ImportMessageToParent, ImportMessageToWorker } from "./messages";
 
 export async function createImportWorkerPoool(
-  options: ImportFirestoreDataOptions,
+  options: Exclude<ImportFirestoreDataOptions, { type: "unknown" }>,
   storageSource: IStorageSourceService
 ): Promise<WorkerPool<ImportMessageToParent>> {
   const objects = await storageSource.listObjects(options.path);
   const preferredWorkerCount = objects.length > 0 ? objects.length : getCPUCount();
-  const { concurrency = preferredWorkerCount } = options;
-  const pool = new WorkerPool<ImportMessageToParent>(concurrency, __filename);
+  const { workers = preferredWorkerCount } = options;
+  const pool = new WorkerPool<ImportMessageToParent>(workers, __filename);
   pool.createWorkers(options);
   await pool.ready();
   return pool;
 }
 
+type WorkerOptions = Exclude<ImportFirestoreDataOptions, { type: "unknown" }>;
+
 async function worker() {
-  const options = workerData as ImportFirestoreDataOptions & { identifier: string };
+  const options = workerData as WorkerOptions & { identifier: string };
   const {
     identifier,
     depth = Infinity,
     collections = [],
-    patterns = [],
-    merge,
-    overwrite,
+    patterns,
+    mode: writerMode = "create-and-skip-existing",
   } = options;
   const id = padNumberStart(parseInt(identifier), 2);
 
@@ -54,13 +57,14 @@ async function worker() {
     ImportMessageToWorker
   >(parentPort);
 
+  // Keep track of paths to read from the parent
+  let currentPath: string | undefined = undefined;
+  const pathsToImport: string[] = [];
+
   try {
     // Connect to data sources
     const { firestore } = await FirestoreService.create(options);
     const source = await StorageSourceFactory.create(options);
-
-    // Keep track of paths to read from the parent
-    const pathsToImport: string[] = [];
 
     let stream: IReadStream | null = null;
 
@@ -70,8 +74,11 @@ async function worker() {
         case "do-import-object":
           pathsToImport.push(message.path);
           break;
-        case "close-stream-and-exit":
-          await stream?.close();
+        case "exit":
+          messenger.send({
+            type: "notify-safe-exit",
+            identifier,
+          });
           process.exit();
       }
     });
@@ -79,84 +86,134 @@ async function worker() {
     // Read and import data from each storage object
     const run = true;
     while (run) {
-      const path = pathsToImport.pop();
+      currentPath = pathsToImport.pop();
 
-      if (!path) {
+      if (!currentPath) {
         await delay(500);
         continue;
       }
 
-      stream = await source.openReadStream(path, firestore);
-      logger.debug(`Importing documents from ${path}`);
+      stream = await source.openReadStream(currentPath, firestore);
+      logger.debug(`Importing documents from ${green(currentPath)}`);
       messenger.send({
         type: "notify-import-object-start",
-        path,
-        from: identifier,
+        path: currentPath,
+        identifier,
       });
 
-      let documents: DeserializedFirestoreDocument[] | null;
-      let docCount = 0;
-
       const writer = firestore.bulkWriter();
+      const errors: BulkWriterError[] = [];
+      const documentsToImport: DeserializedFirestoreDocument[] = [];
 
-      while ((documents = await stream.read()) !== null) {
-        documents.forEach((doc) => {
-          const { path } = doc;
-
+      await stream.readFromStream((documents) => {
+        for (const document of documents) {
           if (
             collections.length > 0 &&
-            !collections.some((c) => path.startsWith(c))
+            !collections.some((c) => document.path.startsWith(c))
           ) {
             logger.verbose(
-              `Skipping document ${bold(path)} (collection not specified)`
+              `Skipping document ${cyan(document.path)} (collection not specified)`
             );
-            return;
+            continue;
           }
 
-          if (documentPathDepth(path) > depth) {
+          if (documentPathDepth(document.path) > depth) {
             logger.verbose(
-              `Skipping document ${bold(path)} (exceeds depth of ${depth})`
+              `Skipping document ${cyan(document.path)} (exceeds depth of ${depth})`
             );
-            return;
+            continue;
           }
 
-          if (!patterns.some((p) => p.test(path))) {
-            logger.verbose(`Skipping document ${bold(path)} (no pattern match)`);
-            return;
+          if (patterns && !patterns.some((p) => p.test(document.path))) {
+            logger.verbose(
+              `Skipping document ${cyan(document.path)} (no pattern match)`
+            );
+            continue;
           }
 
-          logger.verbose(`Importing document ${bold(doc.path)}`);
-          docCount += 1;
+          documentsToImport.push(document);
+        }
+      });
 
-          if (overwrite || merge)
-            writer.set(firestore.doc(doc.path), doc.data, { merge });
-          else writer.create(firestore.doc(doc.path), doc.data);
-        });
-      }
-
-      // Flush writes and close the stream
       const timer = Timer.start();
-      await Promise.all([writer.flush(), stream.close()]);
+
+      await Promise.all(
+        documentsToImport.map(async ({ path, data }) => {
+          logger.verbose(`Importing document ${cyan(path)}`);
+          switch (writerMode) {
+            case "create":
+            case "create-and-skip-existing":
+              writer
+                .create(firestore.doc(path), data)
+                .catch((error) => errors.push(error));
+              break;
+            case "merge":
+              writer
+                .set(firestore.doc(path), data, { merge: true })
+                .catch((error) => errors.push(error));
+              break;
+            case "overwrite":
+              writer
+                .set(firestore.doc(path), data)
+                .catch((error) => errors.push(error));
+              break;
+          }
+        })
+      );
+
+      await writer.flush();
       timer.stop();
 
-      const docCountString = styledCount(yellow, docCount, "document");
+      const docCount = documentsToImport.length;
+      const errorCount = errors.length;
+      const successCount = docCount - errorCount;
+
+      let countString = styledCount(yellow, docCount, "document");
+      if (errorCount > 0) {
+        countString = `${yellow(String(successCount))}/${yellow(
+          String(docCount)
+        )} ${plural(successCount, "document")}`;
+      }
+
       logger.info(
-        `Imported ${docCountString} from ${path} (took ${timer.durationString})`
+        `Imported ${countString} from ${green(currentPath)} (took ${
+          timer.durationString
+        })`
       );
+
+      errors.forEach(({ code, documentRef, message }) => {
+        const path = cyan(documentRef.path);
+        switch (code) {
+          case 6:
+            if (writerMode === "create-and-skip-existing") {
+              logger.debug(`Skipped creating document ${path} as it already exists`);
+            } else {
+              logger.error(
+                `Failed to create document at ${path} as it already exists`
+              );
+            }
+            break;
+          default:
+            logger.error(`Error code ${code}: ${message}`);
+            break;
+        }
+      });
 
       // Notify parent that object has been imported
       messenger.send({
         type: "notify-import-object-finish",
-        path,
-        from: identifier,
+        path: currentPath,
+        identifier,
       });
     }
   } catch (error: any) {
     logger.error(`Exiting due to error ${error.message}`);
     messenger.send({
       type: "notify-early-exit",
-      from: identifier,
+      identifier,
       reason: error,
+      currentPath,
+      pendingPaths: pathsToImport,
     });
     process.exit(1);
   }

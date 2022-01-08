@@ -75,7 +75,7 @@ Use the summary field to provide a succinct description of the change:
 
 - use the imperative, present tense: "change" not "changed" nor "changes"
 - don't capitalize the first letter
-- no dot (.) at the end
+- no period (.) at the end
 
 ### <a name="commit-footer"></a>Commit Message Footer
 

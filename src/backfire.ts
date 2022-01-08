@@ -1,32 +1,36 @@
-import { exportFirestoreData, importFirestoreData } from "~/actions";
+#! /usr/bin/env node
+
+import { Command, Option } from "commander";
+
+import { Logger } from "./utils";
+import { Constants } from "./config";
+import { BackfireError } from "./errors";
+import { createExportCommand, createImportCommand } from "./cli";
 
 async function main() {
-  try {
-    await exportFirestoreData({
-      path: ".export/test",
-      project: "monash-bulk-messaging-dev",
-      keyfile: ".keyfiles/msend-dev.json",
-      type: "local",
-      collections: ["emails"],
-      logLevel: "verbose",
-      patterns: [/C61s0P9Cd0eEF0usZrGM/],
-      concurrency: 3,
-    });
+  // Create program for parsing CLI commands
+  const cli = new Command()
+    .name(Constants.NAME)
+    .version(Constants.VERSION)
+    .description(Constants.DESCRIPTION);
 
-    await importFirestoreData({
-      path: ".export/test",
-      project: "demo",
-      emulator: "localhost:8080",
-      logLevel: "verbose",
-      type: "local",
-      concurrency: 1,
-      patterns: [/^emails/],
-      depth: 1,
-      merge: true,
-    });
-  } catch (error: any) {
-    console.log(error);
-  }
+  // Add global options
+  cli.addOption(new Option("-c, --config <path>", "specify the config file to use"));
+  const globalOptions = cli.opts();
+
+  // Create commands
+  createExportCommand(cli, globalOptions);
+  createImportCommand(cli, globalOptions);
+
+  // Execute program
+  await cli.parseAsync();
 }
 
-main();
+// Run program
+main().catch(async (error) => {
+  const logger = Logger.create(Constants.NAME);
+  if (error instanceof BackfireError) {
+    if (error.details) logger.error(error.message + "\n\n" + error.details + "\n");
+    else logger.error(error.message);
+  } else logger.error(error.message, error);
+});

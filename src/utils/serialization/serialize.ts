@@ -5,8 +5,6 @@ import {
   Query,
 } from "@google-cloud/firestore";
 
-import { DocumentWrite } from "~/services/StorageSourceService";
-
 import { SerializedFirestoreDocument } from "~/types";
 
 import { deleteFieldByPath } from "../objectPath";
@@ -18,7 +16,10 @@ import { deleteFieldByPath } from "../objectPath";
  * @param number If provided, serialized document will be pretty-printed with the specified indent.
  * @returns The document serialized as a string.
  */
-export function serializeDocument(doc: DocumentWrite, indent?: number) {
+export function serializeDocument(
+  doc: SerializedFirestoreDocument,
+  indent?: number
+) {
   const document: SerializedFirestoreDocument = {
     path: doc.path,
     data: doc.data,

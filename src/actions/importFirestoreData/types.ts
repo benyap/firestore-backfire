@@ -5,14 +5,14 @@ export type ImportFirestoreDataOptions = FirestoreConnectionOptions &
   FirestoreDataOptions &
   StorageSourceOptions & {
     /**
-     * Merge data into existing documents if they already exist when
-     * importing. Cannot be used when `overwrite` is true.
+     * Specify whether to create, merge or overwrite documents when
+     * importing. When using "create" mode, attempting to import
+     * documents to paths with existing data will fail. When using
+     * the "create-and-skip-existing" mode, only documents that do
+     * not exist will be created, and documents that exist will be
+     * skipped without failing.
+     *
+     * @default "create"
      */
-    merge?: boolean;
-
-    /**
-     * Overwrite data for any existing documents when importing.
-     * Cannot be used when `merge` is true.
-     */
-    overwrite?: boolean;
+    mode?: "create" | "create-and-skip-existing" | "merge" | "overwrite";
   };

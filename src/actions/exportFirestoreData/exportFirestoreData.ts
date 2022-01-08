@@ -1,8 +1,18 @@
 import root from "app-root-path";
-import { bold, green } from "ansi-colors";
+import { bold, cyan, yellow } from "ansi-colors";
 
-import { Logger, Timer, ToWorkerMessenger, delay, redactFields } from "~/utils";
+import {
+  Logger,
+  Timer,
+  ToWorkerMessenger,
+  GroupedSet,
+  delay,
+  redactFields,
+  padNumberStart,
+  styledCount,
+} from "~/utils";
 import { FirestoreService, StorageSourceFactory } from "~/services";
+import { UnknownStorageSourceTypeError } from "~/errors";
 
 import { ExportFirestoreDataOptions } from "./types";
 import { ExportMessageToParent, ExportMessageToWorker } from "./messages";
@@ -17,8 +27,15 @@ export async function exportFirestoreData(options: ExportFirestoreDataOptions) {
   const logger = Logger.create(exportFirestoreData.name, logLevel);
   const messenger = new ToWorkerMessenger<ExportMessageToWorker>();
 
+  if (options.type === "unknown") throw new UnknownStorageSourceTypeError("unknown");
+
   // Hide sensitive details when logging options
-  const redactedOptions = redactFields(options, "credentials");
+  const redactedOptions = redactFields(
+    options,
+    "credentials",
+    "awsAccessKeyId",
+    "awsSecretAccessKey"
+  );
   logger.debug("Export configuration", {
     root: root.toString(),
     ...redactedOptions,
@@ -28,33 +45,38 @@ export async function exportFirestoreData(options: ExportFirestoreDataOptions) {
 
   // Connect to Firestore
   const { firestore } = await FirestoreService.create(options);
-  logger.info(`Connected to Firestore for project ${options.project}`);
+  logger.info(`Connected to Firestore for project ${bold(options.project)}`);
 
   // Connect to storage source
   const source = await StorageSourceFactory.create(options);
-  logger.info(`Connected to ${source.name} storage source`);
+  logger.info(`Connected to ${bold(source.name)} storage source`);
 
   // Create a pool of worker threads
   const pool = await createExportWorkerPool(options);
-  logger.debug(`Created ${pool.size()} worker threads`);
+  logger.debug(`Created ${yellow(String(pool.size()))} worker threads`);
 
   // Track paths that are being explored
-  const pendingCollectionPaths: Set<string> = new Set();
-  const pendingDocumentPaths: string[] = [];
+  const pendingCollectionPaths = new GroupedSet<string>();
+  const pendingDocumentPaths = new GroupedSet<string>();
   const earlyExit: (ExportMessageToParent & { type: "notify-early-exit" })[] = [];
 
   // Set up listeners for messages from workers
   pool.onMessage((message: ExportMessageToParent) => {
     switch (message.type) {
       case "notify-explore-collection-finish":
-        pendingCollectionPaths.delete(message.path);
-        logger.debug(`Finished exploring collection path ${green(message.path)}`);
+        pendingCollectionPaths.remove(message.identifier, message.path);
+        logger.verbose(`Finished exploring collection path ${cyan(message.path)}`);
         break;
       case "do-explore-document-subcollections":
-        pendingDocumentPaths.push(message.path);
+        pendingDocumentPaths.add(message.identifier, message.path);
+        break;
+      case "notify-safe-exit":
+        logger.debug(`Worker ${bold(padNumberStart(message.identifier, 2))} done`);
         break;
       case "notify-early-exit":
         earlyExit.push(message);
+        pendingDocumentPaths.removeGroup(message.identifier);
+        pendingCollectionPaths.removeGroup(message.identifier);
         break;
     }
   });
@@ -67,26 +89,25 @@ export async function exportFirestoreData(options: ExportFirestoreDataOptions) {
   }
 
   rootCollections.forEach((collection) => {
-    pendingCollectionPaths.add(collection.path);
-    pool.next().postMessage(
-      messenger.createMessage({
-        type: "do-explore-collection",
-        path: collection.path,
-      })
-    );
+    const [worker, id] = pool.next();
+    pendingCollectionPaths.add(id, collection.path);
+    messenger.send(worker, {
+      type: "do-explore-collection",
+      path: collection.path,
+    });
   });
 
   while (
-    (pendingCollectionPaths.size > 0 || pendingDocumentPaths.length > 0) &&
+    (pendingCollectionPaths.size() > 0 || pendingDocumentPaths.size() > 0) &&
     earlyExit.length < pool.size()
   ) {
     // Get pending documents in batches of 100
-    const paths = pendingDocumentPaths.splice(0, 100);
+    const paths = pendingDocumentPaths.popFromAny(100);
 
     // If there are no pending document paths, it means
     // workers are still searching through collections
     if (paths.length === 0) {
-      await delay(500);
+      await delay(1000);
       continue;
     }
 
@@ -95,8 +116,9 @@ export async function exportFirestoreData(options: ExportFirestoreDataOptions) {
         const collections = await firestore.doc(path).listCollections();
         collections.forEach((collection) => {
           // Send any subcollections to workers to explore
-          pendingCollectionPaths.add(collection.path);
-          messenger.send(pool.next(), {
+          const [worker, id] = pool.next();
+          pendingCollectionPaths.add(id, collection.path);
+          messenger.send(worker, {
             type: "do-explore-collection",
             path: collection.path,
           });
@@ -109,7 +131,11 @@ export async function exportFirestoreData(options: ExportFirestoreDataOptions) {
     logger.warn(`${earlyExit.length} worker thread(s) exited early`);
   }
 
+  logger.debug(
+    `Closing ${styledCount(yellow, pool.size() - earlyExit.length, "write stream")}`
+  );
   pool.broadcast(messenger.createMessage({ type: "close-stream-and-exit" }));
+  await pool.done();
 
   timer.stop();
   logger.success(

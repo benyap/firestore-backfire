@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": false,
-    "module": "es6",
+    "module": "ESNext",
     "outDir": "esm"
   },
   "include": ["src"],

@@ -10,6 +10,7 @@ export {
   ConfigurationError,
   ConnectionError,
   UnimplementedStorageSourceTypeError,
+  MissingPeerDependencyError,
 } from "./errors";
 
 export {

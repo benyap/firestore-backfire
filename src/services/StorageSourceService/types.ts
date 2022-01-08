@@ -1,13 +1,14 @@
 import { LocalStorageSourceOptions } from "./local";
-import { GCSStorageSourceOptions } from "./gcs";
+import { GoogleStorageSourceOptions } from "./gs";
 import { S3StorageSourceOptions } from "./s3";
 
 /**
  * Options for connecting to a data source.
  */
 export type StorageSourceOptions =
+  | { type: "unknown"; path?: string }
   | LocalStorageSourceOptions
-  | GCSStorageSourceOptions
+  | GoogleStorageSourceOptions
   | S3StorageSourceOptions;
 
 /**
@@ -18,9 +19,4 @@ export interface StorageObject {
   path: string;
   size: number;
   modified: Date;
-}
-
-export interface DocumentWrite {
-  path: string;
-  data: any;
 }

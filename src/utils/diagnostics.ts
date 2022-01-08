@@ -31,11 +31,11 @@ export function countUniqueFieldOccurrences<T extends { [key: string]: any }>(
  */
 export function redactFields<T extends { [key: string]: any }>(
   object: T,
-  ...fields: (keyof T)[]
+  ...fields: string[]
 ): { [key: string]: any } {
   const redactedObject: { [key: string]: any } = { ...object };
   fields
-    .filter((field): field is string => field in redactedObject)
+    .filter((field) => field in redactedObject)
     .forEach((field) => (redactedObject[field] = "<hidden>"));
   return redactedObject;
 }

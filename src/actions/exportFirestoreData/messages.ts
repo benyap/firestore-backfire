@@ -10,21 +10,27 @@ export type ExportMessageToWorker =
 export type ExportMessageToParent =
   | {
       type: "do-explore-document-subcollections";
+      identifier: string;
       path: string;
-      from: string;
     }
   | {
       type: "notify-explore-collection-start";
+      identifier: string;
       path: string;
-      from: string;
     }
   | {
       type: "notify-explore-collection-finish";
+      identifier: string;
       path: string;
-      from: string;
     }
   | {
       type: "notify-early-exit";
+      identifier: string;
       reason: any;
-      from: string;
+      currentPath?: string;
+      pendingPaths?: string[];
+    }
+  | {
+      type: "notify-safe-exit";
+      identifier: string;
     };

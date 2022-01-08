@@ -183,10 +183,10 @@ describe(deserializeDocuments.name, () => {
       expect(data).toMatchSnapshot();
 
       const col = firestore.collection("documents/1/threads");
-      col.where("details.count", ">", 10).where("details.count", "<=", 100);
-
-      // FIXME: Currently failing due to https://github.com/googleapis/nodejs-firestore/issues/1652
-      // expect(query.isEqual(data[0].data.ref)).toBe(true);
+      const query = col
+        .where("details.count", ">", 10)
+        .where("details.count", "<=", 100);
+      expect(query.isEqual(data[0].data.ref)).toBe(true);
     });
 
     it("field filter (where: equality)", () => {
@@ -215,10 +215,8 @@ describe(deserializeDocuments.name, () => {
       expect(data).toMatchSnapshot();
 
       const col = firestore.collection("documents/1/threads");
-      col.where("id", "==", "1").where("user", "!=", "123");
-
-      // FIXME: Currently failing due to https://github.com/googleapis/nodejs-firestore/issues/1652
-      // expect(query.isEqual(data[0].data.ref)).toBe(true);
+      const query = col.where("id", "==", "1").where("user", "!=", "123");
+      expect(query.isEqual(data[0].data.ref)).toBe(true);
     });
 
     it("field filter (where: array)", () => {
@@ -251,12 +249,10 @@ describe(deserializeDocuments.name, () => {
       expect(data).toMatchSnapshot();
 
       const col = firestore.collection("documents/1/threads");
-      col
+      const query = col
         .where("id", "in", [15, 16, 17])
         .where("count", "array-contains", [1, 2, 3, 4]);
-
-      // FIXME: Currently failing due to https://github.com/googleapis/nodejs-firestore/issues/1652
-      // expect(query.isEqual(data[0].data.ref)).toBe(true);
+      expect(query.isEqual(data[0].data.ref)).toBe(true);
     });
 
     it("field order (orderBy)", () => {

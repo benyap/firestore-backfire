@@ -1,5 +1,5 @@
 import { isMainThread, parentPort, workerData } from "worker_threads";
-import { bold, green, yellow } from "ansi-colors";
+import { cyan, green, yellow } from "ansi-colors";
 
 import {
   Logger,
@@ -18,18 +18,20 @@ import { ExportFirestoreDataOptions } from "./types";
 import { ExportMessageToParent, ExportMessageToWorker } from "./messages";
 
 export async function createExportWorkerPool(
-  options: ExportFirestoreDataOptions
+  options: Exclude<ExportFirestoreDataOptions, { type: "unknown" }>
 ): Promise<WorkerPool<ExportMessageToParent>> {
-  const { concurrency = getCPUCount() } = options;
-  const pool = new WorkerPool<ExportMessageToParent>(concurrency, __filename);
+  const { workers = getCPUCount() } = options;
+  const pool = new WorkerPool<ExportMessageToParent>(workers, __filename);
   pool.createWorkers(options);
   await pool.ready();
   return pool;
 }
 
+type WorkerOptions = Exclude<ExportFirestoreDataOptions, { type: "unknown" }>;
+
 async function worker() {
-  const options = workerData as ExportFirestoreDataOptions & { identifier: string };
-  const { identifier, path, depth = Infinity, patterns = [] } = options;
+  const options = workerData as WorkerOptions & { identifier: string };
+  const { identifier, path, depth = Infinity, patterns, prettify, force } = options;
   const id = padNumberStart(parseInt(identifier), 2);
 
   const logger = Logger.create(`${worker.name}-${id}`, options.logLevel);
@@ -38,14 +40,22 @@ async function worker() {
     ExportMessageToWorker
   >(parentPort);
 
+  // Keep track of collections to explore from parent
+  let currentPath: string | undefined = undefined;
+  const collectionPathsToExplore: string[] = [];
+
   try {
     // Connect to data sources
     const { firestore } = await FirestoreService.create(options);
     const source = await StorageSourceFactory.create(options);
-    const stream = await source.openWriteStream(`${path}/chunk${id}.json`);
+    const streamPath = `${path}/chunk${id}.json`;
+    const { stream, overwritten } = await source.openWriteStream(streamPath, force);
 
-    // Keep track of collections to explore from parent
-    const collectionPathsToExplore: string[] = [];
+    logger.verbose(
+      `Opened write stream to ${green(streamPath)}${
+        overwritten ? ` (overwritten)` : ""
+      }`
+    );
 
     // Listen to messages from the parent
     messenger.onMessage(async (message) => {
@@ -55,6 +65,7 @@ async function worker() {
           break;
         case "close-stream-and-exit":
           await stream.close();
+          messenger.send({ type: "notify-safe-exit", identifier });
           process.exit();
       }
     });
@@ -62,32 +73,30 @@ async function worker() {
     // Explore each collection and write the data to the storage source
     const run = true;
     while (run) {
-      const collectionPath = collectionPathsToExplore.pop();
+      currentPath = collectionPathsToExplore.pop();
 
-      if (!collectionPath) {
+      if (!currentPath) {
         await delay(500);
         continue;
       }
 
-      const collectionString = green(collectionPath);
+      const collectionString = cyan(currentPath);
       logger.debug(`Exploring collection path ${collectionString}`);
       messenger.send({
         type: "notify-explore-collection-start",
-        path: collectionPath,
-        from: identifier,
+        identifier,
+        path: currentPath,
       });
 
-      const allDocuments = await firestore
-        .collection(collectionPath)
-        .listDocuments();
+      const allDocuments = await firestore.collection(currentPath).listDocuments();
       const filteredDocuments: typeof allDocuments = [];
 
       for (const document of allDocuments) {
         const { path } = document;
-        if (patterns.some((p) => p.test(path))) {
+        if (!patterns || patterns.some((p) => p.test(path))) {
           filteredDocuments.push(document);
         } else {
-          logger.verbose(`Skipping document ${bold(path)} (no pattern match)`);
+          logger.verbose(`Skipping document ${cyan(path)} (no pattern match)`);
         }
       }
 
@@ -97,11 +106,14 @@ async function worker() {
         const snapshots = await firestore.getAll(...batch);
         await Promise.all(
           snapshots.map((snapshot) => {
-            logger.verbose(`Exporting document ${bold(snapshot.ref.path)}`);
-            stream.write({
-              path: snapshot.ref.path,
-              data: snapshot.data(),
-            });
+            logger.verbose(`Exporting document ${cyan(snapshot.ref.path)}`);
+            stream.write(
+              {
+                path: snapshot.ref.path,
+                data: snapshot.data(),
+              },
+              prettify ? 2 : 0
+            );
           })
         );
       }
@@ -111,16 +123,16 @@ async function worker() {
       logger.info(`Exported ${docCountString} from ${collectionString}`);
 
       // Notify parent of sub collections if it doesn't exceed the depth
-      if (collectionPathDepth(collectionPath) >= depth) {
+      if (collectionPathDepth(currentPath) >= depth) {
         logger.verbose(
-          `Skipping paths inside ${bold(collectionPath)} (exceeds depth of ${depth})`
+          `Skipping paths inside ${collectionString} (exceeds depth of ${depth})`
         );
       } else {
         for (const document of allDocuments) {
           messenger.send({
             type: "do-explore-document-subcollections",
+            identifier,
             path: document.path,
-            from: identifier,
           });
         }
       }
@@ -128,16 +140,18 @@ async function worker() {
       // Notify parent that the collection is done
       messenger.send({
         type: "notify-explore-collection-finish",
-        path: collectionPath,
-        from: identifier,
+        identifier,
+        path: currentPath,
       });
     }
   } catch (error: any) {
     logger.error(`Exiting due to error ${error.message}`);
     messenger.send({
       type: "notify-early-exit",
-      from: identifier,
+      identifier,
       reason: error,
+      currentPath,
+      pendingPaths: collectionPathsToExplore,
     });
     process.exit(1);
   }

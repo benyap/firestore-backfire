@@ -81,7 +81,7 @@ describe(WorkerPool.name, () => {
 
   it("next() cycles through workers", async () => {
     const workerMessages = getWorkerMessages(pool, 0, 1, 2, 0);
-    [0, 1, 2, 3].forEach((index) => pool.next().postMessage(index));
+    [0, 1, 2, 3].forEach((index) => pool.next()[0].postMessage(index));
     const results = await Promise.all(workerMessages);
     expect(results).toMatchInlineSnapshot(`
       Array [
@@ -115,9 +115,9 @@ describe(WorkerPool.name, () => {
 
   it("reset() resets the worker queue", async () => {
     const workerMessages = getWorkerMessages(pool, 0, 1, 0, 1);
-    [0, 1].forEach((index) => pool.next().postMessage(index));
+    [0, 1].forEach((index) => pool.next()[0].postMessage(index));
     pool.reset();
-    [0, 1].forEach((index) => pool.next().postMessage(index));
+    [0, 1].forEach((index) => pool.next()[0].postMessage(index));
     const results = await Promise.all(workerMessages);
     expect(results).toMatchInlineSnapshot(`
       Array [

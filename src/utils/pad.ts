@@ -5,7 +5,7 @@
  * @param length The desired number of digits.
  * @returns The padded number as a string.
  */
-export function padNumberStart(value: number, length: number): string {
+export function padNumberStart(value: number | string, length: number): string {
   const [integerPart, decimalPart] = String(value).split(".");
   let paddedIntegerPart = integerPart;
   if (paddedIntegerPart.length < length) {

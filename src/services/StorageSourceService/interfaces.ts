@@ -1,8 +1,8 @@
 import { Firestore } from "@google-cloud/firestore";
 
-import { DeserializedFirestoreDocument } from "~/types";
+import { SerializedFirestoreDocument, DeserializedFirestoreDocument } from "~/types";
 
-import { DocumentWrite, StorageObject } from "./types";
+import { StorageObject } from "./types";
 
 export interface IStorageSourceService {
   /**
@@ -13,24 +13,39 @@ export interface IStorageSourceService {
   /**
    * Returns `true` if the service is able to read from the storage source.
    *
-   * @param timeout The time to wait before returning `false`.
+   * @param path Test connection to the specified path.
+   * @param timeout The time to wait before returning a result.
    */
-  testConnection(timeout?: number): Promise<boolean>;
+  testConnection(
+    path?: string,
+    timeout?: number
+  ): Promise<{ ok: true } | { ok: false; error: string }>;
 
   /**
    * List the storage objects available at the specified path.
+   *
+   * @param path The path to list objects from.
    */
   listObjects(path: string): Promise<StorageObject[]>;
 
   /**
    * Open a read stream to the storage object at the specified path.
+   *
+   * @param path The path to read from.
+   * @param firestore Firestore instance to use for constructing Firestore fields (i.e. Timestamp, GeoPoint, Reference).
    */
   openReadStream(path: string, firestore: Firestore): Promise<IReadStream>;
 
   /**
-   * Open a write stream to the storage object at the specified
+   * Open a write stream to the storage object at the specified path.
+   *
+   * @param path The path to write to.
+   * @param force If `true`, any existing data at the write location will be overwritten.
    */
-  openWriteStream(path: string): Promise<IWriteStream>;
+  openWriteStream(
+    path: string,
+    force?: boolean
+  ): Promise<{ stream: IWriteStream; overwritten: boolean }>;
 }
 
 export interface IReadStream {
@@ -40,14 +55,11 @@ export interface IReadStream {
   path: string;
 
   /**
-   * Read some documents from the stream.
+   * Read documents from the stream.
    */
-  read(): Promise<DeserializedFirestoreDocument[] | null>;
-
-  /**
-   * Close the stream.
-   */
-  close(): Promise<void>;
+  readFromStream(
+    onData: (data: DeserializedFirestoreDocument<any>[]) => any
+  ): Promise<void>;
 }
 
 export interface IWriteStream {
@@ -58,15 +70,19 @@ export interface IWriteStream {
 
   /**
    * Open the write stream for writing data.
+   *
+   * @param force If `true`, any existing data at the write location will be overwritten.
+   * @returns `true` if any existing data was overwritten.
    */
-  open(): Promise<void>;
+  open(force?: boolean): Promise<boolean>;
 
   /**
    * Write a document to the stream.
    *
-   * @param document The document to write.
+   * @param document The serialized document to write.
+   * @param indent If specified, the document will be prettified with the indent.
    */
-  write(document: DocumentWrite): Promise<void>;
+  write(document: SerializedFirestoreDocument, indent?: number): Promise<void>;
 
   /**
    * Close the stream.

@@ -1,4 +1,5 @@
 import { Firestore } from "@google-cloud/firestore";
+import { bold } from "ansi-colors";
 
 import { FirestoreConnectionOptions } from "~/types";
 import { ConfigurationError, ConnectionError } from "~/errors";
@@ -31,13 +32,13 @@ export class FirestoreService {
     if (!project)
       throw new ConfigurationError(
         `missing project id`,
-        `Please specify a Firebase project id`
+        bold("Please specify a Firebase project id")
       );
 
     if (!emulator && !credentials && !keyfile)
       throw new ConfigurationError(
         `missing connection options`,
-        `Please specify credentials for connecting to Firestore`
+        bold("Please specify credentials for connecting to Firestore")
       );
 
     const firestore = createFirestore(project, options);
@@ -47,7 +48,9 @@ export class FirestoreService {
     if (!connected)
       throw new ConnectionError(
         `connection to Firestore timed out`,
-        `Verify that the Firestore connection details are correct and that your network connection is available.`
+        bold(
+          "Verify that the Firestore connection details are correct and that your network connection is available"
+        )
       );
 
     return service;

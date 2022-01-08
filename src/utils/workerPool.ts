@@ -119,10 +119,10 @@ export class WorkerPool<MessageType = any> {
    *
    * Worker threads are queued in the order they were created.
    */
-  next(): WorkerInstance {
+  next(): [WorkerInstance, number] {
     const workerToReturn = this.nextWorker;
     this.nextWorker = (workerToReturn + 1) % this.size();
-    return this.pool[workerToReturn];
+    return [this.pool[workerToReturn], workerToReturn];
   }
 
   /**

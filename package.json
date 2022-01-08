@@ -46,8 +46,6 @@
     "release": "yarn format && yarn lint && yarn test && yarn build && release-it"
   },
   "dependencies": {
-    "@firebase/app-compat": "0.1.12",
-    "@firebase/app-types": "0.7.0",
     "ansi-colors": "4.1.1",
     "app-root-path": "3.0.0",
     "commander": "8.3.0",
@@ -55,18 +53,36 @@
     "regex-parser": "2.2.11"
   },
   "peerDependencies": {
-    "@google-cloud/firestore": "5.0.1",
-    "@google-cloud/storage": "5.12.0"
+    "@aws-sdk/client-s3": "^3.45.0",
+    "@aws-sdk/credential-provider-ini": "^3.45.0",
+    "@aws-sdk/lib-storage": "^3.45.0",
+    "@google-cloud/firestore": "^5.0.2",
+    "@google-cloud/storage": "^5.16.1"
   },
   "peerDependenciesMeta": {
+    "@google-cloud/firestore": {
+      "optional": false
+    },
     "@google-cloud/storage": {
+      "optional": true
+    },
+    "@aws-sdk/client-s3": {
+      "optional": true
+    },
+    "@aws-sdk/lib-storage": {
+      "optional": true
+    },
+    "@aws-sdk/credential-provider-ini": {
       "optional": true
     }
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "3.45.0",
+    "@aws-sdk/credential-provider-ini": "3.45.0",
+    "@aws-sdk/lib-storage": "3.45.0",
     "@commitlint/cli": "16.0.1",
     "@commitlint/config-conventional": "16.0.0",
-    "@google-cloud/firestore": "5.0.1",
+    "@google-cloud/firestore": "5.0.2",
     "@google-cloud/storage": "5.16.1",
     "@release-it/bumper": "3.0.1",
     "@release-it/conventional-changelog": "3.3.0",
