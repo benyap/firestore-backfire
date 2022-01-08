@@ -63,6 +63,7 @@ Must be one of the following:
 - **fix**: A bug fix
 - **chore**: Code maintenance changes that do not change functionality
 - **wip**: Work in progress commit
+- **deps**: Non-breaking dependency updates
 - **test**: Add missing tests or changing existing tests
 - **docs**: Documentation only changes
 - **tooling**: Changes that affect the development tooling, build scripts or
