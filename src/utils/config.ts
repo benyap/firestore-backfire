@@ -23,8 +23,8 @@ type Options = ExportFirestoreDataOptions | ImportFirestoreDataOptions;
 
 export function resolveConfig<T extends Options>(
   path: string | undefined,
-  commandLineOptions: Partial<T>,
-  configOptions: Partial<T>
+  commandLineOptions: Partial<T> = {},
+  configOptions: Partial<T> = {}
 ) {
   const config: Partial<T> = {
     path: "",

@@ -3,7 +3,7 @@ import { resolveConfig } from "~/utils/config";
 
 describe(resolveConfig.name, () => {
   it("uses CLI path", () => {
-    const config = resolveConfig("path", {}, {});
+    const config = resolveConfig("path");
     expect(config.path).toBe("path");
   });
 
@@ -18,9 +18,9 @@ describe(resolveConfig.name, () => {
   });
 
   it("resolves to correct path type", () => {
-    expect(resolveConfig("path", {}, {}).type).toBe("local");
-    expect(resolveConfig("gs://path", {}, {}).type).toBe("gs");
-    expect(resolveConfig("s3://path", {}, {}).type).toBe("s3");
+    expect(resolveConfig("path").type).toBe("local");
+    expect(resolveConfig("gs://path").type).toBe("gs");
+    expect(resolveConfig("s3://path").type).toBe("s3");
   });
 
   it("uses config emulator if no connection options are provided on the CLI", () => {

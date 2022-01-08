@@ -1,6 +1,6 @@
 import { Command, Option } from "commander";
 
-import { exportFirestoreData, ExportFirestoreDataOptions } from "~/actions";
+import { exportFirestoreData } from "~/actions";
 import { GlobalOptions, loadConfig, resolveConfig } from "~/utils";
 
 import { isBetween, isInteger } from "./helpers";
@@ -88,13 +88,8 @@ export function createExportCommand(
     .addOption(
       new Option("--awsSecretAccessKey <value>", "the AWS secret access key")
     )
-    .action(
-      async (
-        path: string | undefined,
-        options: Partial<ExportFirestoreDataOptions>
-      ) => {
-        const config = await loadConfig(globalOptions.config);
-        await exportFirestoreData(resolveConfig(path, options, config));
-      }
-    );
+    .action(async (path: string | undefined, options: any) => {
+      const config = await loadConfig(globalOptions.config);
+      await exportFirestoreData(resolveConfig(path, options, config));
+    });
 }

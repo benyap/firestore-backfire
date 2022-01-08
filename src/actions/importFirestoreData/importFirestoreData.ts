@@ -99,9 +99,10 @@ export async function importFirestoreData(options: ImportFirestoreDataOptions) {
     logger.warn(`${earlyExit.length} worker thread(s) exited early`);
   }
 
-  logger.debug(
-    `Closing ${styledCount(yellow, pool.size() - earlyExit.length, "read stream")}`
-  );
+  const remaining = pool.size() - earlyExit.length;
+  if (remaining > 0)
+    logger.debug(`Closing ${styledCount(yellow, remaining, "read stream")}`);
+
   pool.broadcast(messenger.createMessage({ type: "exit" }));
   await pool.done();
 

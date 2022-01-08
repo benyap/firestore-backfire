@@ -1,6 +1,6 @@
 import { Command, Option } from "commander";
 
-import { importFirestoreData, ImportFirestoreDataOptions } from "~/actions";
+import { importFirestoreData } from "~/actions";
 import { GlobalOptions, loadConfig, resolveConfig } from "~/utils";
 
 import { isBetween, isInteger } from "./helpers";
@@ -90,14 +90,9 @@ export function createImportCommand(
     .addOption(
       new Option("--awsSecretAccessKey <value>", "the AWS secret access key")
     )
-    .action(
-      async (
-        path: string | undefined,
-        options: Partial<ImportFirestoreDataOptions>
-      ) => {
-        const config = await loadConfig(globalOptions.config);
-        await importFirestoreData(resolveConfig(path, options, config));
-        process.exit();
-      }
-    );
+    .action(async (path: string | undefined, options: any) => {
+      const config = await loadConfig(globalOptions.config);
+      await importFirestoreData(resolveConfig(path, options, config));
+      process.exit();
+    });
 }

@@ -131,9 +131,10 @@ export async function exportFirestoreData(options: ExportFirestoreDataOptions) {
     logger.warn(`${earlyExit.length} worker thread(s) exited early`);
   }
 
-  logger.debug(
-    `Closing ${styledCount(yellow, pool.size() - earlyExit.length, "write stream")}`
-  );
+  const remaining = pool.size() - earlyExit.length;
+  if (remaining > 0)
+    logger.debug(`Closing ${styledCount(yellow, remaining, "write stream")}`);
+
   pool.broadcast(messenger.createMessage({ type: "close-stream-and-exit" }));
   await pool.done();
 
