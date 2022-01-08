@@ -1,3 +1,10 @@
+### [1.0.1](https://github.com/benyap/firestore-backfire/compare/v1.0.0...v1.0.1) (2022-01-08)
+
+
+### Bug Fixes
+
+* destructuring error when no config file is present ([2817510](https://github.com/benyap/firestore-backfire/commit/2817510a34f31074287a2bc3c20952ba27d16485))
+
 ## [1.0.0](https://github.com/benyap/firestore-backfire/compare/v0.2.1...v1.0.0) (2022-01-08)
 
 
