@@ -11,9 +11,10 @@ Emulator.
 - Control which collections are imported/exported
 - Control which documents are imported/exported based on the path
 - Control the depth of subcollections to import/export
-- Import and export using JSON format
-- Import and export data from a variety of different storage sources (local files,
-  Google Cloud Storage, or AWS S3)
+- Import and export data as JSON to a variety of different storage sources:
+  - local files
+  - Google Cloud Storage
+  - AWS S3
 
 Please see the [changelog](CHANGELOG.md) for the latest updates.
 
@@ -32,30 +33,22 @@ npm install firestore-backfire @google-cloud/firestore
 ### Optional peer dependencies
 
 If you plan to import/export data from Google Cloud Storage, you must install the
-peer dependency `@google-cloud/storage`
+following peer dependencies:
 
-```sh
-yarn add @google-cloud/storage
-```
+- `@google-cloud/storage`
 
-If you plan to import/export data from AWS S3, you must install the peer dependencies
-`@aws-sdk/client-s3` and `@aws-sdk/lib-storage`
+If you plan to import/export data from AWS S3, you must install the following peer
+dependencies:
 
-```sh
-yarn add @aws-sdk/client-s3 @aws-sdk/lib-storage
-```
+- `@aws-sdk/client-s3`
+- `@aws-sdk/lib-storage`
 
 Additionally, if you want to use a credential profile from `~/.aws/credentials` to
-run this program, you should also install `@aws-sdk/credential-provider-ini`
+run this program, you should also install:
 
-```sh
-yarn add @aws-sdk/credential-provider-ini
-```
+- `@aws-sdk/credential-provider-ini`
 
 ## CLI Usage
-
-All commands are accessed through `backfire` on the CLI. Options can be provided
-either as command line arguments or via a [configuration file](#configuration-file).
 
 ```
 Usage: backfire [options] [command]
@@ -71,6 +64,29 @@ Commands:
   export [options] [path]  export data from Firestore
   import [options] [path]  import data into Firestore
   help [command]           display help for command
+```
+
+Run `backfire` in your shell by directly calling the script file in `node_modules`,
+or by running it through `yarn`. Options can be provided as command line arguments or
+via a [configuration file](#configuration-file).
+
+```sh
+# Run the script file
+./node_modules/.bin/backfire import
+
+# Using yarn
+yarn backfire import
+```
+
+Alternatively, you can also use it in your `package.json` scripts.
+
+```jsonc
+// package.json
+{
+  "scripts": {
+    "import-my-data": "backfire import"
+  }
+}
 ```
 
 ### Export command (default)
@@ -150,6 +166,28 @@ Options:
   -h, --help                     display help for command
 ```
 
+## Programmatic Usage
+
+You can import this into your Node.js program from the `firebase-backfire` package
+and run the import or export commands.
+
+<!-- prettier-ignore-start -->
+```typescript
+import { exportFirestoreData } from "firebase-backfire";
+
+async function main() {
+  await exportFirestoreData({ /* export options */ });
+}
+```
+<!-- prettier-ignore-end -->
+
+This package provides first-class Typescript support. Import and export options are
+fully typed with documentation.
+
+## Options
+
+The following configuration options are the same in both CLI and programmatic usage.
+
 ### Firestore connection options
 
 #### `-p, --project <project_id>`
@@ -202,7 +240,7 @@ document paths to import/export. If more than one pattern is provided, a documen
 path must match at least one pattern to be imported/exported. If you are providing
 more than one pattern, they should be space-separated. You may need to wrap your
 patterns in quotes if they include special characters, such as an asterisk (\*).
-Regular expressions are parsed by
+Regular expressions passed on the CLI are parsed by
 [regex-parser](https://www.npmjs.com/package/regex-parser).
 
 For example, the command below will only export documents from the `logs` collection
@@ -216,8 +254,8 @@ backfire export my-folder -p my-project -k service-account.json --patterns '^log
 #### `--depth <number>`
 
 Limit the subcollection depth to import/export. A document in a root collection has a
-depth of 0. Subcollections from a document in a root collection has a depth of 1, and
-so on. If not specified, all subcollections are imported/exported.
+depth of zero. Subcollections from a document in a root collection has a depth of
+one, and so on. If not specified, all subcollections are imported/exported.
 
 For example, the command below will only export documents from any root collections
 and documents up to one subcollection deep.
@@ -235,7 +273,7 @@ If not specified, the number of logical CPU cores on the current machine will be
 when exporting, and the number of JSON files to read will be used when importing.
 
 For example, the command below will run the export task using 4 worker threads,
-resulting in the epxorted data being split across 4 JSON files.
+resulting in the exported data being split across 4 JSON files.
 
 ```
 backfire export my-folder -p my-project -k service-account.json --workers 4
@@ -290,7 +328,7 @@ Specify the AWS region to use.
 #### `--awsProfile <profile>`
 
 Specify the name of the profile to use from your local AWS credentials file at
-`~/.aws/credentials`.
+`~/.aws/credentials`. Requires `@aws-sdk/credential-provider-ini` to be installed.
 
 #### `--awsAccessKeyId <key>`, `--awsSecretAccessKey <secret>`
 
@@ -298,7 +336,7 @@ Specify the access key id and secret access key to use. This takes precendence o
 the `--awsProfile` option, which means that if you provide an AWS profile as well as
 access keys, the access keys will be used.
 
-### Configuration file
+## Configuration file
 
 Instead of providing options on the command line, they can also be provided through a
 configuration file. Note that command line options will always override options
@@ -344,22 +382,6 @@ Sample JSON config:
   "gcpKeyfile": "./service-account.json"
 }
 ```
-
-## Programmatic Usage
-
-You can import this into your Node.js program from the `firebase-backfire` package
-and run the import or export commands.
-
-<!-- prettier-ignore-start -->
-```typescript
-import { exportFirestoreData } from "firebase-backfire";
-await exportFirestoreData({ /* export options */ });
-```
-<!-- prettier-ignore-end -->
-
-This package provides first-class Typescript support. Import and export options are
-fully typed with documentation. They are also the same as the CLI options, so please
-refer to the documentation above for information about the options.
 
 ## Contributing
 
