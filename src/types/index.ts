@@ -1,4 +1,2 @@
-export * from "./config";
+export * from "./document";
 export * from "./firestore";
-export * from "./logging";
-export * from "./message";

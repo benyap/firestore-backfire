@@ -1,2 +1,2 @@
-export * from "./exportAction";
-export * from "./importAction";
+export * from "./exportFirestoreData";
+export * from "./importFirestoreData";

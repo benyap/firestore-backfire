@@ -1,29 +1,26 @@
 # Contributing guide
 
-Contributions are welcome.
-
-[Help guide](https://github.com/firstcontributions/first-contributions)
-
-TODO: add a more detailed contributing guide!
+Contributions are welcome. Please have a look at the first contributions
+[help guide](https://github.com/firstcontributions/first-contributions) if you are
+new to contributing.
 
 ## <a name="branching-strategy"> Branching strategy
 
-This project uses the [GitFlow
-workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
-
-## <a name="typescript-style-guide"> TypeScript Style guide
-
-All TypeScript code is linted with [Prettier](https://prettier.io/). Most
-configuration settings are set to [the recommended
-defaults](https://prettier.io/docs/en/options.html). Please see `.prettierrc.yaml`
-for any customised configuration.
+This project uses [trunk based development](https://trunkbaseddevelopment.com/).
+Features should be merged via pull requests to the `main` branch.
 
 ## <a name="commit-message-format"></a> Commit Message Format
 
 > Inspired by the
 > [AngularJS contributing guide](https://github.com/angular/angular/blob/master/CONTRIBUTING.md).
 
-Each commit message consists of a header, a body, and a footer.
+IMPORTANT: As the changelog is generated from commits, please ensure that
+contributions follow these conventions, or your contribution may not be accepted
+until it is corrected.
+
+Commits are linted using
+[commintlint](https://github.com/conventional-changelog/commitlint). Each commit
+message consists of a header, a body, and a footer.
 
 ```
 <header>
@@ -52,24 +49,25 @@ Any line of the commit message cannot be longer than 100 characters.
   │       │
   │       └─⫸ Summary in present tense. Not capitalized. No period at the end.
   │
-  └─⫸ Commit Type: feat|fix|chore|test|perf|docs|tooling|revert
+  └─⫸ Commit Type: feat|fix|chore|test|docs|tooling|revert
 ```
 
-The `<type>` and `<summary>` fields are mandatory, the (`<scope>`) field is optional.
+The `<type>` and `<summary>` fields are mandatory.
 
 #### Type
 
 Must be one of the following:
 
 - **feat**: A new feature
+- **feat!**: A new feature with a breaking change
 - **fix**: A bug fix
 - **chore**: Code maintenance changes that do not change functionality
 - **wip**: Work in progress commit
-- **test**: Add missing tests or correcting existing tests
-- **perf**: A code change that improves performance
+- **deps**: Non-breaking dependency updates
+- **test**: Add missing tests or changing existing tests
 - **docs**: Documentation only changes
-- **tooling**: Changes that affect the development tooling or build
-  scripts/configuration
+- **tooling**: Changes that affect the development tooling, build scripts or
+  configuration
 - **revert**: Reverts a previous commit
 
 #### Summary
@@ -78,7 +76,7 @@ Use the summary field to provide a succinct description of the change:
 
 - use the imperative, present tense: "change" not "changed" nor "changes"
 - don't capitalize the first letter
-- no dot (.) at the end
+- no period (.) at the end
 
 ### <a name="commit-footer"></a>Commit Message Footer
 
@@ -86,26 +84,20 @@ The footer can contain information about breaking changes and is also the place 
 reference GitHub issues, Jira tickets, and other PRs that this commit closes or is
 related to.
 
-```
-BREAKING CHANGE: <breaking change summary>
-<BLANK LINE>
-<breaking change description + migration instructions>
-<BLANK LINE>
-<BLANK LINE>
-Fixes #<issue number>
-```
-
-Breaking Change section should start with the phrase "BREAKING CHANGE: " followed by
-a summary of the breaking change, a blank line, and a detailed description of the
-breaking change that also includes migration instructions.
-
 ### <a name='revert-commits'></a> Revert commits
 
-If the commit reverts a previous commit, it should begin with `revert: `, followed by
+If the commit reverts a previous commit, it should begin with `revert:`, followed by
 the header of the reverted commit.
 
 The content of the commit message body should contain:
 
 - information about the SHA of the commit being reverted in the following format:
   `This reverts commit <SHA>`,
-- a clear description of the reason for reverting the commit message.
+- a clear description of the reason for reverting the commit.
+
+## <a name="typescript-style-guide"> TypeScript Style guide
+
+All TypeScript code is linted with [Prettier](https://prettier.io/). Most
+configuration settings are set to [the recommended
+defaults](https://prettier.io/docs/en/options.html). Please see `.prettierrc.yaml`
+for any customised configuration.

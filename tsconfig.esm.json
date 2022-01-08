@@ -2,9 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": false,
-    "module": "es6",
+    "module": "ESNext",
     "outDir": "esm"
   },
-  "include": ["node_modules/@types", "src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.*", "**/*.test.*"]
+  "include": ["src"],
+  "exclude": ["node_modules", "cjs", "esm", "test"]
 }
