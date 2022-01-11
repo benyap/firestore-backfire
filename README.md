@@ -151,9 +151,9 @@ Options:
   -p, --project <project_id>     the Firebase project to import data to
   -k, --keyfile <path>           path to Firebase service account credentials JSON file
   -e, --emulator <host>          import data into Firestore emulator if provided
-  --collections <collection...>  specify root collections to export (all collections exported if not specified)
-  --patterns <pattern...>        specify regex patterns that a document path must match to be exported
-  --depth <number>               subcollection depth to import (root collection has depth of 0, all subcollections exported if not specified)
+  --collections <collection...>  specify root collections to export (all collections imported if not specified)
+  --patterns <pattern...>        specify regex patterns that a document path must match to be imported
+  --depth <number>               subcollection depth to import (root collection has depth of 0, all subcollections imported if not specified)
   --workers <number>             number of worker threads to use (defaults to number of data chunks to read)
   --logLevel <level>             specify the logging level (choices: "silent", "info", "debug", "verbose")
   --mode <write_mode>            specify whether importing existing documents should be throw an error, be merged or overwritten (choices: "create", "create-and-skip-existing", "merge", "overwrite")
