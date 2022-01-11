@@ -85,7 +85,7 @@
     "@google-cloud/firestore": "5.0.2",
     "@google-cloud/storage": "5.17.0",
     "@release-it/bumper": "3.0.1",
-    "@release-it/conventional-changelog": "4.0.0",
+    "@release-it/conventional-changelog": "4.1.0",
     "@types/app-root-path": "1.2.4",
     "@types/jest": "27.4.0",
     "@types/node": "17.0.8",
