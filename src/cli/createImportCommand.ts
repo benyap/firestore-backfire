@@ -32,8 +32,8 @@ export function createImportCommand(
     )
     .addOption(
       new Option(
-        "--collections <collection...>",
-        "specify root collections to import (all collections imported if not specified)"
+        "--paths <path...>",
+        "specify paths to import (all paths imported if not specified)"
       )
     )
     .addOption(

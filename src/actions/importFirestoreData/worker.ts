@@ -45,7 +45,7 @@ async function worker() {
   const {
     identifier,
     depth = Infinity,
-    collections = [],
+    paths = [],
     patterns,
     mode: writerMode = "create-and-skip-existing",
   } = options;
@@ -107,12 +107,9 @@ async function worker() {
 
       await stream.readFromStream((documents) => {
         for (const document of documents) {
-          if (
-            collections.length > 0 &&
-            !collections.some((c) => document.path.startsWith(c))
-          ) {
+          if (paths.length > 0 && !paths.some((c) => document.path.startsWith(c))) {
             logger.verbose(
-              `Skipping document ${cyan(document.path)} (collection not specified)`
+              `Skipping document ${cyan(document.path)} (no matching path specified)`
             );
             continue;
           }
@@ -207,7 +204,7 @@ async function worker() {
       });
     }
   } catch (error: any) {
-    logger.error(`Exiting due to error ${error.message}`);
+    logger.error(`Exiting due to error: ${error.message}`);
     messenger.send({
       type: "notify-early-exit",
       identifier,

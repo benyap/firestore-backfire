@@ -1,4 +1,5 @@
 import { isMainThread, parentPort, workerData } from "worker_threads";
+import { DocumentReference } from "@google-cloud/firestore";
 import { cyan, green, yellow } from "ansi-colors";
 
 import {
@@ -10,7 +11,9 @@ import {
   padNumberStart,
   splitIntoBatches,
   collectionPathDepth,
+  documentPathDepth,
   styledCount,
+  pathType,
 } from "~/utils";
 import { FirestoreService, StorageSourceFactory } from "~/services";
 
@@ -42,7 +45,7 @@ async function worker() {
 
   // Keep track of collections to explore from parent
   let currentPath: string | undefined = undefined;
-  const collectionPathsToExplore: string[] = [];
+  const pathsToExplore: string[] = [];
 
   try {
     // Connect to data sources
@@ -60,8 +63,8 @@ async function worker() {
     // Listen to messages from the parent
     messenger.onMessage(async (message) => {
       switch (message.type) {
-        case "do-explore-collection":
-          collectionPathsToExplore.push(message.path);
+        case "do-explore-path":
+          pathsToExplore.push(message.path);
           break;
         case "close-stream-and-exit":
           await stream.close();
@@ -73,62 +76,89 @@ async function worker() {
     // Explore each collection and write the data to the storage source
     const run = true;
     while (run) {
-      currentPath = collectionPathsToExplore.pop();
+      currentPath = pathsToExplore.pop();
 
       if (!currentPath) {
         await delay(500);
         continue;
       }
 
-      const collectionString = cyan(currentPath);
-      logger.debug(`Exploring collection path ${collectionString}`);
-      messenger.send({
-        type: "notify-explore-collection-start",
-        identifier,
-        path: currentPath,
-      });
+      const type = pathType(currentPath);
+      const pathString = cyan(currentPath);
 
-      const allDocuments = await firestore.collection(currentPath).listDocuments();
-      const filteredDocuments: typeof allDocuments = [];
+      const documentsToExport: DocumentReference[] = [];
 
-      for (const document of allDocuments) {
-        const { path } = document;
-        if (!patterns || patterns.some((p) => p.test(path))) {
-          filteredDocuments.push(document);
-        } else {
-          logger.verbose(`Skipping document ${cyan(path)} (no pattern match)`);
-        }
+      if (type === "document") {
+        logger.verbose(`Received path to document ${pathString}`);
+        documentsToExport.push(firestore.doc(currentPath));
+      } else if (type === "collection") {
+        logger.debug(`Exploring collection path ${pathString}`);
+        messenger.send({
+          type: "notify-explore-path-start",
+          identifier,
+          path: currentPath,
+        });
+        const documents = await firestore.collection(currentPath).listDocuments();
+        const countString = styledCount(yellow, documents.length, "document");
+        logger.verbose(`Found ${countString} in ${pathString}`);
+        documents.forEach((ref) => documentsToExport.push(ref));
       }
 
+      let docCount = 0;
+      const batches = splitIntoBatches(documentsToExport, 100);
+
       // Get document data
-      const batches = splitIntoBatches(filteredDocuments, 100);
       for (const batch of batches) {
-        const snapshots = await firestore.getAll(...batch);
+        // Filter out any documents that don't match specified patterns
+        const documentsToFetch = batch.filter((ref) => {
+          // Always fetch if no patterns are specified
+          const fetch =
+            !patterns ||
+            patterns.length === 0 ||
+            patterns.some((p) => p.test(ref.path));
+
+          if (!fetch)
+            logger.verbose(`Skipping document ${cyan(ref.path)} (no pattern match)`);
+
+          return fetch;
+        });
+
+        if (documentsToFetch.length === 0) continue;
+
+        const snapshots = await firestore.getAll(...documentsToFetch);
         await Promise.all(
           snapshots.map((snapshot) => {
-            logger.verbose(`Exporting document ${cyan(snapshot.ref.path)}`);
+            const pathString = cyan(snapshot.ref.path);
+            if (!snapshot.exists) {
+              logger.error(`Document not found ${pathString}`);
+              return;
+            }
+            logger.verbose(`Exporting document ${pathString}`);
             stream.write(
               {
                 path: snapshot.ref.path,
-                data: snapshot.data(),
+                data: snapshot.data() ?? null,
               },
               prettify ? 2 : 0
             );
+            docCount++;
           })
         );
       }
 
-      const docCount = filteredDocuments.length;
       const docCountString = styledCount(yellow, docCount, "document");
-      logger.info(`Exported ${docCountString} from ${collectionString}`);
+      logger.info(`Exported ${docCountString} from ${pathString}`);
 
-      // Notify parent of sub collections if it doesn't exceed the depth
-      if (collectionPathDepth(currentPath) >= depth) {
+      // Notify parent of subcollections if path doesn't exceed depth
+      if (
+        (type === "collection" && collectionPathDepth(currentPath) >= depth) ||
+        (type === "document" && documentPathDepth(currentPath) >= depth)
+      ) {
         logger.verbose(
-          `Skipping paths inside ${collectionString} (exceeds depth of ${depth})`
+          `Skipping paths inside ${pathString} (exceeds depth of ${depth})`
         );
       } else {
-        for (const document of allDocuments) {
+        for (const document of documentsToExport) {
           messenger.send({
             type: "do-explore-document-subcollections",
             identifier,
@@ -137,21 +167,21 @@ async function worker() {
         }
       }
 
-      // Notify parent that the collection is done
+      // Notify parent that the path is done
       messenger.send({
-        type: "notify-explore-collection-finish",
+        type: "notify-explore-path-finish",
         identifier,
         path: currentPath,
       });
     }
   } catch (error: any) {
-    logger.error(`Exiting due to error ${error.message}`);
+    logger.error(`Exiting due to error: ${error.message}`);
     messenger.send({
       type: "notify-early-exit",
       identifier,
       reason: error,
       currentPath,
-      pendingPaths: collectionPathsToExplore,
+      pendingPaths: pathsToExplore,
     });
     process.exit(1);
   }

@@ -22,7 +22,7 @@ import { createExportWorkerPool } from "./worker";
  * Export documents from Firestore.
  */
 export async function exportFirestoreData(options: ExportFirestoreDataOptions) {
-  const { logLevel, project, collections: filterCollections } = options;
+  const { logLevel, project, paths = [] } = options;
 
   const logger = Logger.create(exportFirestoreData.name, logLevel);
   const messenger = new ToWorkerMessenger<ExportMessageToWorker>();
@@ -56,16 +56,16 @@ export async function exportFirestoreData(options: ExportFirestoreDataOptions) {
   logger.debug(`Created ${yellow(String(pool.size()))} worker threads`);
 
   // Track paths that are being explored
-  const pendingCollectionPaths = new GroupedSet<string>();
+  const pendingPaths = new GroupedSet<string>();
   const pendingDocumentPaths = new GroupedSet<string>();
   const earlyExit: (ExportMessageToParent & { type: "notify-early-exit" })[] = [];
 
   // Set up listeners for messages from workers
   pool.onMessage((message: ExportMessageToParent) => {
     switch (message.type) {
-      case "notify-explore-collection-finish":
-        pendingCollectionPaths.remove(message.identifier, message.path);
-        logger.verbose(`Finished exploring collection path ${cyan(message.path)}`);
+      case "notify-explore-path-finish":
+        pendingPaths.remove(message.identifier, message.path);
+        logger.verbose(`Finished exploring path ${cyan(message.path)}`);
         break;
       case "do-explore-document-subcollections":
         pendingDocumentPaths.add(message.identifier, message.path);
@@ -75,37 +75,43 @@ export async function exportFirestoreData(options: ExportFirestoreDataOptions) {
         break;
       case "notify-early-exit":
         earlyExit.push(message);
+        pendingPaths.removeGroup(message.identifier);
         pendingDocumentPaths.removeGroup(message.identifier);
-        pendingCollectionPaths.removeGroup(message.identifier);
         break;
     }
   });
 
-  // Get root collections and send them to workers for processing
-  let rootCollections = await firestore.listCollections();
-  if (filterCollections) {
-    const filter = new Set(filterCollections);
-    rootCollections = rootCollections.filter((c) => filter.has(c.id));
+  function queuePathForProcessing(path: string) {
+    const [worker, id] = pool.next();
+    pendingPaths.add(id, path);
+    messenger.send(worker, {
+      type: "do-explore-path",
+      path,
+    });
   }
 
-  rootCollections.forEach((collection) => {
-    const [worker, id] = pool.next();
-    pendingCollectionPaths.add(id, collection.path);
-    messenger.send(worker, {
-      type: "do-explore-collection",
-      path: collection.path,
+  if (paths.length === 0) {
+    // Get root collections and send them to workers for processing
+    const collections = await firestore.listCollections();
+    collections.forEach((collection) => {
+      queuePathForProcessing(collection.path);
     });
-  });
+  } else {
+    // Otherwise, only process the specified paths
+    paths.forEach((path) => {
+      queuePathForProcessing(path);
+    });
+  }
 
   while (
-    (pendingCollectionPaths.size() > 0 || pendingDocumentPaths.size() > 0) &&
+    (pendingPaths.size() > 0 || pendingDocumentPaths.size() > 0) &&
     earlyExit.length < pool.size()
   ) {
     // Get pending documents in batches of 100
     const paths = pendingDocumentPaths.popFromAny(100);
 
     // If there are no pending document paths, it means
-    // workers are still searching through collections
+    // workers are still processing paths
     if (paths.length === 0) {
       await delay(1000);
       continue;
@@ -116,12 +122,7 @@ export async function exportFirestoreData(options: ExportFirestoreDataOptions) {
         const collections = await firestore.doc(path).listCollections();
         collections.forEach((collection) => {
           // Send any subcollections to workers to explore
-          const [worker, id] = pool.next();
-          pendingCollectionPaths.add(id, collection.path);
-          messenger.send(worker, {
-            type: "do-explore-collection",
-            path: collection.path,
-          });
+          queuePathForProcessing(collection.path);
         });
       })
     );
