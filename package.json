@@ -1,6 +1,6 @@
 {
   "name": "firestore-backfire",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Ultimate control over backing up and restoring your Firestore data",
   "repository": "git@github.com:benyap/firestore-backfire.git",
   "author": "Ben Yap <contact@benyap.com>",

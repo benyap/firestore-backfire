@@ -1,3 +1,15 @@
+### [1.1.1](https://github.com/benyap/firestore-backfire/compare/v1.1.0...v1.1.1) (2022-01-11)
+
+
+### Documentation
+
+* fix config example ([29b7787](https://github.com/benyap/firestore-backfire/commit/29b7787dbc3e591e14857d9cc049946a9c832268))
+
+
+### Tooling
+
+* add docs section to release notes ([efff609](https://github.com/benyap/firestore-backfire/commit/efff609c42b8af340f199391ccf723cd622bc511))
+
 ## [1.1.0](https://github.com/benyap/firestore-backfire/compare/v1.0.1...v1.1.0) (2022-01-11)
 
 
