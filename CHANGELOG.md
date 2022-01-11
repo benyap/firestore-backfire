@@ -1,3 +1,20 @@
+## [1.1.0](https://github.com/benyap/firestore-backfire/compare/v1.0.1...v1.1.0) (2022-01-11)
+
+
+### Features
+
+* support import/export by path instead of only top level collections ([d49fbd4](https://github.com/benyap/firestore-backfire/commit/d49fbd48c01326683f7b86123e2e7c6861b3f020))
+
+
+### Bug Fixes
+
+* incorrect import documentation ([f543dca](https://github.com/benyap/firestore-backfire/commit/f543dcaaa0e579eb60684b797679144871c8e6f1))
+
+
+### Dependencies
+
+* upgrade devDependencies ([2f05e32](https://github.com/benyap/firestore-backfire/commit/2f05e3289daf0e935d22ed52302885a1082dce6c))
+
 ### [1.0.1](https://github.com/benyap/firestore-backfire/compare/v1.0.0...v1.0.1) (2022-01-08)
 
 
