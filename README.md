@@ -357,7 +357,7 @@ Sample YAML config:
 project: my-firebase-project
 keyfile: ./service-account.json
 emulator: localhost:8080
-collections:
+paths:
   - logs
   - settings
 patterns:
@@ -375,7 +375,7 @@ Sample JSON config:
   "project": "my-firebase-project",
   "keyfile": "./service-account.json",
   "emulator": "localhost:8080",
-  "collections": ["logs", "settings"],
+  "paths": ["logs", "settings"],
   "patterns": ["^logs\\/[^/]*F$", "^settings"],
   "depth": 100,
   "gcpProject": "my-gcp-project",
