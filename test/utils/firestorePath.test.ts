@@ -1,4 +1,26 @@
-import { collectionPathDepth, documentPathDepth } from "~/utils/depth";
+import {
+  pathType,
+  collectionPathDepth,
+  documentPathDepth,
+} from "~/utils/firestorePath";
+
+describe(pathType.name, () => {
+  it("returns collection for top level collection", () => {
+    expect(pathType("documents")).toBe("collection");
+  });
+
+  it("returns collection for nested collection", () => {
+    expect(pathType("documents/1/parts")).toBe("collection");
+  });
+
+  it("returns document for top level document", () => {
+    expect(pathType("documents/1")).toBe("document");
+  });
+
+  it("returns document for nested document", () => {
+    expect(pathType("documents/1/parts/a")).toBe("document");
+  });
+});
 
 describe(collectionPathDepth.name, () => {
   it("returns root level depth correctly", () => {

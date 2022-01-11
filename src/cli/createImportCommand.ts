@@ -32,20 +32,20 @@ export function createImportCommand(
     )
     .addOption(
       new Option(
-        "--collections <collection...>",
-        "specify root collections to export (all collections exported if not specified)"
+        "--paths <path...>",
+        "specify paths to import (all paths imported if not specified)"
       )
     )
     .addOption(
       new Option(
         "--patterns <pattern...>",
-        "specify regex patterns that a document path must match to be exported"
+        "specify regex patterns that a document path must match to be imported"
       )
     )
     .addOption(
       new Option(
         "--depth <number>",
-        "subcollection depth to import (root collection has depth of 0, all subcollections exported if not specified)"
+        "subcollection depth to import (root collection has depth of 0, all subcollections imported if not specified)"
       ).argParser((value: string) =>
         isBetween(isInteger(value, "depth"), 0, 100, "depth")
       )

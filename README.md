@@ -8,8 +8,8 @@ Emulator.
 
 **Key features**
 
-- Control which collections are imported/exported
-- Control which documents are imported/exported based on the path
+- Control which documents are imported/exported by specifying paths or through
+  pattern matching
 - Control the depth of subcollections to import/export
 - Import and export data as JSON to a variety of different storage sources:
   - local files
@@ -112,7 +112,7 @@ Options:
   -p, --project <project>        the Firebase project to export data from
   -k, --keyfile <path>           path to Firebase service account credentials JSON file
   -e, --emulator <host>          export data from Firestore emulator if provided
-  --collections <collection...>  specify root collections to export (all collections exported if not specified)
+  --paths <path...>              specify paths to export (all paths exported if not specified)
   --patterns <pattern...>        specify regex patterns that a document path must match to be exported
   --depth <number>               subcollection depth to export (root collection has depth of 0, all subcollections exported if not specified)
   --workers <number>             number of worker threads to use (determines number of export chunks, defaults to number of logical CPU cores available)
@@ -151,9 +151,9 @@ Options:
   -p, --project <project_id>     the Firebase project to import data to
   -k, --keyfile <path>           path to Firebase service account credentials JSON file
   -e, --emulator <host>          import data into Firestore emulator if provided
-  --collections <collection...>  specify root collections to export (all collections exported if not specified)
-  --patterns <pattern...>        specify regex patterns that a document path must match to be exported
-  --depth <number>               subcollection depth to import (root collection has depth of 0, all subcollections exported if not specified)
+  --paths <path...>              specify paths to export (all paths imported if not specified)
+  --patterns <pattern...>        specify regex patterns that a document path must match to be imported
+  --depth <number>               subcollection depth to import (root collection has depth of 0, all subcollections imported if not specified)
   --workers <number>             number of worker threads to use (defaults to number of data chunks to read)
   --logLevel <level>             specify the logging level (choices: "silent", "info", "debug", "verbose")
   --mode <write_mode>            specify whether importing existing documents should be throw an error, be merged or overwritten (choices: "create", "create-and-skip-existing", "merge", "overwrite")
@@ -220,17 +220,17 @@ means that if both options are provided, the emulator will be used.
 
 ### Data options
 
-#### `--collections <collection...>`
+#### `--paths <path...>`
 
-You can specify which root collections to import/export by using the `--collections`
-option. Provide a list of space-separated collection names. If not specified, all
-available collections will be imported/exported.
+You can specify which document or collection paths to import/export by using the
+`--paths` option. Provide a list of space-separated paths. If not specified, all
+available paths will be explored for documents to import/export.
 
-For example, the command below exports data from the `users` and `settings`
-collection, including all subcollections (unless `depth` is specified).
+For example, the command below exports data from the `users` collection, as well as
+the `settings/users` document. The subcollections of each document are also exported.
 
 ```
-backfire export my-folder -p my-project -k service-account.json --collections users settings
+backfire export my-folder -p my-project -k service-account.json --paths users settings/users
 ```
 
 #### `--patterns <pattern...>`

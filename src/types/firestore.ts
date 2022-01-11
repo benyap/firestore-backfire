@@ -4,11 +4,11 @@ import type { LogLevel } from "~/utils";
 
 export interface FirestoreDataOptions {
   /**
-   * Provide a list of root collections to import/export.
-   * Documents not belonging to the specified root collections
-   * are ignored. If none are provided, all collections are used.
+   * Provide a list of paths to import/export. Documents not belonging
+   * to the specified paths are ignored. If none are provided, all paths
+   * are explored for documents to import/export.
    */
-  collections?: string[];
+  paths?: string[];
 
   /**
    * Provide a list of patterns (regexes) which filter which

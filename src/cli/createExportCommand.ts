@@ -32,8 +32,8 @@ export function createExportCommand(
     )
     .addOption(
       new Option(
-        "--collections <collection...>",
-        "specify root collections to export (all collections exported if not specified)"
+        "--paths <path...>",
+        "specify paths to export (all paths exported if not specified)"
       )
     )
     .addOption(

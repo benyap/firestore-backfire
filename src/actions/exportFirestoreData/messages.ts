@@ -1,6 +1,6 @@
 export type ExportMessageToWorker =
   | {
-      type: "do-explore-collection";
+      type: "do-explore-path";
       path: string;
     }
   | {
@@ -14,12 +14,12 @@ export type ExportMessageToParent =
       path: string;
     }
   | {
-      type: "notify-explore-collection-start";
+      type: "notify-explore-path-start";
       identifier: string;
       path: string;
     }
   | {
-      type: "notify-explore-collection-finish";
+      type: "notify-explore-path-finish";
       identifier: string;
       path: string;
     }
