@@ -2043,10 +2043,10 @@
     mock-fs "^4.14.0"
     semver "^7.3.5"
 
-"@release-it/conventional-changelog@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@release-it/conventional-changelog/-/conventional-changelog-4.0.0.tgz#875ad63598e681a356062195b3e80c01c0c4d479"
-  integrity sha512-3bK4foiomAUrciXgr9QPoTouAWylt/OMPDYVwhn59by00bNJgKvo3nJcIx57mx6y5D4nVmDXJYokW10ht0YeGQ==
+"@release-it/conventional-changelog@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/@release-it/conventional-changelog/-/conventional-changelog-4.2.2.tgz#924e96f2f1de96974a5e7ae239ccfd3a9302af82"
+  integrity sha512-cbpfMSKTt8VtyltNls6Kt0WXIRmgILNpF1nqGE2oe3acs286Brrb5WFGyPhYR8XUy0nVsnjG1zmUPP6n0Xd6XA==
   dependencies:
     concat-stream "^2.0.0"
     conventional-changelog "^3.1.25"
