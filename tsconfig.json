@@ -1,27 +1,29 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "declaration": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["ES6"],
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "noEmit": true,
-    "esModuleInterop": true,
-    "noErrorTruncation": true,
+    "exactOptionalPropertyTypes": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
     "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
     "strict": true,
-    "target": "es6",
+    "resolveJsonModule": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "incremental": false,
+    "noErrorTruncation": true,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "target": "ES2015",
     "baseUrl": ".",
     "paths": {
       "~/*": ["src/*"]
     }
   },
-  "include": ["src", "test"],
-  "exclude": ["node_modules", "cjs", "esm"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

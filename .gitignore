@@ -1,31 +1,22 @@
+# directories
+node_modules
+coverage
+
+# build output
+dist
+build
+
 # logs
 logs
 *.log
 *.log*
 
-# tests
-coverage
-*.lcov
-.nyc_output
-
-# dependency directories
-node_modules/
-jspm_packages/
-
-# caches
-*.tsbuildinfo
-.npm
-.eslintcache
-
 # dotenv environment variables file
 .env
 .keyfiles
 
-# build output
-cjs
-esm
-
 # other
 .export
+*.old
 *.backup
 *.tgz

@@ -11,6 +11,10 @@ module.exports = {
     commit: true,
     commitMessage: "chore(release): release ${version}",
   },
+  hooks: {
+    "before:init": ["pnpm format"],
+    "after:bump": ["pnpm build"],
+  },
   plugins: {
     "@release-it/bumper": {
       in: "package.json",

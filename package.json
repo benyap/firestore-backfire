@@ -10,9 +10,9 @@
   "engines": {
     "node": ">=12"
   },
-  "main": "cjs/index.js",
-  "module": "esm/index.js",
-  "types": "esm/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "keywords": [
     "firebase",
     "firestore",
@@ -22,77 +22,36 @@
     "restore"
   ],
   "files": [
-    "cjs/**",
-    "esm/**"
+    "dist/**"
   ],
   "publishConfig": {
     "access": "public"
   },
   "bin": {
-    "backfire": "cjs/backfire.js"
+    "backfire": "dist/cjs/backfire.js"
   },
   "scripts": {
     "prepare": "husky install",
     "format": "prettier --write --loglevel warn './src/**/*.ts'",
-    "lint": "eslint 'src/**/*.ts' --fix",
-    "prebuild": "rm -rf ./cjs/* ./esm/*",
-    "build": "yarn build:esm && yarn build:cjs",
-    "build:esm": "tsc -p tsconfig.esm.json && resolve-tspaths -p tsconfig.esm.json",
-    "build:cjs": "tsc -p tsconfig.cjs.json && resolve-tspaths -p tsconfig.cjs.json",
-    "dev": "rm -rf ./cjs/* && yarn build:cjs && yarn start",
-    "start": "node cjs/backfire.js",
+    "prebuild": "rm -rf ./dist/*",
+    "build": "concurrently pnpm:build:* -n build:",
+    "build:esm": "tsc --outDir dist/esm --declaration && tsc --outDir dist/esm --module CommonJS --target ES2015 && resolve-tspaths --out dist/esm",
+    "build:cjs": "tsc --outDir dist/cjs --declaration && tsc --outDir dist/cjs --module ES2015 --target ES2015 && resolve-tspaths --out dist/cjs",
+    "dev": "rm -rf ./dist/* && pnpm build:cjs && pnpm start",
+    "start": "node dist/cjs/backfire.js",
     "emulator": "firebase emulators:start --project demo",
     "test": "jest --passWithNoTests",
-    "release": "yarn format && yarn lint && yarn test && yarn build && release-it"
+    "release": "pnpm test && release-it"
   },
-  "dependencies": {
-    "ansi-colors": "4.1.1",
-    "app-root-path": "3.0.0",
-    "commander": "8.3.0",
-    "cosmiconfig": "7.0.1",
-    "regex-parser": "2.2.11"
-  },
-  "peerDependencies": {
-    "@aws-sdk/client-s3": "^3.45.0",
-    "@aws-sdk/credential-provider-ini": "^3.45.0",
-    "@aws-sdk/lib-storage": "^3.45.0",
-    "@google-cloud/firestore": "^5.0.2",
-    "@google-cloud/storage": "^5.16.1"
-  },
-  "peerDependenciesMeta": {
-    "@google-cloud/firestore": {
-      "optional": false
-    },
-    "@google-cloud/storage": {
-      "optional": true
-    },
-    "@aws-sdk/client-s3": {
-      "optional": true
-    },
-    "@aws-sdk/lib-storage": {
-      "optional": true
-    },
-    "@aws-sdk/credential-provider-ini": {
-      "optional": true
-    }
-  },
+  "dependencies": {},
+  "peerDependencies": {},
   "devDependencies": {
-    "@aws-sdk/client-s3": "3.46.0",
-    "@aws-sdk/credential-provider-ini": "3.46.0",
-    "@aws-sdk/lib-storage": "3.46.0",
     "@commitlint/cli": "16.0.1",
     "@commitlint/config-conventional": "16.0.0",
-    "@google-cloud/firestore": "5.0.2",
-    "@google-cloud/storage": "5.16.1",
     "@release-it/bumper": "3.0.1",
     "@release-it/conventional-changelog": "3.3.0",
-    "@types/app-root-path": "1.2.4",
     "@types/jest": "27.4.0",
     "@types/node": "17.0.8",
-    "@typescript-eslint/eslint-plugin": "5.9.0",
-    "@typescript-eslint/parser": "5.9.0",
-    "eslint": "8.6.0",
-    "firebase-tools": "10.0.1",
     "husky": "7.0.4",
     "jest": "27.4.7",
     "prettier": "2.5.1",
