@@ -1,6 +1,6 @@
 {
   "name": "firestore-backfire",
-  "version": "0.2.1",
+  "version": "1.1.1",
   "description": "Ultimate control over backing up and restoring your Firestore data",
   "repository": "git@github.com:benyap/firestore-backfire.git",
   "author": "Ben Yap <contact@benyap.com>",
@@ -28,37 +28,57 @@
     "access": "public"
   },
   "bin": {
-    "backfire": "dist/cjs/backfire.js"
+    "backfire": "dist/cjs/backfire.js",
+    "firestore": "dist/cjs/backfire.js"
   },
   "scripts": {
     "prepare": "husky install",
     "format": "prettier --write --loglevel warn './src/**/*.ts'",
-    "prebuild": "rm -rf ./dist/*",
-    "build": "concurrently pnpm:build:* -n build:",
-    "build:esm": "tsc --outDir dist/esm --declaration && tsc --outDir dist/esm --module CommonJS --target ES2015 && resolve-tspaths --out dist/esm",
-    "build:cjs": "tsc --outDir dist/cjs --declaration && tsc --outDir dist/cjs --module ES2015 --target ES2015 && resolve-tspaths --out dist/cjs",
-    "dev": "rm -rf ./dist/* && pnpm build:cjs && pnpm start",
+    "clean": "rimraf dist/*",
+    "build": "rimraf dist/* && concurrently pnpm:build:* -n build: && pnpm post",
+    "post": "concurrently pnpm:post:* -n post:",
+    "build:out:esm": "tsc --outDir dist/esm --removeComments --target ES2015 --module ES2020",
+    "build:out:cjs": "tsc --outDir dist/cjs --removeComments --target ES2015 --module CommonJS",
+    "build:dts:esm": "tsc --outDir dist/esm --declaration --emitDeclarationOnly",
+    "build:dts:cjs": "tsc --outDir dist/cjs --declaration --emitDeclarationOnly",
+    "post:esm": "resolve-tspaths --out dist/esm",
+    "post:cjs": "resolve-tspaths --out dist/cjs",
+    "dev": "rimraf dist/* && concurrently pnpm:build:out:* -n build: && pnpm post && pnpm start",
     "start": "node dist/cjs/backfire.js",
     "emulator": "firebase emulators:start --project demo",
     "test": "jest --passWithNoTests",
     "release": "pnpm test && release-it"
   },
-  "dependencies": {},
-  "peerDependencies": {},
+  "dependencies": {
+    "ansi-colors": "4.1.3",
+    "commander": "9.4.0",
+    "cosmiconfig": "7.0.1",
+    "exceptional-errors": "0.3.0",
+    "workerpool": "6.2.1"
+  },
+  "peerDependencies": {
+    "@google-cloud/firestore": "5.0.2"
+  },
   "devDependencies": {
-    "@commitlint/cli": "16.0.1",
-    "@commitlint/config-conventional": "16.0.0",
-    "@release-it/bumper": "3.0.1",
-    "@release-it/conventional-changelog": "3.3.0",
-    "@types/jest": "27.4.0",
-    "@types/node": "17.0.8",
-    "husky": "7.0.4",
-    "jest": "27.4.7",
-    "prettier": "2.5.1",
-    "release-it": "14.11.8",
-    "resolve-tspaths": "0.2.1",
-    "ts-jest": "27.1.2",
-    "ts-node": "10.4.0",
-    "typescript": "4.5.4"
+    "@commitlint/cli": "17.0.3",
+    "@commitlint/config-conventional": "17.0.3",
+    "@google-cloud/firestore": "6.0.0",
+    "@release-it/bumper": "4.0.0",
+    "@release-it/conventional-changelog": "5.0.0",
+    "@types/jest": "28.1.7",
+    "@types/node": "18.7.5",
+    "@types/workerpool": "6.1.0",
+    "concurrently": "7.3.0",
+    "cross-env": "7.0.3",
+    "firebase-tools": "11.7.0",
+    "husky": "8.0.1",
+    "jest": "28.1.3",
+    "prettier": "2.7.1",
+    "release-it": "15.3.0",
+    "resolve-tspaths": "0.7.4",
+    "rimraf": "3.0.2",
+    "ts-jest": "28.0.8",
+    "ts-node": "10.9.1",
+    "typescript": "4.7.4"
   }
 }
