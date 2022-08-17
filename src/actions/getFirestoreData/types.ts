@@ -1,3 +1,3 @@
 export interface GetFirestoreDataOptions {
-  stringify?: boolean | number;
+  stringify?: boolean | number | undefined;
 }

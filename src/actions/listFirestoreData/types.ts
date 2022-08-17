@@ -1,4 +1,4 @@
 export interface ListFirestoreDataOptions {
-  count?: boolean;
-  limit?: number;
+  count?: boolean | undefined;
+  limit?: number | undefined;
 }

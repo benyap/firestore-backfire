@@ -35,7 +35,8 @@ async function main() {
 main().catch(async (error) => {
   const logger = Logger.create(Constants.NAME);
   if (error instanceof EError) {
-    logger.error(String(error), error.info);
+    if (error.info) logger.error(String(error), error.info);
+    else logger.error(String(error));
   } else {
     logger.error(error);
   }

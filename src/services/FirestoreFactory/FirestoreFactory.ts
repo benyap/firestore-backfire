@@ -1,40 +1,16 @@
 import { Firestore, Settings } from "@google-cloud/firestore";
 import { EError } from "exceptional-errors";
 
+import { FirestoreConnectionOptions } from "./types";
+
 class FirestoreFactoryError extends EError {}
-
-export type FirestoreConnectionOptions = {
-  /**
-   * The Firestore project to connect to.
-   */
-  project?: string;
-
-  /**
-   * The path to the service account private key to use to connect to Firestore.
-   */
-  keyfile?: string;
-
-  /**
-   * The service account credentials to use to connect to Firestore.
-   *
-   * Takes precedence over `keyfile`.
-   */
-  credentials?: Required<Settings["credentials"]>;
-
-  /**
-   * The host and port of the local Firestore emulator to connect to.
-   *
-   * Takes precedence over `keyfile` and `credentials`.
-   */
-  emulator?: string;
-};
 
 export class FirestoreFactory {
   static create({
     project,
     emulator,
     credentials,
-    keyfile,
+    keyFile: keyfile,
   }: FirestoreConnectionOptions): Firestore {
     if (!project) throw new FirestoreFactoryError("project is required");
     if (emulator) return this.createWithEmulator(project, emulator);
@@ -49,7 +25,7 @@ export class FirestoreFactory {
 
   static createWithCredentials(
     projectId: string,
-    credentials: NonNullable<Required<Settings["credentials"]>>
+    credentials: Required<NonNullable<Settings["credentials"]>>
   ) {
     return new Firestore({ projectId, credentials });
   }

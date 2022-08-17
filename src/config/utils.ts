@@ -1,7 +1,8 @@
 import { cosmiconfig } from "cosmiconfig";
 
 import { FirestoreConnectionOptions } from "~/services";
-import { FirestoreDataOptions } from "~/actions/types";
+import { ActionOptions } from "~/actions/types";
+import { DataSourceOptions } from "~/data-source/interface";
 
 import { NAME } from "./constants";
 
@@ -14,7 +15,8 @@ export type GlobalOptions = {
 
 export type ResolvedConfig = {
   connection: FirestoreConnectionOptions;
-  data: FirestoreDataOptions;
+  action: ActionOptions;
+  dataSource: DataSourceOptions;
 };
 
 /**
@@ -22,29 +24,37 @@ export type ResolvedConfig = {
  */
 export async function loadConfig(
   path?: string
-): Promise<FirestoreConnectionOptions & FirestoreDataOptions> {
+): Promise<FirestoreConnectionOptions & ActionOptions & DataSourceOptions> {
   const explorer = cosmiconfig(NAME);
   const result = path ? await explorer.load(path) : await explorer.search();
   return result?.config;
 }
 
 /**
- * Iterate through the properties in the first object and return
- * the value if found. Otherwise, iterate through the second object
- * and return the value if found. Otherwise, return empty.
+ * Returns a function that can be used to select the first
+ * defined value from a list of keys from the first object.
+ * If none of the keys are defined in the first object, the
+ * value will be selected from the second object.
+ *
+ * If neither object has the keys we are looking for, an
+ * empty object is returned.
  */
-function greedyPick<T, K extends keyof T>(
-  first: T,
-  second: T,
-  ...keys: K[]
-): { key: K; value: T[K] } | { key?: never; value?: never } {
-  for (const key of keys) {
-    if (first[key]) return { key, value: first[key] };
-  }
-  for (const key of keys) {
-    if (second[key]) return { key, value: second[key] };
-  }
-  return {};
+function greedyPick<T>(first: T, second: T) {
+  return <K extends keyof T>(
+    ...keys: K[]
+  ): { key: K; value: T[K] } | { key?: never; value?: never } => {
+    for (const key of keys) {
+      if (typeof first[key] !== "undefined") {
+        return { key, value: first[key] };
+      }
+    }
+    for (const key of keys) {
+      if (typeof second[key] !== "undefined") {
+        return { key, value: second[key] };
+      }
+    }
+    return {};
+  };
 }
 
 /**
@@ -53,30 +63,71 @@ function greedyPick<T, K extends keyof T>(
  */
 export async function resolveConfig(
   globalOptions: GlobalOptions,
-  cliOptions: FirestoreConnectionOptions & FirestoreDataOptions
+  cliOptions: FirestoreConnectionOptions & ActionOptions & DataSourceOptions
 ): Promise<ResolvedConfig> {
-  const config: ResolvedConfig = { connection: {}, data: {} };
+  const config: ResolvedConfig = {
+    connection: {},
+    action: {},
+    dataSource: {},
+  };
 
   const configOptions = await loadConfig(globalOptions.config);
 
-  // Allow a keyfile to be specified through GOOGLE_APPLICATION_CREDENTIALS
-  if (!configOptions.keyfile && process.env["GOOGLE_APPLICATION_CREDENTIALS"])
-    configOptions.keyfile = process.env["GOOGLE_APPLICATION_CREDENTIALS"];
+  //
+  // Allow certain values to be provided through environment variables
+  //
 
-  const { value: project } = greedyPick(cliOptions, configOptions, "project");
-  if (project) config.connection.project = project;
+  const GAC = process.env["GOOGLE_APPLICATION_CREDENTIALS"];
+  if (!configOptions.keyFile && GAC) configOptions.keyFile = GAC;
 
-  const { key: connectionKey, value: connection } = greedyPick(
-    cliOptions,
-    configOptions,
+  const AWS_PROFILE = process.env["AWS_PROFILE"];
+  if (!configOptions.awsProfile && AWS_PROFILE)
+    configOptions.awsProfile = AWS_PROFILE;
+
+  // Set up a selector that will pick options from the CLI first, then fallback to config file options
+  const pick = greedyPick(cliOptions, configOptions);
+
+  //
+  // Connection options
+  //
+
+  const { value: project } = pick("project");
+  const { key: connectionKey, value: connection } = pick(
     "emulator",
     "credentials",
-    "keyfile"
+    "keyFile"
   );
+
+  if (project) config.connection.project = project;
   if (connectionKey) config.connection[connectionKey] = connection as any;
 
-  const { value: paths } = greedyPick(cliOptions, configOptions, "paths");
-  if (paths) config.data.paths = paths;
+  //
+  // Data options
+  //
+
+  config.action.stringify = pick("stringify").value;
+  config.action.count = pick("count").value;
+  config.action.limit = pick("limit").value;
+  config.action.debug = pick("debug").value;
+  config.action.verbose = pick("verbose").value;
+  config.action.quiet = pick("quiet").value!;
+  config.action.paths = pick("paths").value!;
+  config.action.match = pick("match").value!;
+  config.action.ignore = pick("ignore").value!;
+  config.action.depth = pick("depth").value!;
+  config.action.overwrite = pick("overwrite").value!;
+
+  //
+  // Data source options
+  //
+
+  config.dataSource.gcpProject = pick("gcpProject").value;
+  config.dataSource.gcpKeyFile = pick("gcpKeyFile").value;
+  config.dataSource.gcpCredentials = pick("gcpCredentials").value;
+  config.dataSource.awsRegion = pick("awsRegion").value;
+  config.dataSource.awsProfile = pick("awsProfile").value;
+  config.dataSource.awsAccessKeyId = pick("awsAccessKeyId").value;
+  config.dataSource.awsSecretAccessKey = pick("awsSecretAccessKey").value;
 
   return config;
 }

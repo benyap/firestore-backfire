@@ -16,7 +16,7 @@ import {
   TrackableNumber,
   Tracker,
 } from "~/utils";
-import { IDataOutput } from "~/data-source/interface";
+import { IDataWriter } from "~/data-source/interface";
 
 export interface ExporterOptions {}
 
@@ -33,15 +33,15 @@ export class Exporter {
 
   constructor(
     private connection: FirestoreConnectionOptions,
-    private output: IDataOutput,
+    private writer: IDataWriter,
     private logger: Logger
   ) {}
 
   async run(options: {
-    paths?: string[];
-    match?: RegExp[];
-    ignore?: RegExp[];
-    depth?: number;
+    paths?: string[] | undefined;
+    match?: RegExp[] | undefined;
+    ignore?: RegExp[] | undefined;
+    depth?: number | undefined;
   }) {
     const { paths, match, ignore, depth } = options;
 
@@ -128,7 +128,7 @@ export class Exporter {
         );
 
         this.exporting.subtract(serializedDocuments.length);
-        await this.output.write(serializedDocuments);
+        await this.writer.write(serializedDocuments);
         this.exported.add(serializedDocuments.length);
       },
     });
@@ -151,6 +151,7 @@ export class Exporter {
 
     log.start();
     await Promise.all([list.start(), download.start()]);
+    await this.writer.close();
     log.abort();
 
     return this.exported;

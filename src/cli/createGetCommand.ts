@@ -1,8 +1,8 @@
 import { Command } from "commander";
 
+import { CliParser } from "~/utils";
 import { resolveConfig, GlobalOptions } from "~/config";
 import { getFirestoreData } from "~/actions/getFirestoreData";
-import { CLIParser } from "~/utils";
 
 export function createGetCommand(cli: Command, globalOptions: GlobalOptions) {
   cli
@@ -11,11 +11,12 @@ export function createGetCommand(cli: Command, globalOptions: GlobalOptions) {
     .option(
       "--stringify [indent]",
       "JSON.stringify the output",
-      CLIParser.integer()
+      CliParser.integer()
     )
     .action(async (path: string, options: any) => {
       const config = await resolveConfig(globalOptions, options);
-      const output = await getFirestoreData(config.connection, path, options);
+      const { connection, action } = config;
+      const output = await getFirestoreData(connection, path, action as any);
       console.log(output);
     });
 }

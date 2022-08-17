@@ -1,6 +1,6 @@
 import { InvalidArgumentError } from "commander";
 
-export class CLIParser {
+export class CliParser {
   static integer(
     options: { min?: number; max?: number } = {}
   ): (value: string) => number {

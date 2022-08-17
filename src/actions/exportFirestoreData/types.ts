@@ -2,30 +2,30 @@ export interface ExportFirestoreDataOptions {
   /**
    * If `true`, print debug level messages and higher.
    */
-  debug?: boolean;
+  debug?: boolean | undefined;
 
   /**
    * If `true`, print verbose level messages and higher.
    * Takes precendence over {@link debug}.
    */
-  verbose?: boolean;
+  verbose?: boolean | undefined;
 
   /**
    * If `true`, all log messages are supressed.
    * Takes precendence over {@link verbose} and {@link debug}.
    */
-  quiet?: boolean;
+  quiet?: boolean | undefined;
 
   /**
    * Provide a list of paths to export.
    */
-  paths?: string[];
+  paths?: string[] | undefined;
 
   /**
    * Provide a list of regex patterns that a document path
    * must match to be exported.
    */
-  match?: RegExp[];
+  match?: RegExp[] | undefined;
 
   /**
    * Provide a list of regex patterns where a document will
@@ -35,11 +35,16 @@ export interface ExportFirestoreDataOptions {
    * that even if a path is matched by {@link patterns}, it will
    * still be ignored if it matches any of {@link ignore}.
    */
-  ignore?: RegExp[];
+  ignore?: RegExp[] | undefined;
 
   /**
    * Limit the subcollection depth to export documents from.
    * The root collection has a depth of 0.
    */
-  depth?: number;
+  depth?: number | undefined;
+
+  /**
+   * Overwrite any existing data at the output path
+   */
+  overwrite?: boolean | undefined;
 }

@@ -1,11 +1,11 @@
 import { Command } from "commander";
+
+import { CliParser } from "~/utils";
+import { resolveConfig, GlobalOptions } from "~/config";
 import {
   listFirestoreCollections,
   listFirestoreDocuments,
 } from "~/actions/listFirestoreData";
-
-import { resolveConfig, GlobalOptions } from "~/config";
-import { CLIParser } from "~/utils";
 
 export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
   cli
@@ -14,7 +14,7 @@ export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
     .option(
       "-l, --limit <limit>",
       "limit the number of document ids that are shown",
-      CLIParser.integer({ min: 0 })
+      CliParser.integer({ min: 0 })
     )
     .option("-c, --count", "count the number of documents")
     .action(async (path: string, options: any) => {
@@ -34,15 +34,16 @@ export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
     .option(
       "-l, --limit <limit>",
       "limit the number of document ids that are shown",
-      CLIParser.integer({ min: 0 })
+      CliParser.integer({ min: 0 })
     )
     .option("-c, --count", "count the number of collections")
     .action(async (path: string | undefined, options: any) => {
       const config = await resolveConfig(globalOptions, options);
+      const { connection, action } = config;
       const output = await listFirestoreCollections(
-        config.connection,
+        connection,
         path,
-        options
+        action as any
       );
       if (Array.isArray(output)) output.forEach((id) => console.log(id));
       else console.log(output);
