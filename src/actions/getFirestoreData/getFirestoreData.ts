@@ -1,5 +1,6 @@
 import { FirestoreConnectionOptions, FirestoreFactory } from "~/services";
-import { FirestoreDataOptions } from "~/actions/types";
+
+import { GetFirestoreDataOptions } from "./types";
 
 export function getFirestoreData(
   connection: FirestoreConnectionOptions,
@@ -16,7 +17,7 @@ export function getFirestoreData(
 export async function getFirestoreData(
   connection: FirestoreConnectionOptions,
   path: string,
-  options: Pick<FirestoreDataOptions, "stringify"> = {}
+  options: GetFirestoreDataOptions = {}
 ) {
   const firestore = FirestoreFactory.create(connection);
   const snapshot = await firestore.doc(path).get();

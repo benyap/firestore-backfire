@@ -34,19 +34,14 @@
   "scripts": {
     "prepare": "husky install",
     "format": "prettier --write --loglevel warn './src/**/*.ts'",
-    "clean": "rimraf dist/*",
-    "build": "rimraf dist/* && concurrently pnpm:build:* -n build: && pnpm post",
-    "post": "concurrently pnpm:post:* -n post:",
-    "build:out:esm": "tsc --outDir dist/esm --removeComments --target ES2015 --module ES2020",
-    "build:out:cjs": "tsc --outDir dist/cjs --removeComments --target ES2015 --module CommonJS",
-    "build:dts:esm": "tsc --outDir dist/esm --declaration --emitDeclarationOnly",
-    "build:dts:cjs": "tsc --outDir dist/cjs --declaration --emitDeclarationOnly",
-    "post:esm": "resolve-tspaths --out dist/esm",
-    "post:cjs": "resolve-tspaths --out dist/cjs",
-    "dev": "rimraf dist/* && concurrently pnpm:build:out:* -n build: && pnpm post && pnpm start",
-    "start": "node dist/cjs/backfire.js",
+    "build": "rimraf dist/* && concurrently pnpm:build:* -n build:",
+    "build:out:esm": "swc src -d dist/esm --copy-files --config module.type=es6",
+    "build:out:cjs": "swc src -d dist/cjs --copy-files --config module.type=commonjs",
+    "build:dts:esm": "tsc --outDir dist/esm --declaration --emitDeclarationOnly && resolve-tspaths --out dist/esm --ext d.ts",
+    "build:dts:cjs": "tsc --outDir dist/cjs --declaration --emitDeclarationOnly && resolve-tspaths --out dist/cjs --ext d.ts",
+    "dev": "rimraf dist/* && concurrently pnpm:build:out:* -n build: && node dist/cjs/backfire.js",
     "emulator": "firebase emulators:start --project demo",
-    "test": "jest --passWithNoTests",
+    "test": "vitest --passWithNoTests",
     "release": "pnpm test && release-it"
   },
   "dependencies": {
@@ -54,7 +49,7 @@
     "commander": "9.4.0",
     "cosmiconfig": "7.0.1",
     "exceptional-errors": "0.3.0",
-    "workerpool": "6.2.1"
+    "regenerator-runtime": "0.13.9"
   },
   "peerDependencies": {
     "@google-cloud/firestore": "5.0.2"
@@ -65,20 +60,18 @@
     "@google-cloud/firestore": "6.0.0",
     "@release-it/bumper": "4.0.0",
     "@release-it/conventional-changelog": "5.0.0",
-    "@types/jest": "28.1.7",
+    "@swc/cli": "0.1.57",
+    "@swc/core": "1.2.235",
     "@types/node": "18.7.5",
-    "@types/workerpool": "6.1.0",
     "concurrently": "7.3.0",
     "cross-env": "7.0.3",
     "firebase-tools": "11.7.0",
     "husky": "8.0.1",
-    "jest": "28.1.3",
     "prettier": "2.7.1",
     "release-it": "15.3.0",
     "resolve-tspaths": "0.7.4",
     "rimraf": "3.0.2",
-    "ts-jest": "28.0.8",
-    "ts-node": "10.9.1",
-    "typescript": "4.7.4"
+    "typescript": "4.7.4",
+    "vitest": "0.22.0"
   }
 }

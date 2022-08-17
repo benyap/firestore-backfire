@@ -1,6 +1,7 @@
-export interface FirestoreDataOptions {
-  paths?: string[];
-  stringify?: number | boolean;
-  count?: boolean;
-  limit?: number;
-}
+import { ExportFirestoreDataOptions } from "./exportFirestoreData";
+import { GetFirestoreDataOptions } from "./getFirestoreData";
+import { ListFirestoreDataOptions } from "./listFirestoreData";
+
+export type FirestoreDataOptions = GetFirestoreDataOptions &
+  ListFirestoreDataOptions &
+  ExportFirestoreDataOptions;

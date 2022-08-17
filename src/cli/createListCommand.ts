@@ -14,7 +14,7 @@ export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
     .option(
       "-l, --limit <limit>",
       "limit the number of document ids that are shown",
-      CLIParser.integer()
+      CLIParser.integer({ min: 0 })
     )
     .option("-c, --count", "count the number of documents")
     .action(async (path: string, options: any) => {
@@ -34,7 +34,7 @@ export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
     .option(
       "-l, --limit <limit>",
       "limit the number of document ids that are shown",
-      CLIParser.integer()
+      CLIParser.integer({ min: 0 })
     )
     .option("-c, --count", "count the number of collections")
     .action(async (path: string | undefined, options: any) => {

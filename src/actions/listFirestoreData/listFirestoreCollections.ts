@@ -1,5 +1,6 @@
 import { FirestoreConnectionOptions, FirestoreFactory } from "~/services";
-import { FirestoreDataOptions } from "~/actions/types";
+
+import { ListFirestoreDataOptions } from "./types";
 
 export function listFirestoreCollections(
   connection: FirestoreConnectionOptions,
@@ -16,7 +17,7 @@ export function listFirestoreCollections(
 export async function listFirestoreCollections(
   connection: FirestoreConnectionOptions,
   path: string | undefined | null,
-  options: Pick<FirestoreDataOptions, "limit" | "count"> = {}
+  options: ListFirestoreDataOptions = {}
 ) {
   const firestore = FirestoreFactory.create(connection);
   const ref = path ? firestore.doc(path) : firestore;
