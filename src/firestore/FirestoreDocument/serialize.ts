@@ -14,17 +14,17 @@ import { deleteFieldByPath } from "~/utils";
  * @param path The path of the document to serialize.
  * @param data The document data to serialize.
  * @param indent If provided, serialized document will be pretty-printed with the specified indent.
- * @returns The document serialized as a string.
+ * @returns The document serialized as a string. `null` if the data was not a valid document.
  */
 export function serializeDocument(
   path: string,
-  data: any,
+  data: unknown,
   indent?: number
-): string {
-  const document: SerializedFirestoreDocument = {
-    path: path,
-    data: data,
-  };
+): string | null {
+  const document: SerializedFirestoreDocument = { path, data };
+
+  // Return `null` for any non-object values
+  if (data === null || typeof data !== "object") return null;
 
   const { timestamps, geopoints, documents, queries } =
     findFirestoreFields(data);
@@ -71,8 +71,8 @@ function findFirestoreFields(
   Object.keys(object).forEach((field) => {
     const data = object[field];
 
-    // Skip null values
-    if (data === null) return;
+    // Skip null/undefined values
+    if (data === null || typeof data === "undefined") return;
 
     // Check objects
     if (typeof data === "object") {

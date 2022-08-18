@@ -1,6 +1,6 @@
 import { cosmiconfig } from "cosmiconfig";
 
-import { FirestoreConnectionOptions } from "~/services";
+import { FirestoreConnectionOptions } from "~/firestore";
 import { ActionOptions } from "~/actions/types";
 import { DataSourceOptions } from "~/data-source/interface";
 
@@ -111,11 +111,13 @@ export async function resolveConfig(
   config.action.debug = pick("debug").value;
   config.action.verbose = pick("verbose").value;
   config.action.quiet = pick("quiet").value!;
+  config.action.update = pick("update").value!;
   config.action.paths = pick("paths").value!;
   config.action.match = pick("match").value!;
   config.action.ignore = pick("ignore").value!;
   config.action.depth = pick("depth").value!;
   config.action.overwrite = pick("overwrite").value!;
+  config.action.mode = pick("mode").value!;
 
   //
   // Data source options

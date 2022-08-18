@@ -6,8 +6,12 @@ export class StreamNotOpenedError extends EError {}
 export class DataSourceError extends EError {}
 
 export class DataSourceUnreachableError extends DataSourceError {}
-export class DataSourceReaderNotImplementedError extends DataSourceError {}
-export class DataSourceWriterNotImplementedError extends DataSourceError {}
+
+export class DataSourceNotImplementedError extends DataSourceError {
+  constructor(id: string, type: "reader" | "writer") {
+    super(`A ${type} has not been been implemented for data source ${id}`);
+  }
+}
 
 export class DataOverwriteError extends DataSourceError {
   constructor(path: string) {

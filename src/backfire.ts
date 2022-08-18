@@ -1,16 +1,19 @@
 #! /usr/bin/env node
 
+import { Command } from "commander";
 import { EError } from "exceptional-errors";
 
 import { Logger } from "./utils";
 import { Constants, GlobalOptions } from "./config";
+import {
+  ConfigOption,
+  createGetCommand,
+  createListCommand,
+  createExportCommand,
+  createImportCommand,
+} from "./cli";
 
 async function main() {
-  // Only import CLI dependencies when invoked via this function
-  const { Command, Option } = await import("commander");
-  const { createGetCommand, createListCommand, createExportCommand } =
-    await import("./cli");
-
   // Create program for parsing CLI commands
   const cli = new Command()
     .name(Constants.NAME)
@@ -18,15 +21,14 @@ async function main() {
     .description(Constants.DESCRIPTION);
 
   // Add global options
-  cli.addOption(
-    new Option("-c, --config <path>", "specify the config file to use")
-  );
+  cli.addOption(ConfigOption());
   const globalOptions = cli.opts<GlobalOptions>();
 
   // Create commands
   createGetCommand(cli, globalOptions);
   createListCommand(cli, globalOptions);
   createExportCommand(cli, globalOptions);
+  createImportCommand(cli, globalOptions);
 
   // Execute program
   await cli.parseAsync();

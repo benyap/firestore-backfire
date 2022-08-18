@@ -3,17 +3,21 @@ import { Firestore } from "@google-cloud/firestore";
 import { DeserializedFirestoreDocument } from "./types";
 
 import { serializeDocument } from "./serialize";
-import { deserializeDocuments } from "./deserialize";
+import { deserializeDocument } from "./deserialize";
 
 export class FirestoreDocument {
-  static serialize(path: string, data: any, indent?: number): string {
+  static serialize(
+    path: string,
+    data: unknown,
+    indent?: number
+  ): string | null {
     return serializeDocument(path, data, indent);
   }
 
   static deserialize(
-    data: string,
+    data: object,
     firestore: Firestore
-  ): DeserializedFirestoreDocument[] {
-    return deserializeDocuments(data, firestore);
+  ): DeserializedFirestoreDocument {
+    return deserializeDocument(data, firestore);
   }
 }

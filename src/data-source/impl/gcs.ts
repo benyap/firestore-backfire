@@ -1,4 +1,4 @@
-import { Writable } from "stream";
+import { Readable, Writable } from "stream";
 import { File, Bucket, Storage, StorageOptions } from "@google-cloud/storage";
 
 import { dir } from "~/utils";
@@ -8,7 +8,7 @@ import {
   DataOverwriteError,
   DataSourceError,
 } from "../errors";
-import { DataStreamWriter } from "../interface";
+import { DataStreamReader, DataStreamWriter } from "../interface";
 
 const GCS_PREFIX = new RegExp("^gs://");
 
@@ -18,33 +18,27 @@ export type GoogleCloudStorageOptions = {
   gcpCredentials?: NonNullable<StorageOptions["credentials"]>;
 };
 
-export class GoogleCloudStorageWriter extends DataStreamWriter {
-  protected stream?: Writable;
-
-  private storage: Storage;
-  private bucket: Bucket;
-  private file: File;
+class GoogleCloudStorageSource {
+  readonly storage: Storage;
+  readonly bucket: Bucket;
+  readonly file: File;
 
   constructor(
-    override readonly path: string,
+    readonly path: string,
     projectId: string,
-    options:
-      | { keyFile: string }
-      | { credentials: NonNullable<StorageOptions["credentials"]> }
+    credentials: string | NonNullable<StorageOptions["credentials"]>
   ) {
-    super();
-
     if (!this.path.endsWith(".ndjson")) this.path += ".ndjson";
 
-    if ("keyFile" in options) {
+    if (typeof credentials === "string") {
       this.storage = new Storage({
         projectId,
-        keyFile: options.keyFile,
+        keyFile: credentials,
       });
     } else {
       this.storage = new Storage({
         projectId,
-        credentials: options.credentials,
+        credentials,
       });
     }
 
@@ -63,27 +57,84 @@ export class GoogleCloudStorageWriter extends DataStreamWriter {
     this.file = this.bucket.file(name);
   }
 
-  async open(overwrite?: boolean) {
-    // Ensure bucket exists
+  async assertBucketExists() {
     const [bucketExists] = await this.bucket.exists();
     if (!bucketExists)
       throw new DataSourceUnreachableError(
-        "bucket does not exist or bucket is not accessible"
+        "bucket does not exist or is not accessible"
       );
+  }
+
+  async assertFileExists() {
+    const [fileExists] = await this.file.exists();
+    if (!fileExists)
+      throw new DataSourceUnreachableError(
+        "file does not exist or is not accessible"
+      );
+  }
+}
+
+export class GoogleCloudStorageReader extends DataStreamReader {
+  private source: GoogleCloudStorageSource;
+
+  protected stream?: Readable;
+
+  constructor(
+    path: string,
+    projectId: string,
+    credentials: string | NonNullable<StorageOptions["credentials"]>
+  ) {
+    super();
+    this.source = new GoogleCloudStorageSource(path, projectId, credentials);
+  }
+
+  override get path() {
+    return this.source.path;
+  }
+
+  async open(): Promise<void> {
+    await this.source.assertBucketExists();
+    await this.source.assertFileExists();
+    this.stream = this.source.file.createReadStream();
+  }
+}
+
+export class GoogleCloudStorageWriter extends DataStreamWriter {
+  private source: GoogleCloudStorageSource;
+
+  protected stream?: Writable;
+
+  constructor(
+    path: string,
+    projectId: string,
+    credentials: string | NonNullable<StorageOptions["credentials"]>
+  ) {
+    super();
+    this.source = new GoogleCloudStorageSource(path, projectId, credentials);
+  }
+
+  override get path() {
+    return this.source.path;
+  }
+
+  async open(overwrite?: boolean) {
+    await this.source.assertBucketExists();
 
     // Check if file exists
     let overwritten = false;
-    const [fileExists] = await this.file.exists();
-    if (fileExists) {
+    try {
+      await this.source.assertFileExists();
       if (!overwrite) throw new DataOverwriteError(this.path);
       // If `overwrite` is true, delete existing file
-      await this.file.delete();
+      await this.source.file.delete();
       overwritten = true;
+    } catch (error) {
+      if (!(error instanceof DataSourceUnreachableError)) throw error;
     }
 
     // Create stream
     return new Promise<boolean>((resolve, reject) => {
-      this.stream = this.file.createWriteStream({ resumable: false });
+      this.stream = this.source.file.createWriteStream({ resumable: false });
       this.stream.on("error", (error) => reject(error));
       resolve(overwritten);
     });

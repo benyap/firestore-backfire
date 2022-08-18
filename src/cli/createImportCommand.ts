@@ -2,12 +2,11 @@ import { Command } from "commander";
 
 import { resolveConfig, GlobalOptions } from "~/config";
 import { dataSourceFactory } from "~/data-source/factory";
-import { exportFirestoreData } from "~/actions/exportFirestoreData";
+import { importFirestoreData } from "~/actions/importFirestoreData";
 
 import {
   KeyFileOption,
   EmulatorOption,
-  OverwriteOption,
   DebugOption,
   VerboseOption,
   QuietOption,
@@ -22,28 +21,29 @@ import {
   AwsProfileOption,
   AwsAccessKeyIdOption,
   AwsSecretAccessKeyOption,
+  WriteModeOption,
   UpdateRateOption,
   LimitOption,
 } from "./options";
 
-export function createExportCommand(
+export function createImportCommand(
   cli: Command,
   globalOptions: GlobalOptions
 ) {
   cli
-    .command("export <path>")
-    .description("export data from Firestore")
+    .command("import <path>")
+    .description("import data into Firestore")
     // Connection options
-    .addOption(ProjectOption({ action: "export" }))
+    .addOption(ProjectOption({ action: "import" }))
     .addOption(KeyFileOption())
     .addOption(EmulatorOption())
     // Action options
-    .addOption(PathsOption({ action: "export" }))
-    .addOption(MatchOption({ action: "export" }))
+    .addOption(PathsOption({ action: "import" }))
+    .addOption(MatchOption({ action: "import" }))
     .addOption(IgnoreOption())
-    .addOption(DepthOption({ action: "export" }))
-    .addOption(LimitOption())
-    .addOption(OverwriteOption())
+    .addOption(DepthOption({ action: "import" }))
+    .addOption(LimitOption({ action: "import" }))
+    .addOption(WriteModeOption())
     .addOption(DebugOption())
     .addOption(VerboseOption())
     .addOption(QuietOption())
@@ -56,11 +56,10 @@ export function createExportCommand(
     .addOption(AwsProfileOption())
     .addOption(AwsAccessKeyIdOption())
     .addOption(AwsSecretAccessKeyOption())
-    // Action handler
     .action(async (path: string, options: any) => {
       const config = await resolveConfig(globalOptions, options);
       const { connection, dataSource, action } = config;
-      const writer = await dataSourceFactory.createWriter(path, dataSource);
-      await exportFirestoreData(connection, writer, action);
+      const reader = await dataSourceFactory.createReader(path, dataSource);
+      await importFirestoreData(connection, reader, action);
     });
 }

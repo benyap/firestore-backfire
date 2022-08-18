@@ -17,7 +17,7 @@ export interface ExportFirestoreDataOptions {
   quiet?: boolean | undefined;
 
   /**
-   * Provide a list of paths to export.
+   * Provide a list of document paths to export.
    */
   paths?: string[] | undefined;
 
@@ -44,7 +44,44 @@ export interface ExportFirestoreDataOptions {
   depth?: number | undefined;
 
   /**
-   * Overwrite any existing data at the output path
+   * Limit the number of documents to export.
+   */
+  limit?: number | undefined;
+
+  /**
+   * Overwrite any existing data at the output path.
    */
   overwrite?: boolean | undefined;
+
+  /**
+   * The interval (in seconds) at which update logs are printed.
+   */
+  update?: number | undefined;
+
+  /**
+   * The interval (in ms) at which chunks of paths are dequeued
+   * for exploration using the Firestore SDK's `listDocuments()`
+   * or `listCollections()` methods.
+   * @default 1000
+   */
+  exploreInterval?: number | undefined;
+
+  /**
+   * The chunk size to use when dequeuing paths for exploration.
+   * @default 1000
+   */
+  exploreChunkSize?: number | undefined;
+
+  /**
+   * The interval (in ms) at which chunks of document paths are
+   * dequeued to be filtered and downloaded from Firestore.
+   * @default 2000
+   */
+  downloadInterval?: number | undefined;
+
+  /**
+   * The chunk size to use when dequeueing paths for download.
+   * @default 1000
+   */
+  downloadChunkSize?: number | undefined;
 }

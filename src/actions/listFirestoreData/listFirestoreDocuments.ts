@@ -1,13 +1,19 @@
-import { FirestoreConnectionOptions, FirestoreFactory } from "~/services";
+import { FirestoreConnectionOptions, FirestoreFactory } from "~/firestore";
 
 import { ListFirestoreDataOptions } from "./types";
 
+/**
+ * TODO: description
+ */
 export function listFirestoreDocuments(
   connection: FirestoreConnectionOptions,
   path: string,
   options: { count: true }
 ): Promise<number>;
 
+/**
+ * TODO: description
+ */
 export function listFirestoreDocuments(
   connection: FirestoreConnectionOptions,
   path: string,

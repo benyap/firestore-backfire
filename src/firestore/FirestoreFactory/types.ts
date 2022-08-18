@@ -23,5 +23,5 @@ export type FirestoreConnectionOptions = {
    *
    * Takes precedence over `keyfile` and `credentials`.
    */
-  emulator?: string;
+  emulator?: string | boolean;
 };

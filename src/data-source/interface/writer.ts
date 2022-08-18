@@ -28,8 +28,9 @@ export interface IDataWriter {
 }
 
 export abstract class DataStreamWriter implements IDataWriter {
-  abstract readonly path: string;
   protected abstract stream?: Writable;
+
+  abstract readonly path: string;
 
   abstract open(force?: boolean): Promise<boolean>;
 

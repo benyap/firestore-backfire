@@ -19,92 +19,74 @@ import {
   FirestoreProtoValue,
 } from "./types";
 
-import { getValueByPath, NDJSON, setValueByPath } from "~/utils";
+import { getValueByPath, setValueByPath } from "~/utils";
 
 export class DeserializationError extends EError {}
 
 /**
- * Deserialize a Firestore document message.
+ * Deserialize a serialized Firestore document.
  *
- * @param data The serialized documents (JSON or JSON string form).
+ * @param data The serialized document.
  * @param firestore The current Firestore instance.
- * @param mode The mode the input data is in.
- * @returns The unserialized document data.
+ * @returns The deserialized document data.
  */
-export function deserializeDocuments(
-  data: string,
-  firestore: Firestore,
-  mode: "json" | "ndjson" = "json"
-): DeserializedFirestoreDocument[] {
+export function deserializeDocument(
+  data: object,
+  firestore: Firestore
+): DeserializedFirestoreDocument {
   try {
-    let documents: SerializedFirestoreDocument[];
+    const document = data as Partial<SerializedFirestoreDocument>;
 
-    switch (mode) {
-      case "json":
-        documents = JSON.parse(data);
-        break;
-      case "ndjson":
-        documents = NDJSON.parse<SerializedFirestoreDocument>(data);
-        break;
-      default:
-        throw new DeserializationError("invalid deserialization mode", {
-          info: { mode },
-        });
+    if (document.timestamps) {
+      for (const path of document.timestamps) {
+        const data = getValueByPath<SerializedTimestamp>(document.data, path);
+        setValueByPath(
+          document.data,
+          path,
+          deserializeFirestoreTimestamp(data)
+        );
+      }
+      delete document.timestamps;
     }
 
-    documents.forEach((document) => {
-      if (document.timestamps) {
-        for (const path of document.timestamps) {
-          const data = getValueByPath<SerializedTimestamp>(document.data, path);
-          setValueByPath(
-            document.data,
-            path,
-            deserializeFirestoreTimestamp(data)
-          );
-        }
+    if (document.geopoints) {
+      for (const path of document.geopoints) {
+        const data = getValueByPath<SerializedGeoPoint>(document.data, path);
+        setValueByPath(document.data, path, deserializeFirestoreGeopoint(data));
       }
+      delete document.geopoints;
+    }
 
-      if (document.geopoints) {
-        for (const path of document.geopoints) {
-          const data = getValueByPath<SerializedGeoPoint>(document.data, path);
-          setValueByPath(
-            document.data,
-            path,
-            deserializeFirestoreGeopoint(data)
-          );
-        }
+    if (document.documents) {
+      for (const path of document.documents) {
+        const data =
+          getValueByPath<SerializedDocumentReference>(document.data, path) ??
+          {};
+        setValueByPath(
+          document.data,
+          path,
+          deserializeFirestoreDocumentReference(firestore, data)
+        );
       }
+      delete document.documents;
+    }
 
-      if (document.documents) {
-        for (const path of document.documents) {
-          const data =
-            getValueByPath<SerializedDocumentReference>(document.data, path) ??
-            {};
-          setValueByPath(
-            document.data,
-            path,
-            deserializeFirestoreDocumentReference(firestore, data)
-          );
-        }
+    if (document.queries) {
+      for (const path of document.queries) {
+        const data = getValueByPath<SerializedQuery>(document.data, path) ?? {};
+        setValueByPath(
+          document.data,
+          path,
+          deserializeFirestoreQuery(firestore, data)
+        );
       }
+      delete document.queries;
+    }
 
-      if (document.queries) {
-        for (const path of document.queries) {
-          const data =
-            getValueByPath<SerializedQuery>(document.data, path) ?? {};
-          setValueByPath(
-            document.data,
-            path,
-            deserializeFirestoreQuery(firestore, data)
-          );
-        }
-      }
-    });
-
-    return documents;
-  } catch (cause: any) {
+    return document as DeserializedFirestoreDocument;
+  } catch (cause) {
     throw new DeserializationError("error deserializing document", {
-      cause,
+      cause: cause as Error,
       info: { data },
     });
   }
