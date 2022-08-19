@@ -18,11 +18,6 @@ export async function getS3Options(options: DataSourceOptions) {
     "required to use S3 data source"
   );
 
-  await ensureDependencyInstalled(
-    "@aws-sdk/lib-storage",
-    "required to use S3 data source"
-  );
-
   if (awsAccessKeyId && awsSecretAccessKey)
     return { awsRegion, awsAccessKeyId, awsSecretAccessKey };
 

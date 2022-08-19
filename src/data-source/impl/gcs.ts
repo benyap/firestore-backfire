@@ -1,5 +1,5 @@
 import { Readable, Writable } from "stream";
-import { File, Bucket, Storage, StorageOptions } from "@google-cloud/storage";
+import { File, Bucket, Storage } from "@google-cloud/storage";
 
 import { dir } from "~/utils";
 
@@ -12,10 +12,15 @@ import { DataStreamReader, DataStreamWriter } from "../interface";
 
 const GCS_PREFIX = new RegExp("^gs://");
 
+export interface CredentialBody {
+  client_email: string;
+  private_key: string;
+}
+
 export type GoogleCloudStorageOptions = {
   gcpProject: string;
   gcpKeyFile?: string;
-  gcpCredentials?: NonNullable<StorageOptions["credentials"]>;
+  gcpCredentials?: CredentialBody;
 };
 
 class GoogleCloudStorageSource {
@@ -26,7 +31,7 @@ class GoogleCloudStorageSource {
   constructor(
     readonly path: string,
     projectId: string,
-    credentials: string | NonNullable<StorageOptions["credentials"]>
+    credentials: string | CredentialBody
   ) {
     if (!this.path.endsWith(".ndjson")) this.path += ".ndjson";
 
@@ -82,7 +87,7 @@ export class GoogleCloudStorageReader extends DataStreamReader {
   constructor(
     path: string,
     projectId: string,
-    credentials: string | NonNullable<StorageOptions["credentials"]>
+    credentials: string | CredentialBody
   ) {
     super();
     this.source = new GoogleCloudStorageSource(path, projectId, credentials);
@@ -107,7 +112,7 @@ export class GoogleCloudStorageWriter extends DataStreamWriter {
   constructor(
     path: string,
     projectId: string,
-    credentials: string | NonNullable<StorageOptions["credentials"]>
+    credentials: string | CredentialBody
   ) {
     super();
     this.source = new GoogleCloudStorageSource(path, projectId, credentials);
@@ -125,8 +130,6 @@ export class GoogleCloudStorageWriter extends DataStreamWriter {
     try {
       await this.source.assertFileExists();
       if (!overwrite) throw new DataOverwriteError(this.path);
-      // If `overwrite` is true, delete existing file
-      await this.source.file.delete();
       overwritten = true;
     } catch (error) {
       if (!(error instanceof DataSourceUnreachableError)) throw error;

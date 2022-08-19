@@ -1,7 +1,7 @@
 import { ensureDependencyInstalled } from "~/utils";
 
 import { DataSourceError } from "../errors";
-import { DataSourceOptions } from "../interface";
+import type { DataSourceOptions } from "../interface";
 
 export async function getGoogleCloudStorageOptions(options: DataSourceOptions) {
   const { gcpProject, gcpKeyFile, gcpCredentials } = options;

@@ -1,6 +1,6 @@
 import { Readable } from "stream";
 
-import { StreamNotOpenedError } from "../errors";
+import { ReaderNotOpenedError } from "../errors";
 
 export interface IDataReader {
   /**
@@ -37,7 +37,7 @@ export abstract class DataStreamReader implements IDataReader {
   ): Promise<Promise<void>[]> {
     const promises: Promise<void>[] = [];
     return new Promise((resolve, reject) => {
-      if (!this.stream) return reject(new StreamNotOpenedError());
+      if (!this.stream) return reject(new ReaderNotOpenedError());
       this.stream
         .on("error", (error) => reject(error))
         .on("readable", async () => {

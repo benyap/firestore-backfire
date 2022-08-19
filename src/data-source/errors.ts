@@ -2,8 +2,9 @@ import { EError } from "exceptional-errors";
 
 import { dir } from "~/utils";
 
-export class StreamNotOpenedError extends EError {}
 export class DataSourceError extends EError {}
+export class ReaderNotOpenedError extends DataSourceError {}
+export class WriterNotOpenedError extends DataSourceError {}
 
 export class DataSourceUnreachableError extends DataSourceError {}
 

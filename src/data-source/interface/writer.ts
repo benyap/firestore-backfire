@@ -1,6 +1,6 @@
 import { Writable } from "stream";
 
-import { StreamNotOpenedError } from "../errors";
+import { WriterNotOpenedError } from "../errors";
 
 export interface IDataWriter {
   /**
@@ -36,7 +36,7 @@ export abstract class DataStreamWriter implements IDataWriter {
 
   async write(lines: string[]) {
     return new Promise<void>((resolve, reject) => {
-      if (!this.stream) return reject(new StreamNotOpenedError());
+      if (!this.stream) return reject(new WriterNotOpenedError());
       this.stream.write(lines.join("\n") + "\n", (error) => {
         if (error) reject(error);
         else resolve();
@@ -46,7 +46,7 @@ export abstract class DataStreamWriter implements IDataWriter {
 
   async close() {
     await new Promise<void>((resolve, reject) => {
-      if (!this.stream) return reject(new StreamNotOpenedError());
+      if (!this.stream) return reject(new WriterNotOpenedError());
       this.stream.end(() => resolve());
     });
   }

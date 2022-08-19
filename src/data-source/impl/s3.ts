@@ -1,12 +1,13 @@
-import { Writable, PassThrough, Readable } from "stream";
+import { Readable } from "stream";
 import {
   S3Client,
   HeadBucketCommand,
   HeadObjectCommand,
   GetObjectCommand,
-  DeleteObjectCommand,
+  CreateMultipartUploadCommand,
+  UploadPartCommand,
+  CompleteMultipartUploadCommand,
 } from "@aws-sdk/client-s3";
-import { Upload } from "@aws-sdk/lib-storage";
 import type { Credentials, CredentialProvider } from "@aws-sdk/types";
 
 import { dir } from "~/utils";
@@ -15,8 +16,9 @@ import {
   DataSourceUnreachableError,
   DataOverwriteError,
   DataSourceError,
+  WriterNotOpenedError,
 } from "../errors";
-import { DataStreamReader, DataStreamWriter } from "../interface";
+import { DataStreamReader, IDataWriter } from "../interface";
 
 const S3_PREFIX = new RegExp("^s3://");
 
@@ -101,23 +103,30 @@ export class S3Reader extends DataStreamReader {
   }
 }
 
-export class S3Writer extends DataStreamWriter {
+export class S3Writer implements IDataWriter {
+  private readonly PART_SIZE = 5 * 1024 * 1024;
   private source: S3Source;
 
-  protected upload?: Upload;
-  protected stream?: Writable;
+  protected upload?: {
+    id: string;
+    buffer: string;
+    parts: Promise<{ PartNumber: number; ETag: string }>[];
+  };
 
   constructor(
     path: string,
     region: string,
     credentials: Credentials | CredentialProvider
   ) {
-    super();
     this.source = new S3Source(path, region, credentials);
   }
 
-  override get path() {
+  get path() {
     return this.source.path;
+  }
+
+  get object() {
+    return { Bucket: this.source.Bucket, Key: this.source.Key };
   }
 
   async open(overwrite?: boolean) {
@@ -127,32 +136,72 @@ export class S3Writer extends DataStreamWriter {
     try {
       await this.source.assertFileExists();
       if (!overwrite) throw new DataOverwriteError(this.path);
-      // If `overwrite` is true, delete existing file
-      await this.source.client.send(new DeleteObjectCommand(this.source));
       overwritten = true;
     } catch (error) {
       if (!(error instanceof DataSourceUnreachableError)) throw error;
     }
 
-    // Create stream
-    return new Promise<boolean>((resolve) => {
-      // FIXME: currently broken if uploading more than 16,383 bytes of data
-      // https://github.com/aws/aws-sdk-js/issues/4188
-      this.stream = new PassThrough();
-      this.upload = new Upload({
-        client: this.source.client,
-        params: {
-          Bucket: this.source.Bucket,
-          Key: this.source.Key,
-          Body: this.stream as any,
-        },
-      });
-      resolve(overwritten);
+    // Create a new multipart upload
+    const command = new CreateMultipartUploadCommand({
+      ...this.object,
+      ContentType: "application/x-ndjson",
     });
+    const response = await this.source.client.send(command);
+
+    this.upload = {
+      id: response.UploadId!,
+      buffer: "",
+      parts: [],
+    };
+
+    return overwritten;
   }
 
-  override async close() {
-    await super.close();
-    await this.upload!.done();
+  async write(lines: string[]): Promise<void> {
+    if (!this.upload) throw new WriterNotOpenedError();
+    if (!this.upload.buffer.endsWith("\n")) this.upload.buffer += "\n";
+    this.upload.buffer += lines.join("\n");
+    // Split buffer into parts and upload each part individually
+    while (this.upload.buffer.length > this.PART_SIZE) {
+      const data = this.upload.buffer.slice(0, this.PART_SIZE);
+      this.upload.buffer = this.upload.buffer.slice(this.PART_SIZE);
+      const part = this.uploadPart(data, this.upload.parts.length + 1);
+      this.upload.parts.push(part);
+    }
+  }
+
+  async close() {
+    if (!this.upload) throw new WriterNotOpenedError();
+
+    // Upload anything remaining in the buffer
+    if (this.upload.buffer.length > 0) {
+      const part = this.uploadPart(
+        this.upload.buffer,
+        this.upload.parts.length + 1
+      );
+      this.upload.parts.push(part);
+    }
+
+    // Complete multipart upload
+    const parts = await Promise.all(this.upload.parts);
+    const sortedParts = parts.sort((a, b) => a.PartNumber - b.PartNumber);
+    const command = new CompleteMultipartUploadCommand({
+      ...this.object,
+      UploadId: this.upload.id,
+      MultipartUpload: { Parts: sortedParts },
+    });
+    await this.source.client.send(command);
+  }
+
+  private async uploadPart(data: string, partNumber: number) {
+    if (!this.upload) throw new WriterNotOpenedError();
+    const command = new UploadPartCommand({
+      ...this.object,
+      UploadId: this.upload.id,
+      PartNumber: partNumber,
+      Body: data,
+    });
+    const response = await this.source.client.send(command);
+    return { PartNumber: partNumber, ETag: response.ETag! };
   }
 }
