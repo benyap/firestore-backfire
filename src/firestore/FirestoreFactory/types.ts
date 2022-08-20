@@ -1,6 +1,6 @@
 import { Settings } from "@google-cloud/firestore";
 
-export type FirestoreConnectionOptions = {
+export interface FirestoreConnectionOptions {
   /**
    * The Firestore project to connect to.
    */
@@ -24,4 +24,4 @@ export type FirestoreConnectionOptions = {
    * Takes precedence over `keyFile` and `credentials`.
    */
   emulator?: string | boolean;
-};
+}

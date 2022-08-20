@@ -1,23 +1,9 @@
 export interface ImportFirestoreDataOptions {
   /**
-   * If `true`, print debug level messages and higher.
-   */
-  debug?: boolean | undefined;
-
-  /**
-   * If `true`, print verbose level messages and higher.
-   * Takes precendence over {@link debug}.
-   */
-  verbose?: boolean | undefined;
-
-  /**
-   * If `true`, all log messages are supressed.
-   * Takes precendence over {@link verbose} and {@link debug}.
-   */
-  quiet?: boolean | undefined;
-
-  /**
-   * Provide a list of document paths to import.
+   * Provide a list of paths where you want to export data from.
+   * This can be a collection path (e.g. `emails`), or a path to
+   * a document (e.g. `emails/1`). If not specified, all paths
+   * will be exported, starting from the root collections.
    */
   paths?: string[] | undefined;
 
@@ -28,8 +14,8 @@ export interface ImportFirestoreDataOptions {
   match?: RegExp[] | undefined;
 
   /**
-   * Provide a list of regex patterns where a document will
-   * NOT be imported if its path matches any of the patterns.
+   * Provide a list of regex patterns that prevent a document
+   * from being imported if its path matches any of the patterns.
    *
    * This check takes precedence over {@link match}, meaning
    * that even if a path is matched by patterns in {@link match},
@@ -40,32 +26,30 @@ export interface ImportFirestoreDataOptions {
 
   /**
    * Limit the subcollection depth to import documents from.
-   * The root collection has a depth of 0.
+   * Documents in the root collection have a depth of 0.
+   * If not specified, no limit is applied.
    */
   depth?: number | undefined;
 
   /**
    * Limit the number of documents to import.
+   * If not specified, no limit is applied.
    */
   limit?: number | undefined;
 
   /**
-   * Specify how to import data into Firestore. Defaults to `create`.
-   *
-   * - `create` mode will error when impporting documents that
-   *   already exist in Firestore.
-   * - `insert` mode will only import documents that do not exist,
-   *   and existing documents will not be modified.
-   * - `overwrite` mode will import documents that do not exist, and
-   *   completely overwrite any existing documents.
-   * - `merge` mode will import documents that do not exist, and merge
-   *   existing documents.
+   * Specify how to handle importing documents that would overwrite existing data.
+   * - `create` mode log an error when impporting documents that already exist in Firestore, and existing documents will not be modified.
+   * - `insert` mode will only import documents that do not exist, and existing documents will not be modified.
+   * - `overwrite` mode will import documents that do not exist, and completely overwrite any existing documents.
+   * - `merge` mode will import documents that do not exist, and merge existing documents.
    * @default "create"
    */
   mode?: "create" | "insert" | "overwrite" | "merge";
 
   /**
    * The interval (in seconds) at which update logs are printed.
+   * Update logs are at the `debug` level.
    * @default 5
    */
   update?: number | undefined;
@@ -77,8 +61,8 @@ export interface ImportFirestoreDataOptions {
   flush?: number | undefined;
 
   /**
-   * The interval (in ms) at which documents are processed as they stream
-   * in from the data source.
+   * The interval (in milliseconds) at which documents are processed as
+   * they stream in from the data source.
    * @default 10
    */
   processInterval?: number | undefined;

@@ -284,7 +284,7 @@ describe(RepeatedOperation.name, () => {
 
   describe("options.intervalType", () => {
     const INTERVAL = 50;
-    const TOLERANCE = 5;
+    const TOLERANCE = 10;
 
     let times: number[] = [];
 

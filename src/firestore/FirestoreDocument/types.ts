@@ -12,13 +12,6 @@ import * as protos from "@google-cloud/firestore/build/protos/firestore_v1_proto
 
 import api = protos.google.firestore.v1;
 
-export interface DeserializedFirestoreDocument<T = any> {
-  /** The document path in Firestore. */
-  path: string;
-  /** The deserialized document data. */
-  data: T;
-}
-
 export interface SerializedFirestoreDocument<T = any> {
   /** The document path in Firestore. */
   path: string;
@@ -32,6 +25,13 @@ export interface SerializedFirestoreDocument<T = any> {
   documents?: string[];
   /** Paths to fields that were Firestore collection references and queries. */
   queries?: string[];
+}
+
+export interface DeserializedFirestoreDocument<T = any> {
+  /** The document path in Firestore. */
+  path: string;
+  /** The deserialized document data. */
+  data: T;
 }
 
 /**

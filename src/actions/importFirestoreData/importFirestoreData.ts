@@ -5,6 +5,7 @@ import { IDataSourceReader } from "~/data-source/interface";
 // @ts-ignore
 import type { SerializedFirestoreDocument } from "~/firestore/FirestoreDocument/types";
 
+import { LoggingOptions } from "../logging";
 import { ImportFirestoreDataOptions } from "./types";
 import { Importer } from "./Importer";
 
@@ -19,7 +20,7 @@ import { Importer } from "./Importer";
 export async function importFirestoreData(
   connection: FirestoreConnectionOptions,
   reader: IDataSourceReader,
-  options: ImportFirestoreDataOptions = {}
+  options: ImportFirestoreDataOptions & LoggingOptions = {}
 ) {
   const path = dir(reader.path);
   const project = b(connection.project);

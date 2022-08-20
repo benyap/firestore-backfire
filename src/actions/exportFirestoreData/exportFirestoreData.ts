@@ -5,6 +5,7 @@ import { IDataSourceWriter } from "~/data-source/interface";
 // @ts-ignore
 import type { SerializedFirestoreDocument } from "~/firestore/FirestoreDocument/types";
 
+import { LoggingOptions } from "../logging";
 import { ExportFirestoreDataOptions } from "./types";
 import { Exporter } from "./Exporter";
 
@@ -19,7 +20,7 @@ import { Exporter } from "./Exporter";
 export async function exportFirestoreData(
   connection: FirestoreConnectionOptions,
   writer: IDataSourceWriter,
-  options: ExportFirestoreDataOptions = {}
+  options: ExportFirestoreDataOptions & LoggingOptions = {}
 ) {
   const path = dir(writer.path);
   const project = b(connection.project);
