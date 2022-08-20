@@ -17,6 +17,8 @@ import {
   Tracker,
   split,
   Lock,
+  y,
+  n,
 } from "~/utils";
 import { IDataSourceWriter } from "~/data-source/interface";
 
@@ -123,7 +125,7 @@ export class Exporter {
    * options are dropped.
    */
   private async exploreAction(options: ExportOptions) {
-    const { depth = -1, exploreChunkSize = 1000, limit } = options;
+    const { depth = -1, exploreChunkSize = 1000 } = options;
 
     // Use a lock here so that `exploreQueue` and `exploring` won't end the
     // operation prematurely if they are both empty while paths are dequeued
@@ -168,25 +170,13 @@ export class Exporter {
 
       if (documents.length === 0) continue;
 
-      // Preserve original document count for logging
-      const documentCount = documents.length;
-
-      if (typeof limit === "number") {
-        // Make sure we don't export over the limit
-        const done =
-          this.exported.val + this.exporting.val + this.exportPaths.length;
-        const remaining = limit - done;
-        if (documents.length >= remaining) this.limitReached = true;
-        documents = documents.splice(0, remaining);
-      }
-
       documents.forEach((doc) => {
         this.exploreQueue.push(doc.path);
         this.exportPaths.push(doc.path);
       });
 
       this.logger.verbose(
-        `Found ${plural(documentCount, "document")} in ${r(path)}`
+        `Found ${plural(documents, "document")} in ${r(path)}`
       );
     }
 
@@ -213,25 +203,39 @@ export class Exporter {
    * from Firestore, then write them to the data source.
    */
   private async downloadAction(options: ExportOptions) {
-    const { match, ignore, downloadChunkSize = 1000 } = options;
+    const { match, ignore, limit, downloadChunkSize = 1000 } = options;
 
     // Use a lock here so that `exportPaths` and `exporting` won't end the
     // operation prematurely if they are both empty while paths are dequeued
     this.writeLock.acquire();
-    const paths = this.exportPaths
+    let paths = this.exportPaths
       .dequeue(downloadChunkSize)
       // Filter out any collection paths
       .filter((path) => isDocumentPath(path))
       // Filter out any paths that don't match
       .filter((path) => {
         if (!match || match.length === 0) return true;
-        return match.some((pattern) => path.match(pattern));
+        const matched = match.some((pattern) => path.match(pattern));
+        this.logger.verbose(`Path match   ${matched ? y : n} ${r(path)}`);
+        return matched;
       })
       // Filter out any paths that should be ignored
       .filter((path) => {
         if (!ignore || ignore.length === 0) return true;
-        return !ignore.some((pattern) => path.match(pattern));
+        const ignored = ignore.some((pattern) => path.match(pattern));
+        if (ignored) this.logger.verbose(`Path ignored ${n} ${r(path)}`);
+        return !ignored;
       });
+
+    if (typeof limit === "number") {
+      // Make sure we don't export over the limit
+      const done =
+        this.exported.val + this.exporting.val + this.exportPaths.length;
+      const remaining = limit - done;
+      if (paths.length >= remaining) this.limitReached = true;
+      paths = paths.splice(0, remaining);
+    }
+
     this.exporting.increment(paths.length);
     this.writeLock.release();
 

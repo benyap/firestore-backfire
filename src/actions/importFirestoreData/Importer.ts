@@ -8,12 +8,14 @@ import {
   count,
   Lock,
   Logger,
+  n,
   NDJSON,
   ref,
   RepeatedOperation,
   TrackableList,
   TrackableNumber,
   Tracker,
+  y,
 } from "~/utils";
 import { IDataSourceReader } from "~/data-source/interface";
 import { DeserializedFirestoreDocument } from "~/firestore/FirestoreDocument/types";
@@ -42,7 +44,6 @@ export class Importer {
 
   async run(options: ImportOptions) {
     const {
-      limit,
       update: updateInterval = 5,
       flush: flushInterval = 1,
       processInterval = 10,
@@ -77,18 +78,7 @@ export class Importer {
         this.processing.val === 0 &&
         (this.pending.length === 0 || this.limitReached),
       action: async () => {
-        if (typeof limit === "number") {
-          const done =
-            this.processing.val +
-            this.imported.val +
-            this.skipped.val +
-            this.failed.val;
-          const remaining = limit - done;
-          if (remaining <= 0) {
-            this.limitReached = true;
-            return;
-          }
-        }
+        if (this.limitReached) return;
         this.processing.increment(1);
         const document = this.pending.pop();
         this.processDocument(document, writer, errors, options);
@@ -119,6 +109,7 @@ export class Importer {
           [
             `Progress: ${count(this.imported)} imported`,
             `${count(this.pending)} pending`,
+            // `${count(this.processing)} processing`,
             `${count(this.skipped)} skipped`,
             `${count(this.failed)} failed to import`,
           ].join(", ")
@@ -159,7 +150,7 @@ export class Importer {
     }
 
     const { path, data } = document;
-    const { paths, match, ignore, depth, mode = "create" } = options;
+    const { paths, match, ignore, depth, limit, mode = "create" } = options;
 
     if (paths && paths.length > 0 && !paths.some((p) => path.startsWith(p))) {
       this.processing.decrement(1);
@@ -171,23 +162,40 @@ export class Importer {
     if (typeof depth === "number" && documentPathDepth(path) > depth) {
       this.processing.decrement(1);
       this.skipped.increment(1);
-      this.logger.verbose(`Depth of ${depth} exceeded, skipping ${ref(path)}`);
+      this.logger.verbose(`Depth ${count(depth)} exceeded ${n} ${ref(path)}`);
       return;
     }
 
-    if (match && match.length > 0 && !match.some((p) => p.test(path))) {
-      this.processing.decrement(1);
-      this.skipped.increment(1);
-      this.logger.verbose(`No match for path, skipping ${ref(path)}`);
-      return;
+    if (match && match.length > 0) {
+      const matched = match.some((p) => p.test(path));
+      this.logger.verbose(`Path match   ${matched ? y : n} ${ref(path)}`);
+      if (!matched) {
+        this.processing.decrement(1);
+        this.skipped.increment(1);
+        return;
+      }
     }
 
-    if (ignore && ignore.length > 0 && ignore.some((p) => p.test(path))) {
-      this.processing.decrement(1);
-      this.skipped.increment(1);
-      this.logger.verbose(`Path ignored, skipping ${ref(path)}`);
-      return;
+    if (ignore && ignore.length > 0) {
+      const ignored = ignore.some((p) => p.test(path));
+      if (ignored) {
+        this.logger.verbose(`Path ignored ${n} ${ref(path)}`);
+        this.processing.decrement(1);
+        this.skipped.increment(1);
+        return;
+      }
     }
+
+    if (typeof limit === "number") {
+      const remaining = limit - this.imported.val;
+      if (remaining <= 0) {
+        this.processing.decrement(1);
+        this.limitReached = true;
+        return;
+      }
+    }
+
+    this.imported.increment(1);
 
     try {
       switch (mode) {
@@ -202,12 +210,12 @@ export class Importer {
           await writer.set(this.firestore.doc(path), data, { merge: true });
           break;
       }
+
       this.logger.verbose(`Imported ${ref(path)}`);
-      this.imported.increment(1);
     } catch (e) {
       const error = e as FirebaseFirestore.BulkWriterError;
       const { documentRef, code, message } = error;
-      const path = ref(documentRef.path);
+      const path = ref(documentRef?.path ?? "<undefined>");
       switch (code) {
         case 6:
           if (mode === "insert") {
@@ -219,7 +227,9 @@ export class Importer {
           }
           break;
         default:
-          this.logger.error(`Error code ${code}: ${message}`);
+          if (typeof code === "number")
+            this.logger.error(`Error code ${code}: ${message}`);
+          else this.logger.error(error);
           break;
       }
       errors.push(error);

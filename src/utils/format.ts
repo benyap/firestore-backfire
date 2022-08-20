@@ -1,6 +1,9 @@
-import { yellow, green, bold, cyan } from "ansi-colors";
+import { yellow, green, bold, cyan, red } from "ansi-colors";
 
 import { TrackableList, TrackableNumber } from "./track";
+
+export const y = green("✔");
+export const n = red("✘");
 
 export function dir(path: string | undefined) {
   return green(path ?? "");
