@@ -4,9 +4,12 @@ import { DataSourceError } from "../errors";
 import { DataSourceOptions } from "../interface";
 
 export async function getS3Options(options: DataSourceOptions) {
-  const { awsRegion, awsProfile, awsAccessKeyId, awsSecretAccessKey } = options;
-
-  if (!awsRegion) throw new DataSourceError("`awsRegion` is required");
+  const {
+    awsProfile = process.env["AWS_PROFILE"],
+    awsAccessKeyId = process.env["AWS_ACCESS_KEY_ID"],
+    awsSecretAccessKey = process.env["AWS_SECRET_ACCESS_KEY"],
+    awsRegion = process.env["AWS_REGION"],
+  } = options;
 
   if (!awsProfile && (!awsAccessKeyId || !awsSecretAccessKey))
     throw new DataSourceError(
@@ -19,7 +22,7 @@ export async function getS3Options(options: DataSourceOptions) {
   );
 
   if (awsAccessKeyId && awsSecretAccessKey)
-    return { awsRegion, awsAccessKeyId, awsSecretAccessKey };
+    return { awsAccessKeyId, awsSecretAccessKey, awsRegion };
 
   if (awsProfile) {
     await ensureDependencyInstalled(
@@ -28,8 +31,8 @@ export async function getS3Options(options: DataSourceOptions) {
     );
     const SharedCredential = await import("@aws-sdk/credential-provider-ini");
     return {
-      awsRegion,
       awsCredential: SharedCredential.fromIni({ profile: awsProfile }),
+      awsRegion,
     };
   }
 

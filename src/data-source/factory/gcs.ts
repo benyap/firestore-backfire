@@ -3,8 +3,12 @@ import { ensureDependencyInstalled } from "~/utils";
 import { DataSourceError } from "../errors";
 import type { DataSourceOptions } from "../interface";
 
-export async function getGoogleCloudStorageOptions(options: DataSourceOptions) {
-  const { gcpProject, gcpKeyFile, gcpCredentials } = options;
+export async function getGCSOptions(options: DataSourceOptions) {
+  const {
+    gcpProject = process.env["GOOGLE_CLOUD_PROJECT"],
+    gcpKeyFile = process.env["GOOGLE_APPLICATION_CREDENTIALS"],
+    gcpCredentials,
+  } = options;
 
   if (!gcpProject) throw new DataSourceError("`gcpProject` is required");
 

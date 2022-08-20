@@ -19,12 +19,14 @@ export type ResolvedConfig = {
   dataSource: DataSourceOptions;
 };
 
+type AllOptions = FirestoreConnectionOptions &
+  ActionOptions &
+  DataSourceOptions;
+
 /**
  * Get the configuration from a configuration file.
  */
-export async function loadConfig(
-  path?: string
-): Promise<FirestoreConnectionOptions & ActionOptions & DataSourceOptions> {
+export async function loadConfig(path?: string): Promise<AllOptions> {
   const explorer = cosmiconfig(NAME);
   const result = path ? await explorer.load(path) : await explorer.search();
   return result?.config;
@@ -63,7 +65,7 @@ function greedyPick<T>(first: T, second: T) {
  */
 export async function resolveConfig(
   globalOptions: GlobalOptions,
-  cliOptions: FirestoreConnectionOptions & ActionOptions & DataSourceOptions
+  cliOptions: AllOptions
 ): Promise<ResolvedConfig> {
   const config: ResolvedConfig = {
     connection: {},
@@ -72,17 +74,6 @@ export async function resolveConfig(
   };
 
   const configOptions = await loadConfig(globalOptions.config);
-
-  //
-  // Allow certain values to be provided through environment variables
-  //
-
-  const GAC = process.env["GOOGLE_APPLICATION_CREDENTIALS"];
-  if (!configOptions.keyFile && GAC) configOptions.keyFile = GAC;
-
-  const AWS_PROFILE = process.env["AWS_PROFILE"];
-  if (!configOptions.awsProfile && AWS_PROFILE)
-    configOptions.awsProfile = AWS_PROFILE;
 
   // Set up a selector that will pick options from the CLI first, then fallback to config file options
   const pick = greedyPick(cliOptions, configOptions);

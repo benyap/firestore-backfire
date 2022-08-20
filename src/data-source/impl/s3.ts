@@ -36,12 +36,14 @@ class S3Source {
 
   constructor(
     readonly path: string,
-    region: string,
-    credentials: Credentials | CredentialProvider
+    credentials: Credentials | CredentialProvider,
+    region?: string | undefined
   ) {
     if (!this.path.endsWith(".ndjson")) this.path += ".ndjson";
 
-    this.client = new S3Client({ region, credentials });
+    this.client = region
+      ? new S3Client({ credentials, region })
+      : new S3Client({ credentials });
 
     const filePath = this.path.replace(S3_PREFIX, "");
     const seperator = filePath.indexOf("/");
@@ -83,11 +85,11 @@ export class S3Reader extends StreamReader {
 
   constructor(
     path: string,
-    region: string,
-    credentials: Credentials | CredentialProvider
+    credentials: Credentials | CredentialProvider,
+    region?: string | undefined
   ) {
     super();
-    this.source = new S3Source(path, region, credentials);
+    this.source = new S3Source(path, credentials, region);
   }
 
   override get path() {
@@ -116,10 +118,10 @@ export class S3Writer implements IDataSourceWriter {
 
   constructor(
     path: string,
-    region: string,
-    credentials: Credentials | CredentialProvider
+    credentials: Credentials | CredentialProvider,
+    region?: string | undefined
   ) {
-    this.source = new S3Source(path, region, credentials);
+    this.source = new S3Source(path, credentials, region);
   }
 
   get path() {

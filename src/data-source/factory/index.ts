@@ -1,7 +1,7 @@
 import { LocalReader, LocalWriter } from "../impl/local";
 
 import { DataSourceFactory } from "./DataSourceFactory";
-import { getGoogleCloudStorageOptions } from "./gcs";
+import { getGCSOptions } from "./gcs";
 import { getS3Options } from "./s3";
 
 export * from "./DataSourceFactory";
@@ -17,17 +17,17 @@ export * from "./DataSourceFactory";
  * {@link dataSourceFactory.register()} method.
  */
 export const dataSourceFactory = new DataSourceFactory({
-  id: "Local",
+  id: "local",
   reader: { useClass: LocalReader },
   writer: { useClass: LocalWriter },
 });
 
 dataSourceFactory.register({
-  id: "Google Cloud Storage",
+  id: "gcs",
   match: (path) => path.startsWith("gs://"),
   reader: {
     async useFactory(path, options) {
-      const opt = await getGoogleCloudStorageOptions(options);
+      const opt = await getGCSOptions(options);
       const GCSReader = await import("../impl/gcs").then(
         (m) => m.GoogleCloudStorageReader
       );
@@ -38,7 +38,7 @@ dataSourceFactory.register({
   },
   writer: {
     async useFactory(path, options) {
-      const opt = await getGoogleCloudStorageOptions(options);
+      const opt = await getGCSOptions(options);
       const GCSWriter = await import("../impl/gcs").then(
         (m) => m.GoogleCloudStorageWriter
       );
@@ -50,19 +50,23 @@ dataSourceFactory.register({
 });
 
 dataSourceFactory.register({
-  id: "S3",
+  id: "s3",
   match: (path) => path.startsWith("s3://"),
   reader: {
     async useFactory(path, options) {
       const opt = await getS3Options(options);
       const S3Reader = await import("../impl/s3").then((m) => m.S3Reader);
       if (opt.awsCredential)
-        return new S3Reader(path, opt.awsRegion, opt.awsCredential);
+        return new S3Reader(path, opt.awsCredential, opt.awsRegion);
       else
-        return new S3Reader(path, opt.awsRegion, {
-          accessKeyId: opt.awsAccessKeyId,
-          secretAccessKey: opt.awsSecretAccessKey,
-        });
+        return new S3Reader(
+          path,
+          {
+            accessKeyId: opt.awsAccessKeyId,
+            secretAccessKey: opt.awsSecretAccessKey,
+          },
+          opt.awsRegion
+        );
     },
   },
   writer: {
@@ -70,12 +74,16 @@ dataSourceFactory.register({
       const opt = await getS3Options(options);
       const S3Writer = await import("../impl/s3").then((m) => m.S3Writer);
       if (opt.awsCredential)
-        return new S3Writer(path, opt.awsRegion, opt.awsCredential);
+        return new S3Writer(path, opt.awsCredential, opt.awsRegion);
       else
-        return new S3Writer(path, opt.awsRegion, {
-          accessKeyId: opt.awsAccessKeyId,
-          secretAccessKey: opt.awsSecretAccessKey,
-        });
+        return new S3Writer(
+          path,
+          {
+            accessKeyId: opt.awsAccessKeyId,
+            secretAccessKey: opt.awsSecretAccessKey,
+          },
+          opt.awsRegion
+        );
     },
   },
 });

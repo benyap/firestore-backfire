@@ -97,14 +97,14 @@ export class DataSourceFactory<DefaultOptions = DataSourceOptions> {
    * Register a data source. If a data source with the same `id`
    * exists, it will be overwritten.
    */
-  register<T extends { [key: string]: any }>(dataSource: IDataSource<T>) {
+  register<T extends { [key: string]: any }>(dataSource: IDataSource<T>): void {
     this.sources[dataSource.id] = dataSource;
   }
 
   /**
    * Get a list of registered data sources.
    */
-  getRegistrations() {
+  getRegistrations(): IDataSource<any>[] {
     return Object.values(this.sources);
   }
 
@@ -119,7 +119,7 @@ export class DataSourceFactory<DefaultOptions = DataSourceOptions> {
    *
    * @param path The data path.
    */
-  getDataSource(path: string) {
+  getDataSource(path: string): IDataSource<any> {
     for (const id in this.sources) {
       const dataSource = this.sources[id]!;
       if (!dataSource.match?.(path)) continue;
@@ -134,7 +134,7 @@ export class DataSourceFactory<DefaultOptions = DataSourceOptions> {
    *
    * @param id The `id` of the data source to get.
    */
-  getDataSourceById(id: string) {
+  getDataSourceById(id: string): IDataSource<any> | undefined {
     return this.sources[id];
   }
 

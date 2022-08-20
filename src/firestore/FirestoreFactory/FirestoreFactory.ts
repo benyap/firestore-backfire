@@ -8,13 +8,13 @@ class FirestoreFactoryError extends EError {}
 export class FirestoreFactory {
   static create({
     project,
-    emulator,
     credentials,
-    keyFile,
+    emulator = process.env["FIRESTORE_EMULATOR_HOST"],
+    keyFile = process.env["GOOGLE_APPLICATION_CREDENTIALS"],
   }: FirestoreConnectionOptions): Firestore {
     if (!project) throw new FirestoreFactoryError("project is required");
-    if (emulator) return this.createWithEmulator(project, emulator);
     if (credentials) return this.createWithCredentials(project, credentials);
+    if (emulator) return this.createWithEmulator(project, emulator);
     if (keyFile) return this.createWithKeyFile(project, keyFile);
     throw new FirestoreFactoryError("no connection options provided");
   }
@@ -31,9 +31,9 @@ export class FirestoreFactory {
   }
 
   static createWithEmulator(projectId: string, host: string | true) {
-    if (host === true)
-      process.env["FIRESTORE_EMULATOR_HOST"] = "localhost:8080";
-    else process.env["FIRESTORE_EMULATOR_HOST"] = host;
+    if (host)
+      process.env["FIRESTORE_EMULATOR_HOST"] =
+        typeof host === "string" ? host : "localhost:8080";
     return new Firestore({ projectId });
   }
 }
