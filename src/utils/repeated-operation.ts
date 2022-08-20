@@ -1,15 +1,16 @@
 import { EError } from "exceptional-errors";
 
-export type RepeatOptions = {
+export type RepeatedOperationOptions = {
   when: () => boolean;
   action: (
     controller: AbortController,
     attempt: number
   ) => void | Promise<void>;
   until: () => boolean;
+  onStart: () => void;
   onDone: (attempt: number) => void;
   onAbort: (attempt: number) => void;
-  onError: (error: Error, attempt: number) => void;
+  onError: (error: unknown, attempt: number) => void | Promise<void>;
   onLimitExceeded: (attempt: number) => void;
   interval: number | null;
   intervalType: "static" | "linear" | "exponential";
@@ -40,7 +41,7 @@ export class LimitExceededError extends OperationError {}
 export class InvalidIntervalError extends OperationError {}
 
 export class RepeatedOperation {
-  private options: RepeatOptions;
+  private options: RepeatedOperationOptions;
   private operationController?: AbortController;
   private waitController?: AbortController;
 
@@ -51,6 +52,7 @@ export class RepeatedOperation {
     when,
     action,
     until,
+    onStart,
     onDone,
     onAbort,
     onError,
@@ -59,11 +61,12 @@ export class RepeatedOperation {
     intervalType,
     resetInterval,
     limit,
-  }: Partial<RepeatOptions>) {
+  }: Partial<RepeatedOperationOptions>) {
     this.options = {
       when: when ?? yes,
       action: action ?? empty,
       until: until ?? no,
+      onStart: onStart ?? empty,
       onDone: onDone ?? empty,
       onAbort: onAbort ?? empty,
       onError: onError ?? empty,
@@ -91,6 +94,7 @@ export class RepeatedOperation {
         when,
         action,
         until,
+        onStart,
         onDone,
         onAbort,
         onError,
@@ -112,6 +116,8 @@ export class RepeatedOperation {
       if (this.interval < 0)
         return reject(new InvalidIntervalError("must be positive"));
 
+      onStart();
+
       while (true) {
         let start = Date.now();
 
@@ -123,6 +129,7 @@ export class RepeatedOperation {
           this.operationController.signal.onabort = () => {
             // When the operation controller is aborted, also abort any waiting
             this.waitController?.abort();
+            onAbort(this.attempts);
             resolve();
           };
         });
@@ -133,9 +140,10 @@ export class RepeatedOperation {
           return reject(new LimitExceededError(`${this.attempts} attempt(s)`));
         }
 
+        this.attempts++;
+
         // If the `when` condition is satisfied, execute the action
         if (when()) {
-          this.attempts++;
           try {
             await Promise.race([
               action(this.operationController, this.attempts),
@@ -143,7 +151,7 @@ export class RepeatedOperation {
             ]);
 
             if (resetInterval) this.interval = 0;
-          } catch (error: any) {
+          } catch (error) {
             onError(error, this.attempts);
             return reject(error);
           }
@@ -173,8 +181,8 @@ export class RepeatedOperation {
         const remaining = Math.max(0, (this.interval ?? 0) - elapsed);
         await Promise.race([wait(remaining, this.waitController), aborted]);
 
+        // End now if the opeartion was aborted
         if (this.operationController.signal.aborted) {
-          onAbort(this.attempts);
           return resolve();
         }
       }

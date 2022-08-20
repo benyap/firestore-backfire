@@ -1,0 +1,202 @@
+// Vitest Snapshot v1
+
+exports[`deleteFieldByPath > deletes nested array path 1`] = `
+{
+  "details": {
+    "counts": [
+      {
+        "value": 5,
+      },
+      {},
+    ],
+    "description": "something",
+  },
+  "hello": "world",
+}
+`;
+
+exports[`deleteFieldByPath > deletes nested path 1`] = `
+{
+  "details": {
+    "description": "something",
+  },
+  "hello": "world",
+}
+`;
+
+exports[`deleteFieldByPath > deletes top level path 1`] = `
+{
+  "hello": "world",
+}
+`;
+
+exports[`deleteFieldByPath > does not modify object when deleting non-existent nested array path 1`] = `
+{
+  "details": {
+    "counts": [
+      {
+        "value": 5,
+      },
+      {
+        "value": 10,
+      },
+    ],
+    "description": "something",
+  },
+  "hello": "world",
+}
+`;
+
+exports[`deleteFieldByPath > does not modify object when deleting non-existent top level path 1`] = `
+{
+  "details": {
+    "counts": [
+      {
+        "value": 5,
+      },
+      {
+        "value": 10,
+      },
+    ],
+    "description": "something",
+  },
+  "hello": "world",
+}
+`;
+
+exports[`setValueByPath > does not modify object when given non-existent nested path and createMissingKeys is false 1`] = `
+{
+  "details": {
+    "counts": "hello",
+    "description": "something",
+  },
+  "hello": "world",
+}
+`;
+
+exports[`setValueByPath > does not modify object when given non-existent top level path and createMissingKeys is false 1`] = `
+{
+  "details": {
+    "counts": [
+      {
+        "value": 5,
+      },
+      {
+        "value": 10,
+      },
+    ],
+    "description": "something",
+  },
+  "hello": "world",
+}
+`;
+
+exports[`setValueByPath > sets value for existing array path 1`] = `
+{
+  "details": {
+    "counts": [
+      {
+        "value": 7,
+      },
+      {
+        "value": 10,
+      },
+    ],
+    "description": "something",
+  },
+  "hello": "world",
+}
+`;
+
+exports[`setValueByPath > sets value for existing nested path 1`] = `
+{
+  "details": {
+    "counts": [
+      {
+        "value": 5,
+      },
+      {
+        "value": 10,
+      },
+    ],
+    "description": "anything",
+  },
+  "hello": "world",
+}
+`;
+
+exports[`setValueByPath > sets value for existing top level path 1`] = `
+{
+  "details": {
+    "counts": [
+      {
+        "value": 5,
+      },
+      {
+        "value": 10,
+      },
+    ],
+    "description": "something",
+  },
+  "hello": "there",
+}
+`;
+
+exports[`setValueByPath > sets value for non-existent array path 1`] = `
+{
+  "details": {
+    "counts": [
+      {
+        "value": 5,
+      },
+      {
+        "value": 10,
+      },
+      ,
+      ,
+      {
+        "description": "custom",
+        "value": 4,
+      },
+    ],
+    "description": "something",
+  },
+  "hello": "world",
+}
+`;
+
+exports[`setValueByPath > sets value for non-existent nested path 1`] = `
+{
+  "details": {
+    "counts": [
+      {
+        "value": 5,
+      },
+      {
+        "value": 10,
+      },
+    ],
+    "description": "something",
+    "title": "fabulous",
+  },
+  "hello": "world",
+}
+`;
+
+exports[`setValueByPath > sets value for non-existent top level path 1`] = `
+{
+  "details": {
+    "counts": [
+      {
+        "value": 5,
+      },
+      {
+        "value": 10,
+      },
+    ],
+    "description": "something",
+  },
+  "hello": "world",
+  "there": "hello",
+}
+`;

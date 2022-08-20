@@ -1,3 +1,5 @@
+import { formatDuration } from "./format";
+
 type LogFunction = (message: any) => void;
 
 export class Timer {
@@ -61,18 +63,7 @@ export class TimerInstance {
     this.stopTime = new Date().getTime();
 
     const duration = this.stopTime - this.startTime;
-
-    const hValue = Math.trunc(duration / 1000 / 60 / 60);
-    const mValue = Math.trunc((duration / 1000 / 60) % 60);
-    const sValue = Math.trunc((duration / 1000) % 60);
-    const msValue = Math.trunc(duration % 1000);
-
-    const h = hValue > 0 ? `${hValue}:` : "";
-    const m = mValue.toString().padStart(2, "0");
-    const s = sValue.toString().padStart(2, "0");
-    const ms = msValue.toString().padStart(2, "0");
-
-    const timestamp = `${h}${m}:${s}.${ms}`;
+    const timestamp = formatDuration(duration);
 
     if (message || this.message)
       this.logger?.(`${message || this.message} (took ${timestamp})`);

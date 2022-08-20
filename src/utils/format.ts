@@ -1,6 +1,6 @@
 import { yellow, green, bold, cyan } from "ansi-colors";
 
-import { TrackableList, TrackableNumber } from "./tracker";
+import { TrackableList, TrackableNumber } from "./track";
 
 export function dir(path: string | undefined) {
   return green(path ?? "");
@@ -32,4 +32,22 @@ export function plural(
 ) {
   num = Array.isArray(num) ? num.length : num;
   return `${count(num)} ${num === 1 ? word : plural}`;
+}
+
+export function formatDuration(duration: number) {
+  const hValue = Math.trunc(duration / 1000 / 60 / 60);
+  const mValue = Math.trunc((duration / 1000 / 60) % 60);
+  const sValue = Math.trunc((duration / 1000) % 60);
+  const msValue = Math.trunc(duration % 1000);
+
+  if (hValue > 0) {
+    return `${hValue}h ${mValue.toString().padStart(2)}m`;
+  } else if (mValue > 0) {
+    return `${mValue}m ${sValue.toString().padStart(2)}s`;
+  } else if (sValue > 0) {
+    if (msValue > 0) return `${sValue}.${msValue.toString().padStart(3, "0")}s`;
+    else return `${sValue}s`;
+  } else {
+    return `${msValue}ms`;
+  }
 }

@@ -1,12 +1,11 @@
 export class Tracker {
-  private lastTouched: Date | null = null;
-  private lastChecked = new Date();
+  private _touched = false;
 
   /**
    * Track a touch.
    */
   touch() {
-    this.lastTouched = new Date();
+    this._touched = true;
   }
 
   /**
@@ -14,9 +13,9 @@ export class Tracker {
    * since last time this method was called.
    */
   touched() {
-    const lastChecked = this.lastChecked;
-    this.lastChecked = new Date();
-    return !this.lastTouched || this.lastTouched > lastChecked;
+    const wasTouched = this._touched;
+    this._touched = false;
+    return wasTouched;
   }
 }
 
@@ -67,6 +66,7 @@ export class TrackableList<T> extends Trackable<T[]> {
     // Make a copy of the list otherwise mutable methods
     // (push/pop/splice) could affect the original list
     this.value = [...value];
+    this.tracker.touch();
   }
 
   push(...values: [T, ...T[]]) {
@@ -75,10 +75,12 @@ export class TrackableList<T> extends Trackable<T[]> {
   }
 
   pop(): T | undefined {
+    this.tracker.touch();
     return this.value.pop();
   }
 
   dequeue(amount: number = 1): T[] {
+    this.tracker.touch();
     return this.value.splice(0, amount);
   }
 }
