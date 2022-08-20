@@ -3,7 +3,10 @@ import { FirestoreConnectionOptions, FirestoreFactory } from "~/firestore";
 import { ListFirestoreDataOptions } from "./types";
 
 /**
- * TODO: description
+ * Count the number of collections at the specified path in Firestore.
+ *
+ * @param connection Specify how to connect to Firestore.
+ * @param path Specify the path to the document to count subcollections in. Pass an empty value to count root collections.
  */
 export function listFirestoreCollections(
   connection: FirestoreConnectionOptions,
@@ -12,7 +15,10 @@ export function listFirestoreCollections(
 ): Promise<number>;
 
 /**
- * TODO: description
+ * List the collections at the specified path in Firestore.
+ *
+ * @param connection Specify how to connect to Firestore.
+ * @param path Specify the path to the document to list subcollections in. Pass an empty value to list root collections.
  */
 export function listFirestoreCollections(
   connection: FirestoreConnectionOptions,
@@ -20,6 +26,7 @@ export function listFirestoreCollections(
   options?: { count?: false; limit?: number }
 ): Promise<string[]>;
 
+// Implementation
 export async function listFirestoreCollections(
   connection: FirestoreConnectionOptions,
   path: string | undefined | null,

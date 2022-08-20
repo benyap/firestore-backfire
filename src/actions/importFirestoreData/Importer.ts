@@ -15,7 +15,7 @@ import {
   TrackableNumber,
   Tracker,
 } from "~/utils";
-import { IDataReader } from "~/data-source/interface";
+import { IDataSourceReader } from "~/data-source/interface";
 import { DeserializedFirestoreDocument } from "~/firestore/FirestoreDocument/types";
 
 import { ImportFirestoreDataOptions as ImportOptions } from "./types";
@@ -36,7 +36,7 @@ export class Importer {
 
   constructor(
     private connection: FirestoreConnectionOptions,
-    private reader: IDataReader,
+    private reader: IDataSourceReader,
     private logger: Logger
   ) {}
 

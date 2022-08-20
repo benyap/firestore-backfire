@@ -4,6 +4,18 @@ import { DataSourceFactory } from "./DataSourceFactory";
 import { getGoogleCloudStorageOptions } from "./gcs";
 import { getS3Options } from "./s3";
 
+export * from "./DataSourceFactory";
+
+/**
+ * The default data source factory. Contains the following
+ * data sources registered by default:
+ *  - `Local` - reads and writes from local files on your machine (default)
+ *  - `Google Cloud Storage` - reads and writes from Google Cloud Storage (matches paths starting with `gs://`)
+ *  - `S3` - reads and writes data from AWS S3 (matches paths starting with `s3://`)
+ *
+ * Register custom data source implementations using the
+ * {@link dataSourceFactory.register()} method.
+ */
 export const dataSourceFactory = new DataSourceFactory({
   id: "Local",
   reader: { useClass: LocalReader },

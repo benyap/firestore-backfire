@@ -5,10 +5,10 @@ import { dir } from "~/utils";
 
 import {
   DataSourceUnreachableError,
-  DataOverwriteError,
+  DataSourceOverwriteError,
   DataSourceError,
 } from "../errors";
-import { DataStreamReader, DataStreamWriter } from "../interface";
+import { StreamReader, StreamWriter } from "../interface";
 
 const GCS_PREFIX = new RegExp("^gs://");
 
@@ -79,7 +79,7 @@ class GoogleCloudStorageSource {
   }
 }
 
-export class GoogleCloudStorageReader extends DataStreamReader {
+export class GoogleCloudStorageReader extends StreamReader {
   private source: GoogleCloudStorageSource;
 
   protected stream?: Readable;
@@ -104,7 +104,7 @@ export class GoogleCloudStorageReader extends DataStreamReader {
   }
 }
 
-export class GoogleCloudStorageWriter extends DataStreamWriter {
+export class GoogleCloudStorageWriter extends StreamWriter {
   private source: GoogleCloudStorageSource;
 
   protected stream?: Writable;
@@ -129,7 +129,7 @@ export class GoogleCloudStorageWriter extends DataStreamWriter {
     let overwritten = false;
     try {
       await this.source.assertFileExists();
-      if (!overwrite) throw new DataOverwriteError(this.path);
+      if (!overwrite) throw new DataSourceOverwriteError(this.path);
       overwritten = true;
     } catch (error) {
       if (!(error instanceof DataSourceUnreachableError)) throw error;

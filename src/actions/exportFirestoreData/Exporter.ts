@@ -18,7 +18,7 @@ import {
   split,
   Lock,
 } from "~/utils";
-import { IDataWriter } from "~/data-source/interface";
+import { IDataSourceWriter } from "~/data-source/interface";
 
 import { ExportFirestoreDataOptions as ExportOptions } from "./types";
 
@@ -36,7 +36,7 @@ export class Exporter {
 
   constructor(
     private connection: FirestoreConnectionOptions,
-    private writer: IDataWriter,
+    private writer: IDataSourceWriter,
     private logger: Logger
   ) {}
 

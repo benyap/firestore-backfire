@@ -14,14 +14,14 @@ export type FirestoreConnectionOptions = {
   /**
    * The service account credentials to use to connect to Firestore.
    *
-   * Takes precedence over `keyfile`.
+   * Takes precedence over `keyFile`.
    */
   credentials?: Required<Settings["credentials"]>;
 
   /**
    * The host and port of the local Firestore emulator to connect to.
    *
-   * Takes precedence over `keyfile` and `credentials`.
+   * Takes precedence over `keyFile` and `credentials`.
    */
   emulator?: string | boolean;
 };

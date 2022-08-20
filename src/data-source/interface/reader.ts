@@ -1,10 +1,13 @@
 import { Readable } from "stream";
 
-import { ReaderNotOpenedError } from "../errors";
+import { DataSourceReaderNotOpenedError } from "../errors";
 
-export interface IDataReader {
+/**
+ * An interface for reading data to import into Firestore from a stream.
+ */
+export interface IDataSourceReader {
   /**
-   * The path to where the data will be read from.
+   * The path to where data will be read from.
    */
   readonly path: string;
 
@@ -25,7 +28,13 @@ export interface IDataReader {
   ): Promise<Promise<void>[]>;
 }
 
-export abstract class DataStreamReader implements IDataReader {
+/**
+ * An abstract implementation of {@link IDataSourceReader} using {@link Readable}.
+ *
+ * You can extend this class to create your own implementation of a data
+ * source that reads from a {@link Readable} stream.
+ */
+export abstract class StreamReader implements IDataSourceReader {
   protected abstract stream?: Readable;
 
   abstract readonly path: string;
@@ -37,7 +46,7 @@ export abstract class DataStreamReader implements IDataReader {
   ): Promise<Promise<void>[]> {
     const promises: Promise<void>[] = [];
     return new Promise((resolve, reject) => {
-      if (!this.stream) return reject(new ReaderNotOpenedError());
+      if (!this.stream) return reject(new DataSourceReaderNotOpenedError());
       this.stream
         .on("error", (error) => reject(error))
         .on("readable", async () => {

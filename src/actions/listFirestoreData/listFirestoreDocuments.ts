@@ -3,7 +3,10 @@ import { FirestoreConnectionOptions, FirestoreFactory } from "~/firestore";
 import { ListFirestoreDataOptions } from "./types";
 
 /**
- * TODO: description
+ * Count the number of documents at the specified path in Firestore.
+ *
+ * @param connection Specify how to connect to Firestore.
+ * @param path Specify the path to the collection to count documents in.
  */
 export function listFirestoreDocuments(
   connection: FirestoreConnectionOptions,
@@ -12,7 +15,10 @@ export function listFirestoreDocuments(
 ): Promise<number>;
 
 /**
- * TODO: description
+ * List the documents at the specified path in Firestore.
+ *
+ * @param connection Specify how to connect to Firestore.
+ * @param path Specify the path to the collection to list documents in.
  */
 export function listFirestoreDocuments(
   connection: FirestoreConnectionOptions,
@@ -20,6 +26,7 @@ export function listFirestoreDocuments(
   options?: { count?: false; limit?: number }
 ): Promise<string[]>;
 
+// Implementation
 export async function listFirestoreDocuments(
   connection: FirestoreConnectionOptions,
   path: string,

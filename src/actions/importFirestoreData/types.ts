@@ -31,9 +31,10 @@ export interface ImportFirestoreDataOptions {
    * Provide a list of regex patterns where a document will
    * NOT be imported if its path matches any of the patterns.
    *
-   * This check takes precedence over {@link patterns}, meaning
-   * that even if a path is matched by {@link patterns}, it will
-   * still be ignored if it matches any of {@link ignore}.
+   * This check takes precedence over {@link match}, meaning
+   * that even if a path is matched by patterns in {@link match},
+   * it will still be ignored if it matches any of the patterns
+   * in {@link ignore}.
    */
   ignore?: RegExp[] | undefined;
 

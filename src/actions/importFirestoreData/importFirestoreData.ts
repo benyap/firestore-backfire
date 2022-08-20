@@ -1,16 +1,24 @@
 import { Logger, dir, plural, Timer, b } from "~/utils";
 import { FirestoreConnectionOptions } from "~/firestore";
-import { IDataReader } from "~/data-source/interface";
+import { IDataSourceReader } from "~/data-source/interface";
+
+// @ts-ignore
+import type { SerializedFirestoreDocument } from "~/firestore/FirestoreDocument/types";
 
 import { ImportFirestoreDataOptions } from "./types";
 import { Importer } from "./Importer";
 
 /**
- * TODO: description
+ * Import documents to Firestore. Data is expected to be in NDJSON format
+ * and should follow the {@link SerializedFirestoreDocument} interface.
+ *
+ * @param connection Specify how to connect to Firestore.
+ * @param reader Specify where to read the data to import into Firestore.
+ * @param options Specify what data to impor to Firestore.
  */
 export async function importFirestoreData(
   connection: FirestoreConnectionOptions,
-  reader: IDataReader,
+  reader: IDataSourceReader,
   options: ImportFirestoreDataOptions = {}
 ) {
   const path = dir(reader.path);

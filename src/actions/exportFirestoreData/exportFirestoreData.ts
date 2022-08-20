@@ -1,16 +1,24 @@
 import { Logger, dir, plural, Timer, b } from "~/utils";
 import { FirestoreConnectionOptions } from "~/firestore";
-import { IDataWriter } from "~/data-source/interface";
+import { IDataSourceWriter } from "~/data-source/interface";
+
+// @ts-ignore
+import type { SerializedFirestoreDocument } from "~/firestore/FirestoreDocument/types";
 
 import { ExportFirestoreDataOptions } from "./types";
 import { Exporter } from "./Exporter";
 
 /**
- * TODO: description
+ * Export documents from Firestore. Documents are serialized using
+ * the {@link SerializedFirestoreDocument} interface in NDJSON format.
+ *
+ * @param connection Specify how to connect to Firestore.
+ * @param writer Specify where to export the data from Firestore.
+ * @param options Specify what data to export from Firestore.
  */
 export async function exportFirestoreData(
   connection: FirestoreConnectionOptions,
-  writer: IDataWriter,
+  writer: IDataSourceWriter,
   options: ExportFirestoreDataOptions = {}
 ) {
   const path = dir(writer.path);

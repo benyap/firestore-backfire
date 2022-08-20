@@ -2,8 +2,11 @@ import { createReadStream, createWriteStream, existsSync, mkdirSync } from "fs";
 import { dirname } from "path";
 import { Readable, Writable } from "stream";
 
-import { DataOverwriteError, DataSourceUnreachableError } from "../errors";
-import { DataStreamReader, DataStreamWriter } from "../interface";
+import {
+  DataSourceOverwriteError,
+  DataSourceUnreachableError,
+} from "../errors";
+import { StreamReader, StreamWriter } from "../interface";
 
 class LocalSource {
   constructor(readonly path: string) {
@@ -12,7 +15,7 @@ class LocalSource {
   }
 }
 
-export class LocalReader extends DataStreamReader {
+export class LocalReader extends StreamReader {
   private source: LocalSource;
 
   protected stream?: Readable;
@@ -33,7 +36,7 @@ export class LocalReader extends DataStreamReader {
   }
 }
 
-export class LocalWriter extends DataStreamWriter {
+export class LocalWriter extends StreamWriter {
   private source: LocalSource;
 
   protected stream?: Writable;
@@ -56,7 +59,7 @@ export class LocalWriter extends DataStreamWriter {
     // Check if file exists
     let overwritten = false;
     if (existsSync(this.path)) {
-      if (!overwrite) throw new DataOverwriteError(this.path);
+      if (!overwrite) throw new DataSourceOverwriteError(this.path);
       overwritten = true;
     }
 

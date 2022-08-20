@@ -14,11 +14,11 @@ import { dir } from "~/utils";
 
 import {
   DataSourceUnreachableError,
-  DataOverwriteError,
+  DataSourceOverwriteError,
   DataSourceError,
-  WriterNotOpenedError,
+  DataSourceWriterNotOpenedError,
 } from "../errors";
-import { DataStreamReader, IDataWriter } from "../interface";
+import { StreamReader, IDataSourceWriter } from "../interface";
 
 const S3_PREFIX = new RegExp("^s3://");
 
@@ -76,7 +76,7 @@ class S3Source {
   }
 }
 
-export class S3Reader extends DataStreamReader {
+export class S3Reader extends StreamReader {
   private source: S3Source;
 
   protected stream?: Readable;
@@ -103,7 +103,8 @@ export class S3Reader extends DataStreamReader {
   }
 }
 
-export class S3Writer implements IDataWriter {
+export class S3Writer implements IDataSourceWriter {
+  /** Minimum part size. See https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html */
   private readonly PART_SIZE = 5 * 1024 * 1024;
   private source: S3Source;
 
@@ -135,7 +136,7 @@ export class S3Writer implements IDataWriter {
     let overwritten = false;
     try {
       await this.source.assertFileExists();
-      if (!overwrite) throw new DataOverwriteError(this.path);
+      if (!overwrite) throw new DataSourceOverwriteError(this.path);
       overwritten = true;
     } catch (error) {
       if (!(error instanceof DataSourceUnreachableError)) throw error;
@@ -158,7 +159,7 @@ export class S3Writer implements IDataWriter {
   }
 
   async write(lines: string[]): Promise<void> {
-    if (!this.upload) throw new WriterNotOpenedError();
+    if (!this.upload) throw new DataSourceWriterNotOpenedError();
     if (!this.upload.buffer.endsWith("\n")) this.upload.buffer += "\n";
     this.upload.buffer += lines.join("\n");
     // Split buffer into parts and upload each part individually
@@ -171,7 +172,7 @@ export class S3Writer implements IDataWriter {
   }
 
   async close() {
-    if (!this.upload) throw new WriterNotOpenedError();
+    if (!this.upload) throw new DataSourceWriterNotOpenedError();
 
     // Upload anything remaining in the buffer
     if (this.upload.buffer.length > 0) {
@@ -194,7 +195,7 @@ export class S3Writer implements IDataWriter {
   }
 
   private async uploadPart(data: string, partNumber: number) {
-    if (!this.upload) throw new WriterNotOpenedError();
+    if (!this.upload) throw new DataSourceWriterNotOpenedError();
     const command = new UploadPartCommand({
       ...this.object,
       UploadId: this.upload.id,
