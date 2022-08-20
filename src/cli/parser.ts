@@ -1,6 +1,6 @@
 import { InvalidArgumentError } from "commander";
 
-export class CliParser {
+export class Parser {
   static integer(
     options: { min?: number; max?: number } = {}
   ): (value: string) => number {
@@ -14,6 +14,14 @@ export class CliParser {
       if (typeof max === "number" && parsed > max)
         throw new InvalidArgumentError(`Must be less than or equal to ${max}.`);
       return parsed;
+    };
+  }
+
+  static regexList(): (value: string, previous: unknown) => RegExp[] {
+    return (value, previous) => {
+      const patterns: RegExp[] = Array.isArray(previous) ? previous : [];
+      patterns.push(new RegExp(value));
+      return patterns;
     };
   }
 }

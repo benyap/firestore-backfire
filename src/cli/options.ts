@@ -1,5 +1,6 @@
 import { Option } from "commander";
-import { CliParser } from "~/utils";
+
+import { Parser } from "./parser";
 
 // Global options
 
@@ -18,13 +19,13 @@ export const ProjectOption = ({ action }: { action: "import" | "export" }) =>
 
 export const KeyFileOption = () =>
   new Option(
-    "-k, --keyFile <path>",
+    "-K, --keyFile <path>",
     "path to Firebase service account credentials file"
   );
 
 export const EmulatorOption = () =>
   new Option(
-    "-e, --emulator [host]",
+    "-E, --emulator [host]",
     "use the Firestore emulator (defaults to `localhost:8080` if host is not specified)"
   );
 
@@ -32,7 +33,7 @@ export const EmulatorOption = () =>
 
 export const StringifyOption = () =>
   new Option("--stringify [indent]", "JSON.stringify the output").argParser(
-    CliParser.integer({ min: 1 })
+    Parser.integer({ min: 1 })
   );
 
 export const LimitOption = ({
@@ -44,7 +45,7 @@ export const LimitOption = ({
     `limit the number of documents/collections to ${action}${
       countable ? " (ignored if --count is used)" : ""
     }`
-  ).argParser(CliParser.integer({ min: 0 }));
+  ).argParser(Parser.integer({ min: 0 }));
 
 export const CountOption = () =>
   new Option("-c, --count", "count the number of documents");
@@ -56,19 +57,19 @@ export const MatchOption = ({ action }: { action: "import" | "export" }) =>
   new Option(
     "-m, --match <regex...>",
     `specify regex patterns that a document path must match to be ${action}ed`
-  );
+  ).argParser(Parser.regexList());
 
 export const IgnoreOption = () =>
   new Option(
     "-i, --ignore <regex...>",
     "specify regex patterns that will ignore a document if its path matches (takes precedence over --match)"
-  );
+  ).argParser(Parser.regexList());
 
 export const DepthOption = ({ action }: { action: "import" | "export" }) =>
   new Option(
     "-d, --depth <number>",
     `subcollection depth to ${action} (root collection depth = 0, all subcollections ${action}ed if not specified)`
-  ).argParser(CliParser.integer({ min: 0, max: 100 }));
+  ).argParser(Parser.integer({ min: 0, max: 100 }));
 
 export const OverwriteOption = () =>
   new Option(
@@ -96,7 +97,7 @@ export const UpdateRateOption = () =>
     "interval (in seconds) at which update logs are printed"
   )
     .default(5)
-    .argParser(CliParser.integer({ min: 1 }));
+    .argParser(Parser.integer({ min: 1 }));
 
 // Google Cloud Storage data source options
 

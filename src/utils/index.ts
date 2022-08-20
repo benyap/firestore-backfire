@@ -2,7 +2,6 @@ export * from "./logger";
 export * from "./format";
 export * from "./object-path";
 export * from "./ndjson";
-export * from "./cli-parser";
 export * from "./repeated-operation";
 export * from "./timer";
 export * from "./track";
