@@ -17,6 +17,7 @@ logs
 
 # other
 .export
+.backfirerc.yaml
 *.old
 *.backup
 *.tgz
