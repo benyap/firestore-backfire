@@ -1,113 +1,59 @@
-import root from "app-root-path";
-import { bold, green, yellow } from "ansi-colors";
+import { Firestore } from "@google-cloud/firestore";
 
-import {
-  delay,
-  distributeEvenlyBySize,
-  GroupedSet,
-  Logger,
-  padNumberStart,
-  redactFields,
-  styledCount,
-  Timer,
-  ToWorkerMessenger,
-} from "~/utils";
-import { UnknownStorageSourceTypeError } from "~/errors";
-import { FirestoreService, StorageSourceFactory } from "~/services";
+import { Logger, dir, plural, Timer, b, TimerInstance } from "~/utils";
+import { FirestoreConnectionOptions } from "~/firestore";
+import { IDataSourceReader } from "~/data-source/interface";
 
+// @ts-ignore
+import type { SerializedFirestoreDocument } from "~/firestore/FirestoreDocument/types";
+
+import { LoggingOptions } from "../logging";
 import { ImportFirestoreDataOptions } from "./types";
-import { ImportMessageToParent, ImportMessageToWorker } from "./messages";
-import { createImportWorkerPoool } from "./worker";
+import { Importer } from "./Importer";
 
-export async function importFirestoreData(options: ImportFirestoreDataOptions) {
-  const { logLevel, project } = options;
+/**
+ * Import documents to Firestore. Data is expected to be in NDJSON format
+ * and should follow the {@link SerializedFirestoreDocument} interface.
+ *
+ * @param connection Firestore connection options.
+ * @param reader A data source reader.
+ * @param options Import options.
+ */
+export async function importFirestoreData(
+  connection: FirestoreConnectionOptions | Firestore,
+  reader: IDataSourceReader,
+  options: ImportFirestoreDataOptions & LoggingOptions = {}
+) {
+  const level = options.quiet
+    ? "silent"
+    : options.verbose
+    ? "verbose"
+    : options.debug
+    ? "debug"
+    : "info";
 
-  const logger = Logger.create(importFirestoreData.name, logLevel);
-  const messenger = new ToWorkerMessenger<ImportMessageToWorker>();
+  let timer: TimerInstance;
+  let project: string = "";
+  const path = dir(reader.path);
+  const logger = Logger.create("import", level);
+  const log = logger.info.bind(logger);
 
-  if (options.type === "unknown") throw new UnknownStorageSourceTypeError("unknown");
-
-  // Hide sensitive details when logging options
-  const redactedOptions = redactFields(
-    options,
-    "credentials",
-    "awsAccessKeyId",
-    "awsSecretAccessKey"
-  );
-  logger.debug("Export configuration", {
-    root: root.toString(),
-    ...redactedOptions,
-  });
-
-  const timer = Timer.start();
-
-  // Connect to Firestore
-  await FirestoreService.create(options);
-  logger.info(`Connected to Firestore for project ${bold(options.project)}`);
-
-  // Connect to storage source
-  const source = await StorageSourceFactory.create(options);
-  logger.info(`Connected to ${bold(source.name)} storage source`);
-
-  // Create a pool of worker threads
-  const pool = await createImportWorkerPoool(options, source);
-  logger.debug(`Created ${yellow(String(pool.size()))} worker threads`);
-
-  // Distribute files evenly to workers based on file size
-  const objects = await source.listObjects(options.path);
-  const buckets = distributeEvenlyBySize(objects, pool.size());
-
-  // Keep track of objects still being processed
-  const pendingObjects = new GroupedSet<string>();
-  const earlyExit: (ImportMessageToParent & { type: "notify-early-exit" })[] = [];
-
-  // Set up listeners for messages from workers
-  pool.onMessage((message) => {
-    switch (message.type) {
-      case "notify-import-object-finish":
-        pendingObjects.remove(message.identifier, message.path);
-        logger.verbose(`Finished importing from ${green(message.path)}`);
-        break;
-      case "notify-safe-exit":
-        logger.debug(`Worker ${bold(padNumberStart(message.identifier, 2))} done`);
-        break;
-      case "notify-early-exit":
-        pendingObjects.removeGroup(message.identifier);
-        earlyExit.push(message);
-        break;
-    }
-  });
-
-  // Pass objects to each worker
-  buckets.forEach((bucket) => {
-    bucket.forEach((object) => {
-      const [worker, id] = pool.next();
-      pendingObjects.add(id, object.path);
-      messenger.send(worker, {
-        type: "do-import-object",
-        path: object.path,
-      });
-    });
-  });
-
-  // Wait until all workers are done
-  while (pendingObjects.size() > 0 && earlyExit.length !== pool.size()) {
-    await delay(1000);
+  if (connection instanceof Firestore) {
+    timer = Timer.start(log, `Import data from ${path}`);
+    logger.verbose({ options });
+  } else {
+    project = b(connection.project);
+    timer = Timer.start(log, `Import data from ${path} to ${project}`);
+    logger.verbose({ options, connection });
   }
 
-  if (earlyExit.length > 0) {
-    logger.warn(`${earlyExit.length} worker thread(s) exited early`);
-  }
+  const importer = new Importer(connection, reader, logger);
+  const { imported } = await importer.run(options);
 
-  const remaining = pool.size() - earlyExit.length;
-  if (remaining > 0)
-    logger.debug(`Closing ${styledCount(yellow, remaining, "read stream")}`);
-
-  pool.broadcast(messenger.createMessage({ type: "exit" }));
-  await pool.done();
-
-  timer.stop();
-  logger.success(
-    `Finished importing data into ${bold(project)} (took ${timer.durationString})`
-  );
+  if (!project)
+    timer.stop(`Imported ${plural(imported, "document")} from ${path}`);
+  else
+    timer.stop(
+      `Imported ${plural(imported, "document")} from ${path} to ${project}`
+    );
 }

@@ -7,7 +7,6 @@ import {
   green,
   bold,
   dim,
-  reset,
 } from "ansi-colors";
 
 export enum LogLevel {
@@ -19,11 +18,15 @@ export enum LogLevel {
   ERROR = "error",
 }
 
+const LogLevelLength = Math.max(
+  ...Object.values(LogLevel).map((l) => l.length)
+);
+
 export class Logger {
   private static COLOR_MAP: { [key in LogLevel]: StyleFunction } = {
-    [LogLevel.VERBOSE]: reset,
+    [LogLevel.VERBOSE]: cyan,
     [LogLevel.DEBUG]: magenta,
-    [LogLevel.INFO]: cyan,
+    [LogLevel.INFO]: green,
     [LogLevel.SUCCESS]: green,
     [LogLevel.WARN]: yellow,
     [LogLevel.ERROR]: red,
@@ -43,7 +46,12 @@ export class Logger {
 
     switch (level) {
       case "info":
-        levels = [LogLevel.INFO, LogLevel.SUCCESS, LogLevel.WARN, LogLevel.ERROR];
+        levels = [
+          LogLevel.INFO,
+          LogLevel.SUCCESS,
+          LogLevel.WARN,
+          LogLevel.ERROR,
+        ];
         break;
       case "debug":
         levels = [
@@ -86,51 +94,49 @@ export class Logger {
    */
   private createLog(options: {
     level: LogLevel;
-    message: string;
+    message: any | any[];
     data?: any;
-    error?: Error;
-    prefix?: string;
+    context?: string;
   }) {
-    const { level, message, data, error, prefix = this.context } = options;
+    const { level, message, data, context = this.context } = options;
 
     // Only log message to console if we match the log level
     if (this.levels.has(level)) {
-      // Construct preamble
-      const preamble = [Logger.COLOR_MAP[level](bold(level))];
-      if (prefix) preamble.push(dim(prefix));
+      const prefix: string[] = [];
+      if (context) prefix.push(dim(context));
+      const paddedLevel = level.padEnd(LogLevelLength);
+      prefix.push(Logger.COLOR_MAP[level](bold(paddedLevel)));
 
       // Print message
-      this.outputMap[level](`${preamble.join(" ")} ${message}`);
+      const output = Array.isArray(message) ? message : [message];
+      this.outputMap[level](...prefix, ...output);
 
       // Print data if provided
       if (data) this.outputMap[level](data);
     }
-
-    // Always log the error if there was an error provided
-    if (error) this.outputMap[LogLevel.ERROR](error);
   }
 
-  verbose(message: string, data?: any) {
-    this.createLog({ level: LogLevel.VERBOSE, message, data });
+  verbose(...message: any[]) {
+    this.createLog({ level: LogLevel.VERBOSE, message });
   }
 
-  debug(message: string, data?: any) {
-    this.createLog({ level: LogLevel.DEBUG, message, data });
+  debug(...message: any[]) {
+    this.createLog({ level: LogLevel.DEBUG, message });
   }
 
-  info(message: string, data?: any) {
-    this.createLog({ level: LogLevel.INFO, message, data });
+  info(...message: any[]) {
+    this.createLog({ level: LogLevel.INFO, message });
   }
 
-  success(message: string, data?: any) {
-    this.createLog({ level: LogLevel.SUCCESS, message, data });
+  success(...message: any[]) {
+    this.createLog({ level: LogLevel.SUCCESS, message });
   }
 
-  warn(message: string, data?: any) {
-    this.createLog({ level: LogLevel.WARN, message, data });
+  warn(...message: any[]) {
+    this.createLog({ level: LogLevel.WARN, message });
   }
 
-  error(message: string, error?: Error, data?: any) {
-    this.createLog({ level: LogLevel.ERROR, message, error, data });
+  error(...message: any[]) {
+    this.createLog({ level: LogLevel.ERROR, message });
   }
 }

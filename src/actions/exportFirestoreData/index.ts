@@ -1,2 +1,2 @@
-export { exportFirestoreData } from "./exportFirestoreData";
-export { ExportFirestoreDataOptions } from "./types";
+export * from "./exportFirestoreData";
+export * from "./types";

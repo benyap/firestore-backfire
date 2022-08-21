@@ -1,8 +1,8 @@
 # Contributing guide
 
 Contributions are welcome. Please have a look at the first contributions
-[help guide](https://github.com/firstcontributions/first-contributions) if you are
-new to contributing.
+[help guide](https://github.com/firstcontributions/first-contributions) if you
+are new to contributing.
 
 ## <a name="branching-strategy"> Branching strategy
 
@@ -33,9 +33,9 @@ message consists of a header, a body, and a footer.
 The `header` is mandatory and must conform to the
 [Commit Message Header](#commit-header) format.
 
-The `body` is mandatory for all commits except for those of type "docs". When the
-body is present it must be at least 20 characters long and must conform to the
-[Commit Message Body](#commit-body) format.
+The `body` is mandatory for all commits except for those of type "docs". When
+the body is present it must be at least 20 characters long and must conform to
+the [Commit Message Body](#commit-body) format.
 
 The `footer` is optional. The [Commit Message Footer](#commit-footer) format
 describes what the footer is used for and the structure it must have.
@@ -64,7 +64,6 @@ Must be one of the following:
 - **chore**: Code maintenance changes that do not change functionality
 - **wip**: Work in progress commit
 - **deps**: Non-breaking dependency updates
-- **test**: Add missing tests or changing existing tests
 - **docs**: Documentation only changes
 - **tooling**: Changes that affect the development tooling, build scripts or
   configuration
@@ -80,24 +79,24 @@ Use the summary field to provide a succinct description of the change:
 
 ### <a name="commit-footer"></a>Commit Message Footer
 
-The footer can contain information about breaking changes and is also the place to
-reference GitHub issues, Jira tickets, and other PRs that this commit closes or is
-related to.
+The footer can contain information about breaking changes and is also the place
+to reference GitHub issues, Jira tickets, and other PRs that this commit closes
+or is related to.
 
 ### <a name='revert-commits'></a> Revert commits
 
-If the commit reverts a previous commit, it should begin with `revert:`, followed by
-the header of the reverted commit.
+If the commit reverts a previous commit, it should begin with `revert:`,
+followed by the header of the reverted commit.
 
 The content of the commit message body should contain:
 
-- information about the SHA of the commit being reverted in the following format:
-  `This reverts commit <SHA>`,
+- information about the SHA of the commit being reverted in the following
+  format: `This reverts commit <SHA>`,
 - a clear description of the reason for reverting the commit.
 
 ## <a name="typescript-style-guide"> TypeScript Style guide
 
 All TypeScript code is linted with [Prettier](https://prettier.io/). Most
 configuration settings are set to [the recommended
-defaults](https://prettier.io/docs/en/options.html). Please see `.prettierrc.yaml`
-for any customised configuration.
+defaults](https://prettier.io/docs/en/options.html). Please see
+[.prettierrc.json](.prettierrc.json) for any customised configuration.

@@ -1,25 +1,37 @@
-import { bold } from "ansi-colors";
+import { yellow } from "ansi-colors";
+import { EError } from "exceptional-errors";
 
-import { MissingPeerDependencyError } from "~/errors";
-
-export async function ensureStorageSourceDependencyInstalled(
-  packageName: string,
-  name: string
-): Promise<void> {
-  const installed = await isDependencyInstalled(packageName);
-  if (!installed) {
-    throw new MissingPeerDependencyError(
-      packageName,
-      `Please install ${bold(packageName)} to read and write data from ${name}`
-    );
+export class MissingPeerDependencyError extends EError {
+  constructor(packageName: string, info?: string) {
+    if (info) super(`Please install ${yellow(packageName)}: ${info}`);
+    else super(`Please install ${yellow(packageName)}`);
   }
 }
 
-export async function isDependencyInstalled(name: string): Promise<boolean> {
+/**
+ * Asserts that the specified dependency is installed.
+ * Throws a {@link MissingPeerDependencyError} if not installed.
+ */
+export async function ensureDependencyInstalled(
+  packageName: string,
+  info?: string
+): Promise<void> {
+  const installed = await isDependencyInstalled(packageName);
+  if (!installed) {
+    throw new MissingPeerDependencyError(packageName, info);
+  }
+}
+
+/**
+ * Checks if the specified dependency is installed.
+ */
+export async function isDependencyInstalled(
+  packageName: string
+): Promise<boolean> {
   try {
-    await import(name);
+    await import(packageName);
     return true;
-  } catch (error: any) {
+  } catch (error) {
     return false;
   }
 }

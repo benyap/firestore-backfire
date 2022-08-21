@@ -1,0 +1,887 @@
+// Vitest Snapshot v1
+
+exports[`deserializeDocument > deserializes documents as arrays 1`] = `
+[
+  {
+    "data": {},
+    "path": "documents/1",
+  },
+  {
+    "data": {},
+    "path": "documents/2",
+  },
+  {
+    "data": {},
+    "path": "documents/3",
+  },
+]
+`;
+
+exports[`deserializeDocument > deserializes documents with collection references 1`] = `
+{
+  "data": {
+    "id": "1",
+    "reference": CollectionReference {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "documents",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": undefined,
+        "fieldFilters": [],
+        "fieldOrders": [],
+        "kindless": false,
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": undefined,
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+    "references": [
+      CollectionReference {
+        "_allowUndefined": false,
+        "_firestore": {
+          "projectId": "demo",
+        },
+        "_queryOptions": QueryOptions {
+          "allDescendants": false,
+          "collectionId": "documents",
+          "converter": {
+            "fromFirestore": [Function],
+            "toFirestore": [Function],
+          },
+          "endAt": undefined,
+          "fieldFilters": [],
+          "fieldOrders": [],
+          "kindless": false,
+          "limit": undefined,
+          "limitType": undefined,
+          "offset": undefined,
+          "parentPath": ResourcePath {
+            "segments": [],
+          },
+          "projection": undefined,
+          "requireConsistency": true,
+          "startAt": undefined,
+        },
+        "_serializer": Serializer {
+          "allowUndefined": false,
+          "createInteger": [Function],
+          "createReference": [Function],
+        },
+      },
+    ],
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with document references 1`] = `
+{
+  "data": {
+    "id": "1",
+    "reference": DocumentReference {
+      "_converter": {
+        "fromFirestore": [Function],
+        "toFirestore": [Function],
+      },
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_path": ResourcePath {
+        "segments": [
+          "documents",
+          "2",
+        ],
+      },
+    },
+    "references": [
+      DocumentReference {
+        "_converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "_firestore": {
+          "projectId": "demo",
+        },
+        "_path": ResourcePath {
+          "segments": [
+            "documents",
+            "2",
+          ],
+        },
+      },
+    ],
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with geopoints 1`] = `
+{
+  "data": {
+    "id": "1",
+    "nested": {
+      "places": [
+        GeoPoint {
+          "_latitude": 11,
+          "_longitude": 20,
+        },
+        GeoPoint {
+          "_latitude": 12,
+          "_longitude": 20,
+        },
+      ],
+    },
+    "point": GeoPoint {
+      "_latitude": 10,
+      "_longitude": 20,
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > endAt (with boolean and array proto fields) 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "documents",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": {
+          "before": false,
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "counts": {
+                    "arrayValue": {
+                      "values": [
+                        {
+                          "integerValue": 1,
+                        },
+                        {
+                          "integerValue": 2,
+                        },
+                        {
+                          "integerValue": 3,
+                        },
+                      ],
+                    },
+                  },
+                  "error": {
+                    "booleanValue": true,
+                  },
+                },
+              },
+            },
+          ],
+        },
+        "fieldFilters": [],
+        "fieldOrders": [
+          FieldOrder {
+            "direction": "ASCENDING",
+            "field": FieldPath {
+              "segments": [
+                "properties",
+              ],
+            },
+          },
+        ],
+        "kindless": false,
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": undefined,
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > endBefore (with multiple proto fields) 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "documents",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": {
+          "before": true,
+          "values": [
+            {
+              "doubleValue": 12.5,
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "color": {
+                    "stringValue": "blue",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        "fieldFilters": [],
+        "fieldOrders": [
+          FieldOrder {
+            "direction": "ASCENDING",
+            "field": FieldPath {
+              "segments": [
+                "average",
+              ],
+            },
+          },
+          FieldOrder {
+            "direction": "ASCENDING",
+            "field": FieldPath {
+              "segments": [
+                "properties",
+              ],
+            },
+          },
+        ],
+        "kindless": false,
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": undefined,
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > field filter (where: array) 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "threads",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": undefined,
+        "fieldFilters": [
+          FieldFilter {
+            "field": FieldPath {
+              "segments": [
+                "id",
+              ],
+            },
+            "op": "IN",
+            "serializer": Serializer {
+              "allowUndefined": false,
+              "createInteger": [Function],
+              "createReference": [Function],
+            },
+            "value": [
+              15,
+              16,
+              17,
+            ],
+          },
+          FieldFilter {
+            "field": FieldPath {
+              "segments": [
+                "count",
+              ],
+            },
+            "op": "ARRAY_CONTAINS",
+            "serializer": Serializer {
+              "allowUndefined": false,
+              "createInteger": [Function],
+              "createReference": [Function],
+            },
+            "value": [
+              1,
+              2,
+              3,
+              4,
+            ],
+          },
+        ],
+        "fieldOrders": [],
+        "kindless": false,
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [
+            "documents",
+            "1",
+          ],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": undefined,
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > field filter (where: comparison) 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "threads",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": undefined,
+        "fieldFilters": [
+          FieldFilter {
+            "field": FieldPath {
+              "segments": [
+                "details",
+                "count",
+              ],
+            },
+            "op": "GREATER_THAN",
+            "serializer": Serializer {
+              "allowUndefined": false,
+              "createInteger": [Function],
+              "createReference": [Function],
+            },
+            "value": 10,
+          },
+          FieldFilter {
+            "field": FieldPath {
+              "segments": [
+                "details",
+                "count",
+              ],
+            },
+            "op": "LESS_THAN_OR_EQUAL",
+            "serializer": Serializer {
+              "allowUndefined": false,
+              "createInteger": [Function],
+              "createReference": [Function],
+            },
+            "value": 100,
+          },
+        ],
+        "fieldOrders": [],
+        "kindless": false,
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [
+            "documents",
+            "1",
+          ],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": undefined,
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > field filter (where: equality) 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "threads",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": undefined,
+        "fieldFilters": [
+          FieldFilter {
+            "field": FieldPath {
+              "segments": [
+                "id",
+              ],
+            },
+            "op": "EQUAL",
+            "serializer": Serializer {
+              "allowUndefined": false,
+              "createInteger": [Function],
+              "createReference": [Function],
+            },
+            "value": "1",
+          },
+          FieldFilter {
+            "field": FieldPath {
+              "segments": [
+                "user",
+              ],
+            },
+            "op": "NOT_EQUAL",
+            "serializer": Serializer {
+              "allowUndefined": false,
+              "createInteger": [Function],
+              "createReference": [Function],
+            },
+            "value": "123",
+          },
+        ],
+        "fieldOrders": [],
+        "kindless": false,
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [
+            "documents",
+            "1",
+          ],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": undefined,
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > field order (orderBy) 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "threads",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": undefined,
+        "fieldFilters": [],
+        "fieldOrders": [
+          FieldOrder {
+            "direction": "ASCENDING",
+            "field": FieldPath {
+              "segments": [
+                "id",
+              ],
+            },
+          },
+          FieldOrder {
+            "direction": "DESCENDING",
+            "field": FieldPath {
+              "segments": [
+                "date",
+              ],
+            },
+          },
+        ],
+        "kindless": false,
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [
+            "documents",
+            "1",
+          ],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": undefined,
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > limit 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "documents",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": undefined,
+        "fieldFilters": [],
+        "fieldOrders": [],
+        "kindless": false,
+        "limit": 10,
+        "limitType": 0,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": undefined,
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > limitToLast 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "documents",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": undefined,
+        "fieldFilters": [],
+        "fieldOrders": [],
+        "kindless": false,
+        "limit": 10,
+        "limitType": 1,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": undefined,
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > offset 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "documents",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": undefined,
+        "fieldFilters": [],
+        "fieldOrders": [],
+        "kindless": false,
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": 10,
+        "parentPath": ResourcePath {
+          "segments": [],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": undefined,
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > startAfter (with nested map proto fields) 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "documents",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": undefined,
+        "fieldFilters": [],
+        "fieldOrders": [
+          FieldOrder {
+            "direction": "DESCENDING",
+            "field": FieldPath {
+              "segments": [
+                "properties",
+              ],
+            },
+          },
+        ],
+        "kindless": false,
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": {
+          "before": false,
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "info": {
+                    "mapValue": {
+                      "fields": {
+                        "strength": {
+                          "stringValue": "high",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with queries > startAt (with integer proto field) 1`] = `
+{
+  "data": {
+    "ref": Query {
+      "_allowUndefined": false,
+      "_firestore": {
+        "projectId": "demo",
+      },
+      "_queryOptions": QueryOptions {
+        "allDescendants": false,
+        "collectionId": "documents",
+        "converter": {
+          "fromFirestore": [Function],
+          "toFirestore": [Function],
+        },
+        "endAt": undefined,
+        "fieldFilters": [],
+        "fieldOrders": [
+          FieldOrder {
+            "direction": "ASCENDING",
+            "field": FieldPath {
+              "segments": [
+                "id",
+              ],
+            },
+          },
+        ],
+        "kindless": false,
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": ResourcePath {
+          "segments": [],
+        },
+        "projection": undefined,
+        "requireConsistency": true,
+        "startAt": {
+          "before": true,
+          "values": [
+            {
+              "integerValue": 10,
+            },
+          ],
+        },
+      },
+      "_serializer": Serializer {
+        "allowUndefined": false,
+        "createInteger": [Function],
+        "createReference": [Function],
+      },
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with timestamps 1`] = `
+{
+  "data": {
+    "date": Timestamp {
+      "_nanoseconds": 0,
+      "_seconds": 1640995200,
+    },
+    "id": "1",
+    "nested": {
+      "dates": [
+        Timestamp {
+          "_nanoseconds": 0,
+          "_seconds": 1640995200,
+        },
+        Timestamp {
+          "_nanoseconds": 0,
+          "_seconds": 1640995200,
+        },
+      ],
+    },
+  },
+  "path": "documents/1",
+}
+`;
+
+exports[`deserializeDocument > deserializes documents with timestamps 2`] = `2022-01-01T00:00:00.000Z`;
+
+exports[`deserializeDocument > deserializes plain documents 1`] = `
+{
+  "data": {
+    "attachments": 2,
+    "content": "Dear John,
+Hello world!",
+    "from": "example@email.com",
+    "tags": {
+      "important": true,
+      "work": true,
+    },
+    "to": [
+      "recipient1@email.com",
+      "recipient2@email.com",
+    ],
+  },
+  "path": "documents/1",
+}
+`;
