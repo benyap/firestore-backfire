@@ -1,5 +1,12 @@
 
 
+## [2.0.2](https://github.com/benyap/firestore-backfire/compare/v2.0.1...v2.0.2) (2022-08-21)
+
+
+### Bug Fixes
+
+* do not count failed imports as a successful import ([ba4e0c8](https://github.com/benyap/firestore-backfire/commit/ba4e0c802addd488466ed16042c3d1fc6a02aa6f))
+
 ## [2.0.1](https://github.com/benyap/firestore-backfire/compare/v2.0.0...v2.0.1) (2022-08-21)
 
 
