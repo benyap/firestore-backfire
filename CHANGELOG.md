@@ -1,5 +1,12 @@
 
 
+## [2.0.1](https://github.com/benyap/firestore-backfire/compare/v2.0.0...v2.0.1) (2022-08-21)
+
+
+### Bug Fixes
+
+* export depth should be no limit by default ([9d2ce45](https://github.com/benyap/firestore-backfire/commit/9d2ce454bb8b6f3d063b69bf747eac325b45cbfa))
+
 ## [2.0.0](https://github.com/benyap/firestore-backfire/compare/v1.1.1...v2.0.0) (2022-08-21)
 
 Firestore Backfire v2 is a rewrite of v1 to provide a more up to date and extensible design. It provides new and improved functionality, uses NDJSON as the data format, and no longer uses worker threads.
