@@ -32,17 +32,18 @@ export async function importFirestoreData(
     ? "debug"
     : "info";
 
-  let timer: TimerInstance;
-  let project: string = "";
   const path = dir(reader.path);
   const logger = Logger.create("import", level);
   const log = logger.info.bind(logger);
+
+  let timer: TimerInstance;
+  let project = b("<unspecified>");
 
   if (connection instanceof Firestore) {
     timer = Timer.start(log, `Import data from ${path}`);
     logger.verbose({ options });
   } else {
-    project = b(connection.project);
+    if (connection.project) project = b(connection.project);
     timer = Timer.start(log, `Import data from ${path} to ${project}`);
     logger.verbose({ options, connection });
   }

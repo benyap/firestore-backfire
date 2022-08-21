@@ -1,20 +1,18 @@
 import { describe, expect, test } from "vitest";
 import { yellow } from "ansi-colors";
 
-import { count, formatDuration, plural } from "~/utils/format";
+import { capitalize, count, formatDuration, plural } from "~/utils/format";
 import { TrackableList, TrackableNumber, Tracker } from "~/utils/track";
 
-describe(plural.name, () => {
-  test("returns plural when number = 0", () => {
-    expect(plural(0, "thing")).toBe(`${yellow("0")} things`);
+describe(capitalize.name, () => {
+  test("capitalizes a message correctly", () => {
+    expect(capitalize("hello")).toEqual("Hello");
+    expect(capitalize("hello there")).toEqual("Hello there");
+    expect(capitalize("Already capitalised")).toEqual("Already capitalised");
   });
 
-  test("returns singular when number = 1", () => {
-    expect(plural(1, "thing")).toBe(`${yellow("1")} thing`);
-  });
-
-  test("returns plural when number > 1", () => {
-    expect(plural(4, "glass", "glasses")).toBe(`${yellow("4")} glasses`);
+  test("does not modify an empty string", () => {
+    expect(capitalize("")).toEqual("");
   });
 });
 
@@ -41,6 +39,20 @@ describe(count.name, () => {
     const list = new TrackableList(new Tracker());
     list.push(1, 2, 3);
     expect(count(list)).toEqual(yellow("3"));
+  });
+});
+
+describe(plural.name, () => {
+  test("returns plural when number = 0", () => {
+    expect(plural(0, "thing")).toBe(`${yellow("0")} things`);
+  });
+
+  test("returns singular when number = 1", () => {
+    expect(plural(1, "thing")).toBe(`${yellow("1")} thing`);
+  });
+
+  test("returns plural when number > 1", () => {
+    expect(plural(4, "glass", "glasses")).toBe(`${yellow("4")} glasses`);
   });
 });
 

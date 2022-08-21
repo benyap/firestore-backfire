@@ -3,7 +3,7 @@
 import { Command } from "commander";
 import { EError } from "exceptional-errors";
 
-import { Logger } from "./utils";
+import { capitalize, Logger } from "./utils";
 import { Constants, GlobalOptions } from "./config";
 import {
   ConfigOption,
@@ -12,6 +12,8 @@ import {
   createExportCommand,
   createImportCommand,
 } from "./cli";
+
+const logger = Logger.create(Constants.NAME);
 
 async function main() {
   // Create program for parsing CLI commands
@@ -30,12 +32,22 @@ async function main() {
   createExportCommand(cli, globalOptions);
   createImportCommand(cli, globalOptions);
 
+  // Configure how to output error messages
+  cli.configureOutput({
+    writeErr(message) {
+      const messages = message.split("\n");
+      if (!messages.at(-1)) messages.splice(-1); // remove last line if empty
+      messages
+        .map((message) => capitalize(message.replace(/^error: /gi, "")))
+        .forEach((message) => logger.error(message));
+    },
+  });
+
   // Execute program
   await cli.parseAsync();
 }
 
 main().catch(async (error) => {
-  const logger = Logger.create(Constants.NAME);
   if (error instanceof EError) {
     if (error.info) logger.error(String(error), error.info);
     else logger.error(String(error));

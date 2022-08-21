@@ -17,6 +17,11 @@ export function b(value: string | undefined) {
   return bold(value ?? "");
 }
 
+export function capitalize(message: string) {
+  const start = message.at(0)?.toUpperCase() ?? "";
+  return start + message.slice(1);
+}
+
 export function count(
   n: number | string | unknown[] | TrackableNumber | TrackableList<unknown>
 ) {

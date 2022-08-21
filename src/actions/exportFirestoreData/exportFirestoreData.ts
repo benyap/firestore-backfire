@@ -31,17 +31,18 @@ export async function exportFirestoreData(
     : options.debug
     ? "debug"
     : "info";
-  let timer: TimerInstance;
-  let project: string = "";
   const path = dir(writer.path);
   const logger = Logger.create("export", level);
   const log = logger.info.bind(logger);
+
+  let timer: TimerInstance;
+  let project = b("<unspecified>");
 
   if (connection instanceof Firestore) {
     timer = Timer.start(log, `Export data to ${path}`);
     logger.verbose({ options });
   } else {
-    project = b(connection.project);
+    if (connection.project) project = b(connection.project);
     timer = Timer.start(log, `Export data from ${project} to ${path}`);
     logger.verbose({ options, connection });
   }

@@ -8,7 +8,7 @@ export class Parser {
     return (value) => {
       const parsed = parseInt(value, 10);
       if (isNaN(parsed))
-        throw new InvalidArgumentError(`"${value}" is not an integer.`);
+        throw new InvalidArgumentError(`'${value}' is not an integer.`);
       if (typeof min === "number" && parsed < min)
         throw new InvalidArgumentError(`Must be greater or equal to ${min}.`);
       if (typeof max === "number" && parsed > max)
