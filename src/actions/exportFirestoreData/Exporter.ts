@@ -128,7 +128,7 @@ export class Exporter {
    * options are dropped.
    */
   private async exploreAction(options: ExportOptions) {
-    const { depth = -1, exploreChunkSize = 1000 } = options;
+    const { depth, exploreChunkSize = 1000 } = options;
 
     // Use a lock here so that `exploreQueue` and `exploring` won't end the
     // operation prematurely if they are both empty while paths are dequeued
@@ -140,8 +140,8 @@ export class Exporter {
     if (paths.length === 0) return;
 
     const [docPaths, colPaths] = split(paths, isDocumentPath);
-    const docPathsFiltered = docPaths.filter(
-      (path) => documentPathDepth(path) < depth
+    const docPathsFiltered = docPaths.filter((path) =>
+      typeof depth === "number" ? documentPathDepth(path) < depth : true
     );
     this.exploring.decrement(docPaths.length - docPathsFiltered.length);
 
