@@ -6,6 +6,9 @@
 Ultimate control over importing and exporting data from Firestore and the
 Firestore Emulator, on your CLI and in your code.
 
+This documentation is for 2.x. Find documentation for 1.x
+[here](https://github.com/benyap/firestore-backfire/blob/cc4e4e7a93a7b2e207db1566723beb8228030fe0/README.md).
+
 ### ✨ Features ✨ <!-- omit in toc -->
 
 - Specify which documents or collections are imported or exported using paths or
@@ -669,8 +672,8 @@ Sample JSON config:
 ### 1.x to 2.x
 
 Firestore Backfire v2 is a re-write of v1 to provide a more up to date and
-extensible design. It provides new and improved functionality, and no longer
-uses worker threads.
+extensible design. It provides new and improved functionality, uses NDJSON as
+the data format, and no longer uses worker threads.
 
 **Breaking changes**
 
