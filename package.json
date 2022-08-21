@@ -24,9 +24,6 @@
   "files": [
     "dist/**"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "bin": {
     "bf": "dist/cjs/backfire.js",
     "backfire": "dist/cjs/backfire.js",
