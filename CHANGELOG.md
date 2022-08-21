@@ -1,3 +1,43 @@
+
+
+## [2.0.0](https://github.com/benyap/firestore-backfire/compare/v1.1.1...v2.0.0) (2022-08-21)
+
+Firestore Backfire v2 is a rewrite of v1 to provide a more up to date and extensible design. It provides new and improved functionality, uses NDJSON as the data format, and no longer uses worker threads.
+
+### ⚠ BREAKING CHANGES
+
+* `-p` has been renamed to `-P`
+* `-k` has been renamed to `-K`
+* `-e` has been renamed to `-E`
+* `--patterns` has been renamed to `--match`
+* `--workers` has been removed as worker threads are no longer used
+* `--logLevel` has been removed, use `--verbose`, `--debug` or `--silent`instead
+* `--prettify` has been renamed to `--stringify`
+* `--force` has been renamed to `--overwrite`
+* `--mode` values have changed to "create", "insert", "overwrite", "merge"
+* Import and export file format changed to NDJSON (not backward compatible)
+
+### New features
+
+* New options:
+  * `ignore` (`--ignore, -i`) to ignore paths
+  * `limit` (`--limit, -l`) to limit number of documents imported/exported
+  * `update` (`--update`) to specify the frequency of update messages
+  * A few more advanced configuration options
+* New commands:
+  * `backfire get <path>` to get a document from Firestore
+  * `backfire list:documents <path>` to list documents in a collection
+  * `backfire list:collections [path]` to list root collections or subcollections
+* Support for passing some options as environment variables
+  * `GOOGLE_CLOUD_PROJECT`
+  * `GOOGLE_APPLICATION_CREDENTIALS`
+  * `AWS_PROFILE`
+  * `AWS_ACCESS_KEY_ID`
+  * `AWS_SECRET_ACCESS_KEY`
+  * `AWS_REGION`
+* Ability to create custom data sources in Node
+* Ability to use an existing Firestore instance in Node
+
 ### [1.1.1](https://github.com/benyap/firestore-backfire/compare/v1.1.0...v1.1.1) (2022-01-11)
 
 
