@@ -203,13 +203,24 @@ export class Importer {
       switch (mode) {
         case "create":
         case "insert":
-          await writer.create(this.firestore.doc(path), data);
+          await writer.create(this.firestore.doc(path), data).catch((error) => {
+            this.imported.decrement(1);
+            throw error;
+          });
           break;
         case "overwrite":
-          await writer.set(this.firestore.doc(path), data);
+          await writer.set(this.firestore.doc(path), data).catch((error) => {
+            this.imported.decrement(1);
+            throw error;
+          });
           break;
         case "merge":
-          await writer.set(this.firestore.doc(path), data, { merge: true });
+          await writer
+            .set(this.firestore.doc(path), data, { merge: true })
+            .catch((error) => {
+              this.imported.decrement(1);
+              throw error;
+            });
           break;
       }
 
