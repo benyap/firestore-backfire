@@ -1,4 +1,4 @@
-# 🔥 Firestore BackFire <!-- omit in toc -->
+# 🔥 Firestore Backfire <!-- omit in toc -->
 
 [![npm version](https://img.shields.io/npm/v/firestore-backfire)](https://npmjs.com/package/firestore-backfire)
 [![License](https://img.shields.io/github/license/benyap/firestore-backfire)](LICENSE)
