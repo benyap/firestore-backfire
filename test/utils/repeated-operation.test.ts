@@ -267,7 +267,8 @@ describe(RepeatedOperation.name, () => {
     });
   });
 
-  describe("options.interval", () => {
+  // Hard to achieve consistent test results
+  describe.skip("options.interval", () => {
     test("waits using the specified interval between each operation call", async () => {
       const interval = 100;
       const op = new RepeatedOperation({
@@ -282,7 +283,8 @@ describe(RepeatedOperation.name, () => {
     });
   });
 
-  describe("options.intervalType", () => {
+  // Hard to achieve consistent test results
+  describe.skip("options.intervalType", () => {
     const INTERVAL = 50;
     const TOLERANCE = 10;
 
@@ -359,7 +361,8 @@ describe(RepeatedOperation.name, () => {
     });
   });
 
-  describe("options.resetInterval", () => {
+  // Hard to achieve consistent test results
+  describe.skip("options.resetInterval", () => {
     const INTERVAL = 50;
     const TOLERANCE = 5;
 

@@ -42,7 +42,7 @@
     "dev": "rimraf dist/* && concurrently pnpm:build:out:* -n build: && node dist/cjs/backfire.js",
     "emulator": "firebase emulators:start --project demo",
     "test": "vitest --passWithNoTests",
-    "release": "pnpm test && release-it"
+    "release": "pnpm test run && release-it"
   },
   "dependencies": {
     "ansi-colors": "4.1.3",
