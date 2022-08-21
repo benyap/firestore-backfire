@@ -1,3 +1,4 @@
+import { Firestore } from "@google-cloud/firestore";
 import {
   FirestoreConnectionOptions,
   FirestoreDocument,
@@ -37,7 +38,7 @@ export class Exporter {
   private limitReached = false;
 
   constructor(
-    private connection: FirestoreConnectionOptions,
+    private connection: FirestoreConnectionOptions | Firestore,
     private writer: IDataSourceWriter,
     private logger: Logger
   ) {}

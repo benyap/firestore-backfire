@@ -1,3 +1,5 @@
+import { Firestore } from "@google-cloud/firestore";
+
 import { FirestoreConnectionOptions, FirestoreFactory } from "~/firestore";
 
 import { GetFirestoreDataOptions } from "./types";
@@ -5,11 +7,11 @@ import { GetFirestoreDataOptions } from "./types";
 /**
  * Get a document's data from Firestore and return it as stringified JSON.
  *
- * @param connection Specify how to connect to Firestore.
+ * @param connection Firestore connection options.
  * @param path Specify the document path to get.
  */
 export function getFirestoreData(
-  connection: FirestoreConnectionOptions,
+  connection: FirestoreConnectionOptions | Firestore,
   path: string,
   options: { stringify: true | number }
 ): Promise<string>;
@@ -17,18 +19,18 @@ export function getFirestoreData(
 /**
  * Get a document's data from Firestore.
  *
- * @param connection Specify how to connect to Firestore.
+ * @param connection Firestore connection options.
  * @param path Specify the document path to get.
  */
 export function getFirestoreData(
-  connection: FirestoreConnectionOptions,
+  connection: FirestoreConnectionOptions | Firestore,
   path: string,
   options?: { stringify?: false }
 ): Promise<FirebaseFirestore.DocumentData>;
 
 // Implementation
 export async function getFirestoreData(
-  connection: FirestoreConnectionOptions,
+  connection: FirestoreConnectionOptions | Firestore,
   path: string,
   options: GetFirestoreDataOptions = {}
 ) {

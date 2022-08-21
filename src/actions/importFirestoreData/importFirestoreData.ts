@@ -1,4 +1,6 @@
-import { Logger, dir, plural, Timer, b } from "~/utils";
+import { Firestore } from "@google-cloud/firestore";
+
+import { Logger, dir, plural, Timer, b, TimerInstance } from "~/utils";
 import { FirestoreConnectionOptions } from "~/firestore";
 import { IDataSourceReader } from "~/data-source/interface";
 
@@ -13,18 +15,15 @@ import { Importer } from "./Importer";
  * Import documents to Firestore. Data is expected to be in NDJSON format
  * and should follow the {@link SerializedFirestoreDocument} interface.
  *
- * @param connection Specify how to connect to Firestore.
- * @param reader Specify where to read the data to import into Firestore.
- * @param options Specify what data to impor to Firestore.
+ * @param connection Firestore connection options.
+ * @param reader A data source reader.
+ * @param options Import options.
  */
 export async function importFirestoreData(
-  connection: FirestoreConnectionOptions,
+  connection: FirestoreConnectionOptions | Firestore,
   reader: IDataSourceReader,
   options: ImportFirestoreDataOptions & LoggingOptions = {}
 ) {
-  const path = dir(reader.path);
-  const project = b(connection.project);
-
   const level = options.quiet
     ? "silent"
     : options.verbose
@@ -33,17 +32,28 @@ export async function importFirestoreData(
     ? "debug"
     : "info";
 
+  let timer: TimerInstance;
+  let project: string = "";
+  const path = dir(reader.path);
   const logger = Logger.create("import", level);
-  const timer = Timer.start(
-    logger.info.bind(logger),
-    `Import data from ${path} to ${project}`
-  );
-  logger.verbose({ options, connection });
+  const log = logger.info.bind(logger);
+
+  if (connection instanceof Firestore) {
+    timer = Timer.start(log, `Import data from ${path}`);
+    logger.verbose({ options });
+  } else {
+    project = b(connection.project);
+    timer = Timer.start(log, `Import data from ${path} to ${project}`);
+    logger.verbose({ options, connection });
+  }
 
   const importer = new Importer(connection, reader, logger);
   const { imported } = await importer.run(options);
 
-  timer.stop(
-    `Imported ${plural(imported, "document")} from ${path} to ${project}`
-  );
+  if (!project)
+    timer.stop(`Imported ${plural(imported, "document")} from ${path}`);
+  else
+    timer.stop(
+      `Imported ${plural(imported, "document")} from ${path} to ${project}`
+    );
 }

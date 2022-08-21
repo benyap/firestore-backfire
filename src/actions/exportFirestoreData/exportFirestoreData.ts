@@ -1,4 +1,6 @@
-import { Logger, dir, plural, Timer, b } from "~/utils";
+import { Firestore } from "@google-cloud/firestore";
+
+import { Logger, dir, plural, Timer, b, TimerInstance } from "~/utils";
 import { FirestoreConnectionOptions } from "~/firestore";
 import { IDataSourceWriter } from "~/data-source/interface";
 
@@ -13,17 +15,15 @@ import { Exporter } from "./Exporter";
  * Export documents from Firestore. Documents are serialized using
  * the {@link SerializedFirestoreDocument} interface in NDJSON format.
  *
- * @param connection Specify how to connect to Firestore.
- * @param writer Specify where to export the data from Firestore.
- * @param options Specify what data to export from Firestore.
+ * @param connection Firestore connection options.
+ * @param writer A data source writer.
+ * @param options Export options.
  */
 export async function exportFirestoreData(
-  connection: FirestoreConnectionOptions,
+  connection: FirestoreConnectionOptions | Firestore,
   writer: IDataSourceWriter,
   options: ExportFirestoreDataOptions & LoggingOptions = {}
 ) {
-  const path = dir(writer.path);
-  const project = b(connection.project);
   const level = options.quiet
     ? "silent"
     : options.verbose
@@ -32,17 +32,28 @@ export async function exportFirestoreData(
     ? "debug"
     : "info";
 
+  let timer: TimerInstance;
+  let project: string = "";
+  const path = dir(writer.path);
   const logger = Logger.create("export", level);
-  const timer = Timer.start(
-    logger.info.bind(logger),
-    `Export data from ${project} to ${path}`
-  );
-  logger.verbose({ options, connection });
+  const log = logger.info.bind(logger);
+
+  if (connection instanceof Firestore) {
+    timer = Timer.start(log, `Export data to ${path}`);
+    logger.verbose({ options });
+  } else {
+    project = b(connection.project);
+    timer = Timer.start(log, `Export data from ${project} to ${path}`);
+    logger.verbose({ options, connection });
+  }
 
   const exporter = new Exporter(connection, writer, logger);
   const { exported } = await exporter.run(options);
 
-  timer.stop(
-    `Exported ${plural(exported, "document")} from ${project} to ${path}`
-  );
+  if (!project)
+    timer.stop(`Exported ${plural(exported, "document")} to ${path}`);
+  else
+    timer.stop(
+      `Exported ${plural(exported, "document")} from ${project} to ${path}`
+    );
 }

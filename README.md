@@ -6,7 +6,7 @@
 Ultimate control over importing and exporting data from Firestore and the
 Firestore Emulator, on your CLI and in your code.
 
-✨ **Key features** ✨
+### ✨ Features ✨ <!-- omit in toc -->
 
 - Specify which documents or collections are imported or exported using paths or
   by matching regex patterns
@@ -29,13 +29,9 @@ Firestore Emulator, on your CLI and in your code.
   - [CLI](#cli)
   - [Node](#node)
 - [Exporting data](#exporting-data)
-  - [Firestore connection options](#firestore-connection-options)
-  - [Data source options](#data-source-options)
   - [Options](#options)
   - [Logging options](#logging-options)
 - [Importing data](#importing-data)
-  - [Firestore connection options](#firestore-connection-options-1)
-  - [Data source options](#data-source-options-1)
   - [Options](#options-1)
   - [Logging options](#logging-options-1)
 - [Get document](#get-document)
@@ -127,9 +123,12 @@ You can also use it in your `package.json` scripts.
 }
 ```
 
+#### CLI options <!-- omit in toc -->
+
 All options listed in the documentation have a CLI flag equivalent unless
 otherwise specified. The flag will always be `--` followed by the option name.
-In most cases, a shorthand may be available. Use the `backfire [command] --help`
+For example, the option `limit` can be passed on the CLI using `--limit`. In
+most cases, a shorthand may be available. Use the `backfire [command] --help`
 command to see the available options and their repsective flags.
 
 #### CLI examples <!-- omit in toc -->
@@ -218,26 +217,17 @@ When using the CLI, `path` should point to the location where you want the data
 to be exported to. This can be a path to a local file, a Google Cloud Storage
 path (prefixed with `gs://`), or an S3 path (prefixed with `s3://`).
 
-When using the `exportFirestoreData` function, the `writer` parameter must be an
-implementation of [IDataSourceWriter](src/data-source/interface/writer.ts). See
-the section on [data sources](#data-sources) for more information.
-
-### Firestore connection options
-
-To see the options for connecting to a Firestore instance to export data from,
-see the section on [connecting to Firestore](#connecting-to-firestore). When
-using the CLI, connection options must be provided through flags or in a
-[configuration file](#configuration-file).
-
-### Data source options
-
-To see the options for specifying where to export your data to, see the section
-on [data sources](#data-sources). When using the CLI, data source options must
-be provided through flags or in a [configuration file](#configuration-file).
+When using the `exportFirestoreData` function, the `connection` parameter can be
+an instance of Firestore, or it can be an object that specifies
+[options](#connecting-to-firestore) for creating a connection to Firestore. The
+`writer` parameter must be an implementation of
+[IDataSourceWriter](src/data-source/interface/writer.ts). See the section on
+[data sources](#data-sources) for more information.
 
 ### Options
 
-All options have a CLI flag equivalent unless otherwise specified. Follows the
+All options have a [CLI flag equivalent](#cli-options----omit-in-toc) unless
+otherwise specified. Follows the
 [ExportFirestoreDataOptions](src/actions/exportFirestoreData/types.ts)
 interface.
 
@@ -293,27 +283,17 @@ When using the CLI, `path` should point to the location where you want the data
 to be imported from. This can be a path to a local file, a Google Cloud Storage
 path (prefixed with `gs://`), or an S3 path (prefixed with `s3://`).
 
-When using the `importFirestoreData` function, the `reader` parameter must be an
-implementation of [IDataSourceReader](src/data-source/interface/reader.ts). See
-the section on [data sources](#data-sources) for more information.
-
-### Firestore connection options
-
-To see the options for connecting to a Firestore instance to import data to, see
-the section on [connecting to Firestore](#connecting-to-firestore). When using
-the CLI, connection options must be provided through flags or in a
-[configuration file](#configuration-file).
-
-### Data source options
-
-To see the options for specifying where to import your data from, see the
-section on [data sources](#data-sources). When using the CLI, data source
-options must be provided through flags or in a
-[configuration file](#configuration-file).
+When using the `importFirestoreData` function, the `connection` parameter can be
+an instance of Firestore, or it can be an object that specifies
+[options](#connecting-to-firestore) for creating a connection to Firestore. The
+`reader` parameter must be an implementation of
+[IDataSourceReader](src/data-source/interface/reader.ts). See the section on
+[data sources](#data-sources) for more information.
 
 ### Options
 
-All options have a CLI flag equivalent unless otherwise specified. Follows the
+All options have a [CLI flag equivalent](#cli-options----omit-in-toc) unless
+otherwise specified. Follows the
 [ImportFirestoreDataOptions](src/actions/importFirestoreData/types.ts)
 interface.
 
@@ -364,6 +344,9 @@ Have you ever wanted to quickly inspect or export a document as JSON from
 Firestore? This CLI command can help you do just that. `path` should be a valid
 Firestore document path. Prints the document as pretty JSON.
 
+Also ensure you provide appropriate options for
+[connecting to Firestore](#connecting-to-firestore).
+
 ```text
 backfire get <path> [options]
 ```
@@ -381,6 +364,9 @@ interface.
 
 List the paths of the documents in a collection or subcollection. `path` should
 be a valid Firestore collection path.
+
+Also ensure you provide appropriate options for
+[connecting to Firestore](#connecting-to-firestore).
 
 ```text
 backfire list:documents <path> [options]
@@ -560,8 +546,9 @@ these steps:
    DataSourceFactory instance (exposed as `dataSourceFactory`)
 
 Once your data source has been registered, you can use the `createReader()` or
-`createWriter()` methods on the default DataSourceFactory to construct your data
-source.
+`createWriter()` methods on the default
+[DataSourceFactory](src/data-source/factory/DataSourceFactory.ts) instance to
+construct your data source.
 
 Alternatively, you can instantiate your custom data source yourself and pass it
 directly to the `importFirestoreData` or `exportFirestoreData` if you do not
@@ -631,9 +618,9 @@ const reader = await dataSourceFactory.getReader<MyCustomOptions>(path, {
 ## Configuration file
 
 Instead of providing options on the CLI, you can also set defaults through a
-configuration file. You can use the `--config <path>` to point to a specific
-file to use as configuration. Note that CLI options will always override options
-provided through a configuration file.
+configuration file. You can use the flag `--config <path>` to point to a
+specific file to use as configuration. Note that CLI options will always
+override options provided through a configuration file.
 
 **IMPORTANT**: Do not to commit any secrets in your config file to version
 control.
@@ -697,6 +684,7 @@ uses worker threads.
 - `--prettify` has been renamed to `--stringify`
 - `--force` has been renamed to `--overwrite`
 - `--mode` values have changed to "create", "insert", "overwrite", "merge"
+- Import and export file format changed to NDJSON (not backward compatible)
 
 **New features**
 
@@ -718,6 +706,7 @@ uses worker threads.
   - `AWS_SECRET_ACCESS_KEY`
   - `AWS_REGION`
 - Ability to create custom data sources in Node
+- Ability to use an existing Firestore instance in Node
 
 ## Contributing
 

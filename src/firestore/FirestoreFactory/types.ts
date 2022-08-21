@@ -24,4 +24,9 @@ export interface FirestoreConnectionOptions {
    * Takes precedence over `keyFile` and `credentials`.
    */
   emulator?: string | boolean;
+
+  /**
+   * Provide a Firestore instance directly.
+   */
+  firestore?: FirebaseFirestore.Firestore;
 }

@@ -1,3 +1,5 @@
+import { Firestore } from "@google-cloud/firestore";
+
 import { FirestoreConnectionOptions, FirestoreFactory } from "~/firestore";
 
 import { ListFirestoreDataOptions } from "./types";
@@ -5,11 +7,11 @@ import { ListFirestoreDataOptions } from "./types";
 /**
  * Count the number of collections at the specified path in Firestore.
  *
- * @param connection Specify how to connect to Firestore.
+ * @param connection Firestore connection options.
  * @param path Specify the path to the document to count subcollections in. Pass an empty value to count root collections.
  */
 export function listFirestoreCollections(
-  connection: FirestoreConnectionOptions,
+  connection: FirestoreConnectionOptions | Firestore,
   path: string | undefined | null,
   options: { count: true }
 ): Promise<number>;
@@ -17,18 +19,18 @@ export function listFirestoreCollections(
 /**
  * List the collections at the specified path in Firestore.
  *
- * @param connection Specify how to connect to Firestore.
+ * @param connection Firestore connection options.
  * @param path Specify the path to the document to list subcollections in. Pass an empty value to list root collections.
  */
 export function listFirestoreCollections(
-  connection: FirestoreConnectionOptions,
+  connection: FirestoreConnectionOptions | Firestore,
   path: string | undefined | null,
   options?: { count?: false; limit?: number }
 ): Promise<string[]>;
 
 // Implementation
 export async function listFirestoreCollections(
-  connection: FirestoreConnectionOptions,
+  connection: FirestoreConnectionOptions | Firestore,
   path: string | undefined | null,
   options: ListFirestoreDataOptions = {}
 ) {

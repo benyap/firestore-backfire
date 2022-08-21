@@ -6,12 +6,14 @@ import { FirestoreConnectionOptions } from "./types";
 class FirestoreFactoryError extends EError {}
 
 export class FirestoreFactory {
-  static create({
-    project,
-    credentials,
-    emulator = process.env["FIRESTORE_EMULATOR_HOST"],
-    keyFile = process.env["GOOGLE_APPLICATION_CREDENTIALS"],
-  }: FirestoreConnectionOptions): Firestore {
+  static create(options: FirestoreConnectionOptions | Firestore): Firestore {
+    if (options instanceof Firestore) return options;
+    const {
+      project,
+      credentials,
+      emulator = process.env["FIRESTORE_EMULATOR_HOST"],
+      keyFile = process.env["GOOGLE_APPLICATION_CREDENTIALS"],
+    } = options;
     if (!project) throw new FirestoreFactoryError("project is required");
     if (credentials) return this.createWithCredentials(project, credentials);
     if (emulator) return this.createWithEmulator(project, emulator);
