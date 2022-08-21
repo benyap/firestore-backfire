@@ -16,6 +16,8 @@ export async function getS3Options(options: DataSourceOptions) {
       "either `awsProfile` or both `awsAccessKeyId` and `awsSecretAccessKey` are required"
     );
 
+  if (!awsRegion) throw new DataSourceError("`awsRegion` is required");
+
   await ensureDependencyInstalled(
     "@aws-sdk/client-s3",
     "required to use S3 data source"

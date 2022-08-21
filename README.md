@@ -469,7 +469,7 @@ source on the CLI, specify a `path` beginning with `s3://`.
 Credentials for reading and writing to the S3 bucket must also be provided as
 CLI options or through a [configuration file](#configuration-file). You can
 choose to use either `awsProfile`, or `awsAcecssKeyId` and `awsSecretAccessKey`.
-`awsRegion` is optional.
+`awsRegion` is always required.
 
 | Option             | Type     | Description                                                                                                                                                                           |
 | ------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
