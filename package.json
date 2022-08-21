@@ -28,6 +28,7 @@
     "access": "public"
   },
   "bin": {
+    "bf": "dist/cjs/backfire.js",
     "backfire": "dist/cjs/backfire.js",
     "firestore": "dist/cjs/backfire.js"
   },

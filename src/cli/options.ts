@@ -26,7 +26,7 @@ export const KeyFileOption = () =>
 export const EmulatorOption = () =>
   new Option(
     "-E, --emulator [host]",
-    "use the Firestore emulator (defaults to `localhost:8080` if host is not specified)"
+    "use the Firestore emulator (default: `localhost:8080` if host is not specified)"
   );
 
 // Action options
@@ -84,12 +84,19 @@ export const WriteModeOption = () =>
   ).choices(["create", "insert", "merge", "overwrite"]);
 
 export const DebugOption = () =>
-  new Option("-d, --debug", "print debug level logs");
+  new Option("-d, --debug", "print debug level logs and higher");
 
 export const VerboseOption = () =>
-  new Option("-v, --verbose", "print verbose level logs");
+  new Option(
+    "-v, --verbose",
+    "print verbose level logs and higher (overrides --debug)"
+  );
 
-export const QuietOption = () => new Option("-q, --quiet", "silence all logs");
+export const QuietOption = () =>
+  new Option(
+    "-q, --quiet",
+    "silence all logs (overrides --debug and --verbose)"
+  );
 
 export const UpdateRateOption = () =>
   new Option(

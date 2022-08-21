@@ -95,22 +95,19 @@ to run this program, you should also install:
 
 ### CLI
 
-**Firestore Backfire** ships with two binaries, `firestore` and `backfire`. Both
-of these can be used to run the program, so you can use whichever one you
-prefer.
+**Firestore Backfire** can be called on the CLI using `backfire`. The aliases
+`bf` and `firestore` are also provided for convenience.
 
 If installed in your project, run it using your package manager:
 
 ```text
 yarn backfire import path-to-my-data ...
-yarn firestore import path-to-my-data ...
 ```
 
 If installed globally, you can call it directly:
 
 ```text
 backfire import path-to-my-data ...
-firestore import path-to-my-data ...
 ```
 
 You can also use it in your `package.json` scripts.
@@ -119,9 +116,7 @@ You can also use it in your `package.json` scripts.
 // package.json
 {
   "scripts": {
-    // Either option works
-    "import-my-data": "backfire import path-to-my-data ...",
-    "import-more-data": "firestore import path-to-more-data ..."
+    "import-my-data": "backfire import path-to-my-data ..."
   }
 }
 ```
@@ -177,8 +172,8 @@ backfire import gs://bucket/emails --gcpProject gcp-demo --gcpKeyFile gcp-demo.j
 
 ### Node
 
-**Firestore Backfire** exposes functions to import and export data using a data
-source in Node. More on [data sources](#data-sources) later.
+**Firestore Backfire** exposes functions in Node that you can use to import and
+export data using a [data source](#data-sources).
 
 <!-- prettier-ignore-start -->
 ```typescript
@@ -195,8 +190,8 @@ await exportFirestoreData(connection, writer, options);
 
 Options for specifying the Firestore instance to connect to can be provided
 through the `connection` parameter. The `reader` and `writer` parameters are
-data sources, and the `options` parameter allow you to configure the
-import/export behaviour.
+[data sources](#data-sources), and the `options` parameter allow you to
+configure the import/export behaviour.
 
 ## Exporting data
 
@@ -394,7 +389,7 @@ interface.
 
 ## Connecting to Firestore
 
-In order to import/export data from Firestore, you will need to specify some
+In order to read and write data to Firestore, you will need to specify some
 options for the connection. Follows the
 [FirestoreConnectionOptions](src/firestore/FirestoreFactory/types.ts) interface.
 
@@ -420,6 +415,9 @@ CLI options will always take precendence over environment variables.
 - `GOOGLE_CLOUD_PROJECT` can be used to provide `project`
 - `GOOGLE_APPLICATION_CREDENTIALS` can be used to provide `keyFile`
 - `FIRESTORE_EMULATOR_HOST` can be used to provide `emulator`
+
+In Node, you can also pass an existing instance of Firestore instead of
+providing connection options.
 
 ## Data sources
 
@@ -671,7 +669,7 @@ Sample JSON config:
 
 ### 1.x to 2.x
 
-Firestore Backfire v2 is a re-write of v1 to provide a more up to date and
+Firestore Backfire v2 is a rewrite of v1 to provide a more up to date and
 extensible design. It provides new and improved functionality, uses NDJSON as
 the data format, and no longer uses worker threads.
 
