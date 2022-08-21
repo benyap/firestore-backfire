@@ -61,5 +61,6 @@ export function createImportCommand(
       const { connection, dataSource, action } = config;
       const reader = await dataSourceFactory.createReader(path, dataSource);
       await importFirestoreData(connection, reader, action);
+      process.exit(0);
     });
 }

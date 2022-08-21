@@ -9,12 +9,18 @@ export const ConfigOption = () =>
 
 // Connection options
 
-export const ProjectOption = ({ action }: { action: "import" | "export" }) =>
+export const ProjectOption = ({
+  action,
+}: {
+  action: "import" | "export" | "read";
+}) =>
   new Option(
     "-P, --project <projectId>",
     action === "import"
       ? "the Firebase project to import data to"
-      : "the Firebase project to export data from"
+      : action === "export"
+      ? "the Firebase project to export data from"
+      : "the Firebase project to read from"
   );
 
 export const KeyFileOption = () =>

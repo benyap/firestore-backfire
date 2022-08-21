@@ -62,5 +62,6 @@ export function createExportCommand(
       const { connection, dataSource, action } = config;
       const writer = await dataSourceFactory.createWriter(path, dataSource);
       await exportFirestoreData(connection, writer, action);
+      process.exit(0);
     });
 }
