@@ -72,9 +72,10 @@ export class Exporter {
       interval: exploreInterval,
       when: () => this.exploreQueue.length > 0,
       until: () =>
-        this.exploreQueue.length === 0 &&
-        this.exploring.val === 0 &&
-        !this.writeLock.locked,
+        (this.exploreQueue.length === 0 &&
+          this.exploring.val === 0 &&
+          !this.writeLock.locked) ||
+        this.limitReached,
       action: () => this.exploreAction(options),
     });
 
@@ -83,12 +84,13 @@ export class Exporter {
       interval: downloadInterval,
       when: () => this.exportPaths.length > 0,
       until: () =>
-        this.exploreQueue.length === 0 &&
-        this.exploring.val === 0 &&
+        ((this.exploreQueue.length === 0 && this.exploring.val === 0) ||
+          this.limitReached) &&
         this.exportPaths.length === 0 &&
         this.exporting.val === 0 &&
         !this.writeLock.locked,
       action: () => this.downloadAction(options),
+      onDone: () => explore.abort(),
     });
 
     // Log status every few seconds
