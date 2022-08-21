@@ -31,7 +31,6 @@ export async function exportFirestoreData(
     : options.debug
     ? "debug"
     : "info";
-
   let timer: TimerInstance;
   let project: string = "";
   const path = dir(writer.path);
