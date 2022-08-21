@@ -29,7 +29,7 @@ type AllOptions = FirestoreConnectionOptions &
 export async function loadConfig(path?: string): Promise<AllOptions> {
   const explorer = cosmiconfig(NAME);
   const result = path ? await explorer.load(path) : await explorer.search();
-  return result?.config;
+  return result?.config ?? {};
 }
 
 /**
