@@ -103,7 +103,12 @@ export class Logger {
     // Only log message to console if we match the log level
     if (this.levels.has(level)) {
       const prefix: string[] = [];
-      if (context) prefix.push(dim(context));
+
+      if (context) prefix.push(bold(dim(context)));
+
+      const time = new Date().toLocaleTimeString();
+      prefix.push(dim(time));
+
       const paddedLevel = level.padEnd(LogLevelLength);
       prefix.push(Logger.COLOR_MAP[level](bold(paddedLevel)));
 
