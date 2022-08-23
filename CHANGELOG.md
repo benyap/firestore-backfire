@@ -1,5 +1,20 @@
 
 
+## [2.0.3](https://github.com/benyap/firestore-backfire/compare/v2.0.2...v2.0.3) (2022-08-23)
+
+
+### Bug Fixes
+
+* decrease exploreInterval and downloadInterval to speed up export ([c05daf4](https://github.com/benyap/firestore-backfire/commit/c05daf433c70712f2d79602088a900378a9d9b2b))
+* export not finishing when remaining documents can be exported immediately when using --limit ([753aa41](https://github.com/benyap/firestore-backfire/commit/753aa414a1e0b1aa3ffc5db4d72dbe34d09e1f01))
+
+
+### Internal
+
+* expose advanced configuration options on CLI ([9d2a1c3](https://github.com/benyap/firestore-backfire/commit/9d2a1c39b9b737c7a8fd68cc77868a163e954ea1))
+* print time in log output ([2194753](https://github.com/benyap/firestore-backfire/commit/21947534022cb0e831d653bb30ec9955ed490d75))
+* update README ([05a74b3](https://github.com/benyap/firestore-backfire/commit/05a74b34b0223cb4c3524b52d696b0120afa81ae))
+
 ## [2.0.2](https://github.com/benyap/firestore-backfire/compare/v2.0.1...v2.0.2) (2022-08-21)
 
 
