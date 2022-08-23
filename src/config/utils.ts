@@ -111,6 +111,17 @@ export async function resolveConfig(
   config.action.mode = pick("mode").value!;
 
   //
+  // Data options (advanced)
+  //
+
+  config.action.exploreInterval = pick("exploreInterval").value!;
+  config.action.exploreChunkSize = pick("exploreChunkSize").value!;
+  config.action.downloadInterval = pick("downloadInterval").value!;
+  config.action.downloadChunkSize = pick("downloadChunkSize").value!;
+  config.action.flush = pick("flush").value!;
+  config.action.processInterval = pick("processInterval").value!;
+
+  //
   // Data source options
   //
 

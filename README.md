@@ -244,8 +244,7 @@ interface.
 | downloadChunkSize\* | `number`   | The chunk size to use when dequeueing paths for download. Defaults to `1000`.                                                                                                                                                           |
 
 \* **Advanced configuration** - default values should be suitable for most use
-cases. Not configurable on the CLI. Considered internal, so may change as
-implementation changes.
+cases. Considered internal, so may change as implementation changes.
 
 ### Logging options
 
@@ -308,8 +307,7 @@ interface.
 | processInterval\* | `number`                                      | The interval (in milliseconds) at which documents are processed as they stream in from the data source. Defaults to `10`.                                                                           |
 
 \* **Advanced configuration** - default values should be suitable for most use
-cases. Not configurable on the CLI. Considered internal, so may change as
-implementation changes.
+cases. Considered internal, so may change as implementation changes.
 
 #### Import mode <!-- omit in toc -->
 

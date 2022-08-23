@@ -24,6 +24,10 @@ import {
   AwsSecretAccessKeyOption,
   UpdateRateOption,
   LimitOption,
+  ExploreIntervalOption,
+  ExploreChunkSizeOption,
+  DownloadIntervalOption,
+  DownloadChunkSizeOption,
 } from "./options";
 
 export function createExportCommand(
@@ -48,6 +52,11 @@ export function createExportCommand(
     .addOption(VerboseOption())
     .addOption(QuietOption())
     .addOption(UpdateRateOption())
+    // Advanced options
+    .addOption(ExploreIntervalOption())
+    .addOption(ExploreChunkSizeOption())
+    .addOption(DownloadIntervalOption())
+    .addOption(DownloadChunkSizeOption())
     // Google Cloud Storage data source options
     .addOption(GcpProjectOption())
     .addOption(GcpKeyFileOption())

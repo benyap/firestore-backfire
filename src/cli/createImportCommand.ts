@@ -24,6 +24,8 @@ import {
   WriteModeOption,
   UpdateRateOption,
   LimitOption,
+  FlushOption,
+  ProcessInterval,
 } from "./options";
 
 export function createImportCommand(
@@ -48,6 +50,9 @@ export function createImportCommand(
     .addOption(VerboseOption())
     .addOption(QuietOption())
     .addOption(UpdateRateOption())
+    // Advanced options
+    .addOption(FlushOption())
+    .addOption(ProcessInterval())
     // Google Cloud Storage data source options
     .addOption(GcpProjectOption())
     .addOption(GcpKeyFileOption())
