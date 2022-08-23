@@ -84,9 +84,10 @@ export class Exporter {
       interval: downloadInterval,
       when: () => this.exportPaths.length > 0,
       until: () =>
-        ((this.exploreQueue.length === 0 && this.exploring.val === 0) ||
+        ((this.exploreQueue.length === 0 &&
+          this.exploring.val === 0 &&
+          this.exportPaths.length === 0) ||
           this.limitReached) &&
-        this.exportPaths.length === 0 &&
         this.exporting.val === 0 &&
         !this.writeLock.locked,
       action: () => this.downloadAction(options),
@@ -102,6 +103,7 @@ export class Exporter {
         this.logger.debug(
           [
             `Progress: ${count(this.exported)} exported`,
+            `${count(this.exportPaths)} to export`,
             `${count(this.exploring)} exploring`,
             `${count(this.exploreQueue)} to explore`,
           ].join(", ")
@@ -232,9 +234,11 @@ export class Exporter {
 
     if (typeof limit === "number") {
       // Make sure we don't export over the limit
-      const done =
-        this.exported.val + this.exporting.val + this.exportPaths.length;
-      const remaining = limit - done;
+      const done = this.exported.val + this.exporting.val;
+      const remaining = Math.max(limit - done, 0);
+      this.logger.verbose(
+        `Exports remaining: ${count(remaining)} / ${count(limit)}`
+      );
       if (paths.length >= remaining) this.limitReached = true;
       paths = paths.splice(0, remaining);
     }
@@ -244,7 +248,7 @@ export class Exporter {
 
     if (paths.length === 0) return;
 
-    this.logger.verbose(`Exporting ${plural(paths, "document")}`);
+    this.logger.verbose(`Exporting ${plural(paths, "document")}...`);
 
     const refs = paths.map((path) => this.firestore.doc(path));
     const snapshots = await this.firestore.getAll(...refs);
@@ -257,5 +261,9 @@ export class Exporter {
     await this.writer.write(serializedDocuments);
     this.exported.increment(serializedDocuments.length);
     this.exporting.decrement(paths.length);
+
+    this.logger.debug(
+      `Successfully exported ${plural(serializedDocuments, "document")}`
+    );
   }
 }
