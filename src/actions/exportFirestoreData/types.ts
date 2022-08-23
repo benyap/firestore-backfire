@@ -51,7 +51,7 @@ export interface ExportFirestoreDataOptions {
    * The interval (in milliseconds) at which chunks of paths are
    * dequeued for exploration using Firestore SDK's `listDocuments()`
    * or `listCollections()` methods.
-   * @default 1000
+   * @default 10
    */
   exploreInterval?: number | undefined;
 

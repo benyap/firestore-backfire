@@ -48,8 +48,8 @@ export class Exporter {
       paths,
       overwrite,
       update = 5,
-      exploreInterval = 1000,
-      downloadInterval = 2000,
+      exploreInterval = 10,
+      downloadInterval = 1000,
     } = options;
 
     const overwritten = await this.writer.open(overwrite);
