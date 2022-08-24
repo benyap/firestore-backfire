@@ -1,5 +1,24 @@
 
 
+## [2.1.0](https://github.com/benyap/firestore-backfire/compare/v2.0.3...v2.1.0) (2022-08-24)
+
+
+### Features
+
+* add `processLimit` option to limit concurrent writes when importing ([9a9931b](https://github.com/benyap/firestore-backfire/commit/9a9931b1c2d0f20495638850f275a1adcfaf5cfc))
+* use stream() to download documents for better efficiency (thanks [@anderjf](https://github.com/anderjf)) ([0aa2b0e](https://github.com/benyap/firestore-backfire/commit/0aa2b0e7f7480947d39ced6a520c298b0cdb2be3))
+
+
+### Internal
+
+* add all-contributors ([75e2096](https://github.com/benyap/firestore-backfire/commit/75e209607c395e5082b205140f8fc4ac5f9792db))
+* update tests ([a4d651b](https://github.com/benyap/firestore-backfire/commit/a4d651b8c626afa7b9d0e05ca8350bdc63a460d8))
+
+
+### Documentation
+
+* add [@anderjf](https://github.com/anderjf) as a contributor ([d79a7b0](https://github.com/benyap/firestore-backfire/commit/d79a7b0171a4fbe3dfab313e601513a745ab5814))
+
 ## [2.0.3](https://github.com/benyap/firestore-backfire/compare/v2.0.2...v2.0.3) (2022-08-23)
 
 
