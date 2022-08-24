@@ -79,8 +79,9 @@ export class TrackableList<T> extends Trackable<T[]> {
     return this.value.pop();
   }
 
-  dequeue(amount: number = 1): T[] {
+  dequeue(amount?: number): T[] {
     this.tracker.touch();
-    return this.value.splice(0, amount);
+    if (typeof amount === "number") return this.value.splice(0, amount);
+    return this.value.splice(0);
   }
 }

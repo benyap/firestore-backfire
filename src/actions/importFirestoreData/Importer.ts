@@ -49,6 +49,7 @@ export class Importer {
       update: updateInterval = 5,
       flush: flushInterval = 1,
       processInterval = 10,
+      processLimit = 200,
     } = options;
 
     await this.reader.open();
@@ -74,7 +75,10 @@ export class Importer {
     // Process documents that were parsed
     const processor = new RepeatedOperation({
       interval: processInterval,
-      when: () => this.pending.length > 0 && !this.limitReached,
+      when: () =>
+        this.pending.length > 0 &&
+        !this.limitReached &&
+        this.processing.val <= processLimit,
       until: () =>
         !this.readLock.locked &&
         this.processing.val === 0 &&
@@ -94,7 +98,8 @@ export class Importer {
         !this.readLock.locked &&
         this.processing.val === 0 &&
         (this.pending.length === 0 || this.limitReached),
-      action: () => writer.flush(),
+      action: () =>
+        writer.flush().then(() => this.logger.verbose(`Flushed writes`)),
     });
 
     // Log status every few seconds
@@ -224,7 +229,7 @@ export class Importer {
           break;
       }
 
-      this.logger.verbose(`Imported ${ref(path)}`);
+      this.logger.verbose(`Written to ${ref(path)}`);
     } catch (e) {
       const error = e as FirebaseFirestore.BulkWriterError;
       const { documentRef, code, message } = error;
@@ -241,8 +246,9 @@ export class Importer {
           break;
         default:
           if (typeof code === "number")
-            this.logger.error(`Error code ${code}: ${message}`);
+            this.logger.error(`Error: ${message} (${path})`);
           else this.logger.error(error);
+          this.failed.increment(1);
           break;
       }
       errors.push(error);

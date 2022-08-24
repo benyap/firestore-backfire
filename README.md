@@ -240,8 +240,8 @@ interface.
 | update              | `number`   | The interval (in seconds) at which update logs are printed. Update logs are at the `debug` level. Defaults to `5`.                                                                                                                      |
 | exploreInterval\*   | `number`   | The interval (in milliseconds) at which chunks of paths are dequeued for exploration using Firestore SDK's `listDocuments()` or `listCollections()` methods. Defaults to `10`.                                                          |
 | exploreChunkSize\*  | `number`   | The chunk size to use when dequeuing paths for exploration. Defaults to `1000`.                                                                                                                                                         |
-| downloadInterval\*  | `number`   | The interval (in milliseconds) at which chunks of document paths are dequeued to be filtered and downloaded from Firestore. Defaults to `2000`                                                                                          |
-| downloadChunkSize\* | `number`   | The chunk size to use when dequeueing paths for download. Defaults to `1000`.                                                                                                                                                           |
+| downloadInterval\*  | `number`   | The interval (in milliseconds) at which chunks of document paths are dequeued to be filtered and downloaded from Firestore. Defaults to `1000`.                                                                                         |
+| downloadChunkSize\* | `number`   | The chunk size to use when dequeueing paths for download. Defaults to `limit` if supplied, otherwise it dequeues all available paths.                                                                                                   |
 
 \* **Advanced configuration** - default values should be suitable for most use
 cases. Considered internal, so may change as implementation changes.
@@ -287,6 +287,9 @@ an instance of Firestore, or it can be an object that specifies
 [IDataSourceReader](src/data-source/interface/reader.ts). See the section on
 [data sources](#data-sources) for more information.
 
+**NOTE**: When using the Firestore Emulator, importing a large amount of data
+can result in errors as the emulator is not designed to scale.
+
 ### Options
 
 All options have a [CLI flag equivalent](#cli-options----omit-in-toc) unless
@@ -305,6 +308,7 @@ interface.
 | update            | `number`                                      | The interval (in seconds) at which update logs are printed. Update logs are at the `debug` level. Defaults to `5`.                                                                                  |
 | flush\*           | `number`                                      | The interval (in seconds) at which documents are flushed to Firestore. Defaults to `1`.                                                                                                             |
 | processInterval\* | `number`                                      | The interval (in milliseconds) at which documents are processed as they stream in from the data source. Defaults to `10`.                                                                           |
+| processLimit\*    | `number`                                      | The maximum number of pending writes to Firestore. Defaults to `200`.                                                                                                                               |
 
 \* **Advanced configuration** - default values should be suitable for most use
 cases. Considered internal, so may change as implementation changes.
@@ -709,7 +713,27 @@ the data format, and no longer uses worker threads.
 
 ## Contributing
 
-Contributions are welcome. Please follow the
+Thanks goes to these wonderful people
+([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/benyap"><img src="https://avatars.githubusercontent.com/u/19235373?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Ben Yap</b></sub></a><br /><a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Code">💻</a> <a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Tests">⚠️</a> <a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/anderjf"><img src="https://avatars.githubusercontent.com/u/1616266?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Anderson José de França</b></sub></a><br /><a href="#ideas-anderjf" title="Ideas, Planning, & Feedback">🤔</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the
+[all-contributors](https://github.com/all-contributors/all-contributors)
+specification. Contributions of any kind welcome! Please follow the
 [contributing guidelines](CONTRIBUTING.md).
 
 ## Changelog

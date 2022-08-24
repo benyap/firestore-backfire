@@ -140,10 +140,10 @@ describe(TrackableList.name, () => {
   });
 
   test("dequeue() removes the specified number of items from the list", () => {
-    list.set([1, 2, 3, 4]);
-    expect(list.dequeue()).toEqual([1]);
-    expect(list.val).toEqual([2, 3, 4]);
-    expect(list.dequeue(3)).toEqual([2, 3, 4]);
+    list.set([1, 2, 3, 4, 5]);
+    expect(list.dequeue(2)).toEqual([1, 2]);
+    expect(list.val).toEqual([3, 4, 5]);
+    expect(list.dequeue()).toEqual([3, 4, 5]);
     expect(list.val).toEqual([]);
     expect(list.dequeue(2)).toEqual([]);
     expect(list.val).toEqual([]);

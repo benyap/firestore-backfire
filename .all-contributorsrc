@@ -1,0 +1,35 @@
+{
+  "projectName": "firestore-backfire",
+  "projectOwner": "benyap",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 80,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "benyap",
+      "name": "Ben Yap",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19235373?v=4",
+      "profile": "https://github.com/benyap",
+      "contributions": [
+        "code",
+        "test",
+        "doc"
+      ]
+    },
+    {
+      "login": "anderjf",
+      "name": "Anderson José de França",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1616266?v=4",
+      "profile": "https://github.com/anderjf",
+      "contributions": [
+        "ideas"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

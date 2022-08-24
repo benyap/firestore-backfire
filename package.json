@@ -40,7 +40,8 @@
     "dev": "rimraf dist/* && concurrently pnpm:build:out:* -n build: && node dist/cjs/backfire.js",
     "emulator": "firebase emulators:start --project demo",
     "test": "vitest --passWithNoTests",
-    "release": "pnpm test run && release-it"
+    "release": "pnpm test run && release-it",
+    "contributors": "all-contributors"
   },
   "dependencies": {
     "ansi-colors": "4.1.3",
@@ -79,6 +80,7 @@
     "@swc/cli": "0.1.57",
     "@swc/core": "1.2.239",
     "@types/node": "18.7.6",
+    "all-contributors-cli": "6.20.0",
     "concurrently": "7.3.0",
     "cross-env": "7.0.3",
     "firebase-tools": "11.7.0",
