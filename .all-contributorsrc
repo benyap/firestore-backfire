@@ -7,7 +7,7 @@
     "README.md"
   ],
   "imageSize": 80,
-  "commit": false,
+  "commit": true,
   "commitConvention": "angular",
   "contributors": [
     {
@@ -19,6 +19,15 @@
         "code",
         "test",
         "doc"
+      ]
+    },
+    {
+      "login": "anderjf",
+      "name": "Anderson José de França",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1616266?v=4",
+      "profile": "https://github.com/anderjf",
+      "contributions": [
+        "ideas"
       ]
     }
   ],

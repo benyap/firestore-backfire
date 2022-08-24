@@ -718,6 +718,7 @@ Thanks goes to these wonderful people
 <table>
   <tr>
     <td align="center"><a href="https://github.com/benyap"><img src="https://avatars.githubusercontent.com/u/19235373?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Ben Yap</b></sub></a><br /><a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Code">💻</a> <a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Tests">⚠️</a> <a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/anderjf"><img src="https://avatars.githubusercontent.com/u/1616266?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Anderson José de França</b></sub></a><br /><a href="#ideas-anderjf" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
