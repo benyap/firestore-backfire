@@ -115,34 +115,34 @@ export const UpdateRateOption = () =>
 // Advanced config options
 
 export const ExploreIntervalOption = () =>
-  new Option("--exploreInterval <millseconds>", "see documentation")
-    .default(10)
-    .argParser(Parser.integer({ min: 1 }));
+  new Option("--exploreInterval <millseconds>", "see documentation").argParser(
+    Parser.integer({ min: 1 })
+  );
 
 export const ExploreChunkSizeOption = () =>
-  new Option("--exploreChunkSize <size>", "see documentation")
-    .default(1000)
-    .argParser(Parser.integer({ min: 1 }));
+  new Option("--exploreChunkSize <size>", "see documentation").argParser(
+    Parser.integer({ min: 1 })
+  );
 
 export const DownloadIntervalOption = () =>
-  new Option("--downloadInterval <millseconds>", "see documentation")
-    .default(2000)
-    .argParser(Parser.integer({ min: 1 }));
+  new Option("--downloadInterval <millseconds>", "see documentation").argParser(
+    Parser.integer({ min: 1 })
+  );
 
 export const DownloadChunkSizeOption = () =>
-  new Option("--downloadChunkSize <size>", "see documentation")
-    .default(1000)
-    .argParser(Parser.integer({ min: 1 }));
+  new Option("--downloadChunkSize <size>", "see documentation").argParser(
+    Parser.integer({ min: 1 })
+  );
 
 export const FlushOption = () =>
-  new Option("--flush <seconds>", "see documentation")
-    .default(1)
-    .argParser(Parser.integer({ min: 1 }));
+  new Option("--flush <seconds>", "see documentation").argParser(
+    Parser.integer({ min: 1 })
+  );
 
 export const ProcessInterval = () =>
-  new Option("--processInterval <size>", "see documentation")
-    .default(10)
-    .argParser(Parser.integer({ min: 1 }));
+  new Option("--processInterval <size>", "see documentation").argParser(
+    Parser.integer({ min: 1 })
+  );
 
 // Google Cloud Storage data source options
 

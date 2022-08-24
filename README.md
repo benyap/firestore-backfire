@@ -240,8 +240,8 @@ interface.
 | update              | `number`   | The interval (in seconds) at which update logs are printed. Update logs are at the `debug` level. Defaults to `5`.                                                                                                                      |
 | exploreInterval\*   | `number`   | The interval (in milliseconds) at which chunks of paths are dequeued for exploration using Firestore SDK's `listDocuments()` or `listCollections()` methods. Defaults to `10`.                                                          |
 | exploreChunkSize\*  | `number`   | The chunk size to use when dequeuing paths for exploration. Defaults to `1000`.                                                                                                                                                         |
-| downloadInterval\*  | `number`   | The interval (in milliseconds) at which chunks of document paths are dequeued to be filtered and downloaded from Firestore. Defaults to `2000`                                                                                          |
-| downloadChunkSize\* | `number`   | The chunk size to use when dequeueing paths for download. Defaults to `1000`.                                                                                                                                                           |
+| downloadInterval\*  | `number`   | The interval (in milliseconds) at which chunks of document paths are dequeued to be filtered and downloaded from Firestore. Defaults to `1000`.                                                                                         |
+| downloadChunkSize\* | `number`   | The chunk size to use when dequeueing paths for download. Defaults to `limit` if supplied, otherwise it dequeues all available paths.                                                                                                   |
 
 \* **Advanced configuration** - default values should be suitable for most use
 cases. Considered internal, so may change as implementation changes.
