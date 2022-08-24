@@ -66,4 +66,12 @@ export interface ImportFirestoreDataOptions {
    * @default 10
    */
   processInterval?: number | undefined;
+
+  /**
+   * The maximum number of pending writes to Firestore.
+   * NOTE: do not set this limit too high when using the Firestore emulator
+   * as you will run into `DEADLINE_EXCEEDED` errors.
+   * @default 200
+   */
+  processLimit?: number | undefined;
 }

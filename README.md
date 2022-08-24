@@ -287,6 +287,9 @@ an instance of Firestore, or it can be an object that specifies
 [IDataSourceReader](src/data-source/interface/reader.ts). See the section on
 [data sources](#data-sources) for more information.
 
+**NOTE**: When using the Firestore Emulator, importing a large amount of data
+can result in errors as the emulator is not designed to scale.
+
 ### Options
 
 All options have a [CLI flag equivalent](#cli-options----omit-in-toc) unless
@@ -305,6 +308,7 @@ interface.
 | update            | `number`                                      | The interval (in seconds) at which update logs are printed. Update logs are at the `debug` level. Defaults to `5`.                                                                                  |
 | flush\*           | `number`                                      | The interval (in seconds) at which documents are flushed to Firestore. Defaults to `1`.                                                                                                             |
 | processInterval\* | `number`                                      | The interval (in milliseconds) at which documents are processed as they stream in from the data source. Defaults to `10`.                                                                           |
+| processLimit\*    | `number`                                      | The maximum number of pending writes to Firestore. Defaults to `200`.                                                                                                                               |
 
 \* **Advanced configuration** - default values should be suitable for most use
 cases. Considered internal, so may change as implementation changes.

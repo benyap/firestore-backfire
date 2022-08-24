@@ -120,6 +120,7 @@ export async function resolveConfig(
   config.action.downloadChunkSize = pick("downloadChunkSize").value!;
   config.action.flush = pick("flush").value!;
   config.action.processInterval = pick("processInterval").value!;
+  config.action.processLimit = pick("processLimit").value!;
 
   //
   // Data source options

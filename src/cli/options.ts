@@ -139,8 +139,13 @@ export const FlushOption = () =>
     Parser.integer({ min: 1 })
   );
 
-export const ProcessInterval = () =>
+export const ProcessIntervalOption = () =>
   new Option("--processInterval <size>", "see documentation").argParser(
+    Parser.integer({ min: 1 })
+  );
+
+export const ProcessLimitOption = () =>
+  new Option("--processLimit <limit>", "see documentation").argParser(
     Parser.integer({ min: 1 })
   );
 
