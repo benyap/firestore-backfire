@@ -167,12 +167,12 @@ export class Exporter {
     this.exploring.decrement(docPaths.length - docPathsFiltered.length);
 
     await Promise.all([
-      this.exploreCollections(colPaths, limit),
-      this.exploreDocuments(docPathsFiltered),
+      this.exploreForDocuments(colPaths, limit),
+      this.exploreForSubcollections(docPathsFiltered),
     ]);
   }
 
-  private async exploreCollections(
+  private async exploreForDocuments(
     paths: string[],
     limit?: number | undefined
   ) {
@@ -218,30 +218,34 @@ export class Exporter {
     }
   }
 
-  private async exploreDocuments(paths: string[]) {
+  private async exploreForSubcollections(paths: string[]) {
     if (paths.length > 0)
       this.logger.debug(
         `Exploring for subcollections in ${plural(paths, "document")}`
       );
 
-    for (const path of paths) {
-      if (this.limitReached) {
-        this.exploring.decrement(1);
-        continue;
-      }
-
-      const ref = path ? this.firestore.doc(path) : this.firestore;
-
-      const collections = await ref.listCollections();
-      if (collections.length > 0) {
-        collections.forEach((col) => this.exploreQueue.push(col.path));
-        this.logger.verbose(
-          `Found ${plural(collections, "subcollection")} in ${r(path)}`
-        );
-      }
-
-      this.exploring.decrement(1);
+    if (this.limitReached) {
+      this.exploring.decrement(paths.length);
+      return;
     }
+
+    // ASSUMPTION: documents generally won't have too many subcollections
+    // So it should be more performant to perform these calls in parallel
+    // The number of paths shouldn't exceed `exploreChunkSize` anyway
+    const subcollectionsList = await Promise.all(
+      paths.map((path) =>
+        (path ? this.firestore.doc(path) : this.firestore).listCollections()
+      )
+    );
+
+    const subcollections = subcollectionsList.flat();
+
+    if (subcollections.length > 0) {
+      subcollections.forEach((col) => this.exploreQueue.push(col.path));
+      this.logger.verbose(`Found ${plural(subcollections, "subcollection")}`);
+    }
+
+    this.exploring.decrement(paths.length);
   }
 
   /**
