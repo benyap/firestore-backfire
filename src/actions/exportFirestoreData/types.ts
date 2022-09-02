@@ -57,7 +57,7 @@ export interface ExportFirestoreDataOptions {
 
   /**
    * The chunk size to use when dequeuing paths for exploration.
-   * @default 1000
+   * @default 5000
    */
   exploreChunkSize?: number | undefined;
 

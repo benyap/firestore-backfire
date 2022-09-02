@@ -149,7 +149,7 @@ export class Exporter {
    * options are dropped.
    */
   private async exploreAction(options: ExportOptions) {
-    const { depth, exploreChunkSize = 1000, limit } = options;
+    const { depth, exploreChunkSize = 5000, limit } = options;
 
     // Use a lock here so that `exploreQueue` and `exploring` won't end the
     // operation prematurely if they are both empty while paths are dequeued
