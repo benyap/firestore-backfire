@@ -1,5 +1,18 @@
 
 
+## [2.2.0](https://github.com/benyap/firestore-backfire/compare/v2.1.0...v2.2.0) (2022-09-02)
+
+
+### Features
+
+* explore subcollections in parallel to improve performance ([5f4d9c4](https://github.com/benyap/firestore-backfire/commit/5f4d9c4f45ffaa7f70b0bc643d75166cd63d6ad5))
+* increase `exploreChunkSize` default to 5000 ([5a628f9](https://github.com/benyap/firestore-backfire/commit/5a628f9b6198abb13d7fd2929f90f8b0e8e4743c))
+
+
+### Internal
+
+* pad duration format string with zeroes ([4c71504](https://github.com/benyap/firestore-backfire/commit/4c7150424e77df8b33584eee37fb6d599e350e1d))
+
 ## [2.1.0](https://github.com/benyap/firestore-backfire/compare/v2.0.3...v2.1.0) (2022-08-24)
 
 
