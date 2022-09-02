@@ -49,9 +49,9 @@ export function formatDuration(duration: number) {
   const msValue = Math.trunc(duration % 1000);
 
   if (hValue > 0) {
-    return `${hValue}h ${mValue.toString().padStart(2)}m`;
+    return `${hValue}h ${mValue.toString().padStart(2, "0")}m`;
   } else if (mValue > 0) {
-    return `${mValue}m ${sValue.toString().padStart(2)}s`;
+    return `${mValue}m ${sValue.toString().padStart(2, "0")}s`;
   } else if (sValue > 0) {
     if (msValue > 0) return `${sValue}.${msValue.toString().padStart(3, "0")}s`;
     else return `${sValue}s`;

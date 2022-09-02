@@ -72,14 +72,14 @@ describe(formatDuration.name, () => {
   });
 
   test("prints out durations < 1h correctly", () => {
-    expect(formatDuration(5 * mins)).toEqual("5m  0s");
+    expect(formatDuration(5 * mins)).toEqual("5m 00s");
     expect(formatDuration(5 * mins + 12 * secs + 123)).toEqual("5m 12s");
   });
 
   test("prints out durations > 1h correctly", () => {
-    expect(formatDuration(2 * hrs)).toEqual("2h  0m");
+    expect(formatDuration(2 * hrs)).toEqual("2h 00m");
     expect(formatDuration(2 * hrs + 12 * mins)).toEqual("2h 12m");
-    expect(formatDuration(2 * hrs + 7 * mins + 4 * secs)).toEqual("2h  7m");
-    expect(formatDuration(12 * hrs + 44 * secs + 12)).toEqual("12h  0m");
+    expect(formatDuration(2 * hrs + 7 * mins + 4 * secs)).toEqual("2h 07m");
+    expect(formatDuration(12 * hrs + 44 * secs + 12)).toEqual("12h 00m");
   });
 });
