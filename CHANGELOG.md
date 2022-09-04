@@ -1,5 +1,19 @@
 
 
+## [2.2.1](https://github.com/benyap/firestore-backfire/compare/v2.2.0...v2.2.1) (2022-09-04)
+
+
+### Bug Fixes
+
+* parse remaining data in buffer when import data has no delimeter ([9cc93eb](https://github.com/benyap/firestore-backfire/commit/9cc93ebb0c790c847d30bcea09ef023e54fa03b5))
+
+
+### Internal
+
+* expose `SerializedFirestoreDocument` and `DeserializedFirestoreDocument` ([aca589e](https://github.com/benyap/firestore-backfire/commit/aca589e7e1f62089187a34359950690ca39e8f92))
+* make `IDataSourceReader.open()` optional ([6da5cbe](https://github.com/benyap/firestore-backfire/commit/6da5cbef05a940ad105b40cfce05e2301de66ee5))
+* update release name ([ffa7820](https://github.com/benyap/firestore-backfire/commit/ffa782031326fa33528150bfc17e2f96c9ecaaa5))
+
 ## [2.2.0](https://github.com/benyap/firestore-backfire/compare/v2.1.0...v2.2.0) (2022-09-02)
 
 
