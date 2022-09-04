@@ -14,7 +14,7 @@ export interface IDataSourceReader {
   /**
    * Open a connection to the read stream.
    */
-  open(): Promise<void>;
+  open?(): Promise<void>;
 
   /**
    * Read lines of data from the stream.

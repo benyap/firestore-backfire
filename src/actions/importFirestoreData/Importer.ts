@@ -52,7 +52,7 @@ export class Importer {
       processLimit = 200,
     } = options;
 
-    await this.reader.open();
+    await this.reader.open?.();
 
     const errors: FirebaseFirestore.BulkWriterError[] = [];
     const writer = this.firestore.bulkWriter();
