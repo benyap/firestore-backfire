@@ -22,10 +22,17 @@ describe(NDJSON.name, () => {
       const data = `
         {"hello":"world","list":[1,2]}
         1
+
         [1,2]
         "hello"
+
         "world"
       `;
+      expect(NDJSON.parse(data)).toMatchSnapshot();
+    });
+
+    test("safely ignores empty lines", () => {
+      const data = `\n\n`;
       expect(NDJSON.parse(data)).toMatchSnapshot();
     });
 

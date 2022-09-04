@@ -70,7 +70,15 @@ export class Importer {
         const documents = NDJSON.parse(parsable);
         documents.forEach((doc) => this.pending.push(doc));
       })
-      .then(() => this.readLock.release());
+      .then(() => {
+        // Parse any remaining data in buffer
+        if (buffer) {
+          const documents = NDJSON.parse(buffer);
+          documents.forEach((doc) => this.pending.push(doc));
+        }
+        // Release lock
+        this.readLock.release();
+      });
 
     // Process documents that were parsed
     const processor = new RepeatedOperation({

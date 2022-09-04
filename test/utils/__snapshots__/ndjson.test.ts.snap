@@ -19,6 +19,8 @@ exports[`NDJSON > parse > parses valid NDJSON correctly 1`] = `
 ]
 `;
 
+exports[`NDJSON > parse > safely ignores empty lines 1`] = `[]`;
+
 exports[`NDJSON > parse > skips invalid lines of JSON when options.safe is true 1`] = `
 [
   {
