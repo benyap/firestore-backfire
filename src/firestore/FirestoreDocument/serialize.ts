@@ -9,7 +9,7 @@ import {
 import { deleteFieldByPath } from "~/utils";
 
 /**
- * Serialize a Firestore document message as a string to be saved.
+ * Serialize a Firestore document into JSON.
  *
  * @param path The path of the document to serialize.
  * @param data The document data to serialize.

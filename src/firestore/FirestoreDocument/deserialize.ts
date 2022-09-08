@@ -24,7 +24,7 @@ import { getValueByPath, setValueByPath } from "~/utils";
 export class DeserializationError extends EError {}
 
 /**
- * Deserialize a serialized Firestore document.
+ * Deserialize JSON into a Firestore document.
  *
  * @param document The serialized document.
  * @param firestore The current Firestore instance.

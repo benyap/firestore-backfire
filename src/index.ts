@@ -7,7 +7,4 @@ export * from "~/data-source/factory";
 export * from "~/data-source/interface";
 export * from "~/data-source/errors";
 
-export type {
-  SerializedFirestoreDocument,
-  DeserializedFirestoreDocument,
-} from "~/firestore/FirestoreDocument/types";
+export * from "~/firestore/FirestoreDocument";

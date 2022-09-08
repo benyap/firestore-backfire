@@ -7,12 +7,14 @@ import {
   DeserializedFirestoreDocument,
 } from "./types";
 
+export type { SerializedFirestoreDocument, DeserializedFirestoreDocument };
+
 /**
  * Provides static methods to serialize Firestore documents to JSON and vice versa.
  */
 export class FirestoreDocument {
   /**
-   * Serialize a Firestore document message as a string to be saved.
+   * Serialize a Firestore document into JSON.
    *
    * @param path The path of the document to serialize.
    * @param data The document data to serialize.
@@ -26,9 +28,7 @@ export class FirestoreDocument {
   }
 
   /**
-   * Deserialize a serialized Firestore document.
-   *
-   * A serialized Firestore document is a Firestore document converted into JSON.
+   * Deserialize JSON into a Firestore document.
    *
    * @param document The serialized document.
    * @param firestore The current Firestore instance.
