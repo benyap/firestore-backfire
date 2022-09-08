@@ -1,5 +1,17 @@
 
 
+## [2.3.0](https://github.com/benyap/firestore-backfire/compare/v2.2.1...v2.3.0) (2022-09-08)
+
+
+### Features
+
+* expose functions to serialize and deserialize Firestore documents ([5ad2507](https://github.com/benyap/firestore-backfire/commit/5ad2507c0c13e5d4f47d10c094449cdd27c55320))
+
+
+### Internal
+
+* ensure serialization function properly removes nested unused fields ([340fde5](https://github.com/benyap/firestore-backfire/commit/340fde523b3f4a8e0bc00f8cc8f19b59dbcc371d))
+
 ## [2.2.1](https://github.com/benyap/firestore-backfire/compare/v2.2.0...v2.2.1) (2022-09-04)
 
 
