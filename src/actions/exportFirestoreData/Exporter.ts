@@ -307,9 +307,14 @@ export class Exporter {
 
     const serializedDocuments = allSnapshots
       .concat(refs.length > 0 ? await this.firestore.getAll(...refs) : [])
-      .map((snapshot) =>
-        FirestoreDocument.serialize(snapshot.ref.path, snapshot.data())
-      )
+      .map((snapshot) => {
+        const document = FirestoreDocument.serialize(
+          snapshot.ref.path,
+          snapshot.data()
+        );
+        if (document) return JSON.stringify(document);
+        return null;
+      })
       .filter((val): val is string => typeof val === "string");
 
     await this.writer.write(serializedDocuments);

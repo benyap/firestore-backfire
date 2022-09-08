@@ -1,22 +1,5 @@
 // Vitest Snapshot v1
 
-exports[`deserializeDocument > deserializes documents as arrays 1`] = `
-[
-  {
-    "data": {},
-    "path": "documents/1",
-  },
-  {
-    "data": {},
-    "path": "documents/2",
-  },
-  {
-    "data": {},
-    "path": "documents/3",
-  },
-]
-`;
-
 exports[`deserializeDocument > deserializes documents with collection references 1`] = `
 {
   "data": {

@@ -1,214 +1,213 @@
 // Vitest Snapshot v1
 
 exports[`serializeDocument > serializes documents with collection references 1`] = `
-"{
-  \\"path\\": \\"email/1\\",
-  \\"data\\": {
-    \\"from\\": \\"example@email.com\\",
-    \\"root\\": {
-      \\"_firestore\\": {
-        \\"projectId\\": \\"demo\\"
+{
+  "data": {
+    "from": "example@email.com",
+    "root": {
+      "_queryOptions": {
+        "collectionId": "email",
+        "endAt": undefined,
+        "fieldFilters": [],
+        "fieldOrders": [],
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": {
+          "segments": [],
+        },
+        "startAt": undefined,
       },
-      \\"_queryOptions\\": {
-        \\"parentPath\\": {
-          \\"segments\\": []
-        },
-        \\"collectionId\\": \\"email\\",
-        \\"fieldFilters\\": [],
-        \\"fieldOrders\\": []
-      }
     },
-    \\"threads\\": [
+    "threads": [
       {
-        \\"_firestore\\": {
-          \\"projectId\\": \\"demo\\"
-        },
-        \\"_queryOptions\\": {
-          \\"parentPath\\": {
-            \\"segments\\": [
-              \\"email\\",
-              \\"1\\"
-            ]
+        "_queryOptions": {
+          "collectionId": "threads",
+          "endAt": undefined,
+          "fieldFilters": [],
+          "fieldOrders": [],
+          "limit": undefined,
+          "limitType": undefined,
+          "offset": undefined,
+          "parentPath": {
+            "segments": [
+              "email",
+              "1",
+            ],
           },
-          \\"collectionId\\": \\"threads\\",
-          \\"fieldFilters\\": [],
-          \\"fieldOrders\\": []
-        }
-      }
-    ]
+          "startAt": undefined,
+        },
+      },
+    ],
   },
-  \\"queries\\": [
-    \\"root\\",
-    \\"threads.0\\"
-  ]
-}"
+  "path": "email/1",
+  "queries": [
+    "root",
+    "threads.0",
+  ],
+}
 `;
 
 exports[`serializeDocument > serializes documents with document references 1`] = `
-"{
-  \\"path\\": \\"email/1\\",
-  \\"data\\": {
-    \\"from\\": \\"example@email.com\\",
-    \\"parent\\": {
-      \\"_firestore\\": {
-        \\"projectId\\": \\"demo\\"
+{
+  "data": {
+    "from": "example@email.com",
+    "parent": {
+      "_path": {
+        "segments": [
+          "email",
+          "parent",
+        ],
       },
-      \\"_path\\": {
-        \\"segments\\": [
-          \\"email\\",
-          \\"parent\\"
-        ]
-      }
     },
-    \\"references\\": [
+    "references": [
       {
-        \\"_firestore\\": {
-          \\"projectId\\": \\"demo\\"
+        "_path": {
+          "segments": [
+            "email",
+            "parent",
+          ],
         },
-        \\"_path\\": {
-          \\"segments\\": [
-            \\"email\\",
-            \\"parent\\"
-          ]
-        }
-      }
-    ]
+      },
+    ],
   },
-  \\"documents\\": [
-    \\"parent\\",
-    \\"references.0\\"
-  ]
-}"
+  "documents": [
+    "parent",
+    "references.0",
+  ],
+  "path": "email/1",
+}
 `;
 
 exports[`serializeDocument > serializes documents with geopoints 1`] = `
-"{
-  \\"path\\": \\"email/1\\",
-  \\"data\\": {
-    \\"from\\": \\"example@email.com\\",
-    \\"location\\": {
-      \\"_latitude\\": 10,
-      \\"_longitude\\": 20
+{
+  "data": {
+    "from": "example@email.com",
+    "location": {
+      "_latitude": 10,
+      "_longitude": 20,
     },
-    \\"tags\\": {
-      \\"location\\": {
-        \\"_latitude\\": 10,
-        \\"_longitude\\": 20
-      },
-      \\"list\\": [
+    "tags": {
+      "list": [
         {
-          \\"_latitude\\": 10,
-          \\"_longitude\\": 20
-        }
-      ]
-    }
+          "_latitude": 10,
+          "_longitude": 20,
+        },
+      ],
+      "location": {
+        "_latitude": 10,
+        "_longitude": 20,
+      },
+    },
   },
-  \\"geopoints\\": [
-    \\"location\\",
-    \\"tags.location\\",
-    \\"tags.list.0\\"
-  ]
-}"
+  "geopoints": [
+    "location",
+    "tags.location",
+    "tags.list.0",
+  ],
+  "path": "email/1",
+}
 `;
 
 exports[`serializeDocument > serializes documents with queries 1`] = `
-"{
-  \\"path\\": \\"email/1\\",
-  \\"data\\": {
-    \\"from\\": \\"example@email.com\\",
-    \\"threads\\": {
-      \\"_firestore\\": {
-        \\"projectId\\": \\"demo\\"
-      },
-      \\"_queryOptions\\": {
-        \\"parentPath\\": {
-          \\"segments\\": [
-            \\"email\\",
-            \\"1\\"
-          ]
-        },
-        \\"collectionId\\": \\"threads\\",
-        \\"fieldFilters\\": [
+{
+  "data": {
+    "from": "example@email.com",
+    "threads": {
+      "_queryOptions": {
+        "collectionId": "threads",
+        "endAt": undefined,
+        "fieldFilters": [
           {
-            \\"serializer\\": {
-              \\"allowUndefined\\": false
+            "field": {
+              "segments": [
+                "field",
+              ],
             },
-            \\"field\\": {
-              \\"segments\\": [
-                \\"field\\"
-              ]
-            },
-            \\"op\\": \\"ARRAY_CONTAINS\\",
-            \\"value\\": [
+            "op": "ARRAY_CONTAINS",
+            "value": [
               1,
-              2
-            ]
-          }
+              2,
+            ],
+          },
         ],
-        \\"fieldOrders\\": [
+        "fieldOrders": [
           {
-            \\"field\\": {
-              \\"segments\\": [
-                \\"date\\"
-              ]
+            "direction": "DESCENDING",
+            "field": {
+              "segments": [
+                "date",
+              ],
             },
-            \\"direction\\": \\"DESCENDING\\"
-          }
-        ]
-      }
-    }
+          },
+        ],
+        "limit": undefined,
+        "limitType": undefined,
+        "offset": undefined,
+        "parentPath": {
+          "segments": [
+            "email",
+            "1",
+          ],
+        },
+        "startAt": undefined,
+      },
+    },
   },
-  \\"queries\\": [
-    \\"threads\\"
-  ]
-}"
+  "path": "email/1",
+  "queries": [
+    "threads",
+  ],
+}
 `;
 
 exports[`serializeDocument > serializes documents with timestamps 1`] = `
-"{
-  \\"path\\": \\"email/1\\",
-  \\"data\\": {
-    \\"from\\": \\"example@email.com\\",
-    \\"date\\": {
-      \\"_seconds\\": 1640995200,
-      \\"_nanoseconds\\": 0
+{
+  "data": {
+    "date": {
+      "_nanoseconds": 0,
+      "_seconds": 1640995200,
     },
-    \\"tags\\": {
-      \\"created\\": {
-        \\"_seconds\\": 1640995200,
-        \\"_nanoseconds\\": 0
+    "from": "example@email.com",
+    "tags": {
+      "created": {
+        "_nanoseconds": 0,
+        "_seconds": 1640995200,
       },
-      \\"dates\\": [
+      "dates": [
         {
-          \\"_seconds\\": 1640995200,
-          \\"_nanoseconds\\": 0
-        }
-      ]
-    }
+          "_nanoseconds": 0,
+          "_seconds": 1640995200,
+        },
+      ],
+    },
   },
-  \\"timestamps\\": [
-    \\"date\\",
-    \\"tags.created\\",
-    \\"tags.dates.0\\"
-  ]
-}"
+  "path": "email/1",
+  "timestamps": [
+    "date",
+    "tags.created",
+    "tags.dates.0",
+  ],
+}
 `;
 
 exports[`serializeDocument > serializes plain documents 1`] = `
-"{
-  \\"path\\": \\"email/1\\",
-  \\"data\\": {
-    \\"from\\": \\"example@email.com\\",
-    \\"to\\": [
-      \\"recipient1@email.com\\",
-      \\"recipient2@email.com\\"
+{
+  "data": {
+    "attachments": 2,
+    "content": "Dear John,
+
+Hello world!",
+    "from": "example@email.com",
+    "tags": {
+      "important": true,
+      "work": true,
+    },
+    "to": [
+      "recipient1@email.com",
+      "recipient2@email.com",
     ],
-    \\"content\\": \\"Dear John,\\\\n\\\\nHello world!\\",
-    \\"attachments\\": 2,
-    \\"tags\\": {
-      \\"work\\": true,
-      \\"important\\": true
-    }
-  }
-}"
+  },
+  "path": "email/1",
+}
 `;

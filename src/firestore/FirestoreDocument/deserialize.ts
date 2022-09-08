@@ -26,16 +26,17 @@ export class DeserializationError extends EError {}
 /**
  * Deserialize a serialized Firestore document.
  *
- * @param data The serialized document.
+ * @param document The serialized document.
  * @param firestore The current Firestore instance.
  * @returns The deserialized document data.
  */
 export function deserializeDocument(
-  data: object,
+  document: Partial<SerializedFirestoreDocument>,
   firestore: Firestore
 ): DeserializedFirestoreDocument {
   try {
-    const document = data as Partial<SerializedFirestoreDocument>;
+    if (typeof document.path !== "string") throw new Error("missing path");
+    if (typeof document.data !== "object") throw new Error("missing data");
 
     if (document.timestamps) {
       for (const path of document.timestamps) {
@@ -87,7 +88,7 @@ export function deserializeDocument(
   } catch (cause) {
     throw new DeserializationError("error deserializing document", {
       cause: cause as Error,
-      info: { data },
+      info: document,
     });
   }
 }

@@ -13,33 +13,36 @@ import { deleteFieldByPath } from "~/utils";
  *
  * @param path The path of the document to serialize.
  * @param data The document data to serialize.
- * @param indent If provided, serialized document will be pretty-printed with the specified indent.
- * @returns The document serialized as a string. `null` if the data was not a valid document.
+ * @returns The serialized document, or `null` if `data` was not a valid document.
  */
 export function serializeDocument(
   path: string,
-  data: unknown,
-  indent?: number
-): string | null {
-  const document: SerializedFirestoreDocument = { path, data };
+  data: unknown
+): SerializedFirestoreDocument | null {
+  const json = toJSON(data);
+  const document: SerializedFirestoreDocument = { path, data: json };
 
   // Return `null` for any non-object values
-  if (data === null || typeof data !== "object") return null;
+  if (json === null || typeof json !== "object") return null;
 
   const { timestamps, geopoints, documents, queries } =
-    findFirestoreFields(data);
+    findFirestoreFields(json);
 
   // Strip unecessary fields from Firestore objects
   documents.forEach((path) => {
-    deleteFieldByPath(data, `${path}._converter`);
+    deleteFieldByPath(json, `${path}._firestore`);
+    deleteFieldByPath(json, `${path}._converter`);
   });
   queries.forEach((path) => {
-    deleteFieldByPath(data, `${path}._queryOptions.converter`);
-    deleteFieldByPath(data, `${path}._queryOptions.allDescendants`);
-    deleteFieldByPath(data, `${path}._queryOptions.kindless`);
-    deleteFieldByPath(data, `${path}._queryOptions.requireConsistency`);
-    deleteFieldByPath(data, `${path}._serializer`);
-    deleteFieldByPath(data, `${path}._allowUndefined`);
+    deleteFieldByPath(json, `${path}._firestore`);
+    deleteFieldByPath(json, `${path}._serializer`);
+    deleteFieldByPath(json, `${path}._allowUndefined`);
+    deleteFieldByPath(json, `${path}._queryOptions.allDescendants`);
+    deleteFieldByPath(json, `${path}._queryOptions.converter`);
+    deleteFieldByPath(json, `${path}._queryOptions.fieldFilters.*.serializer`);
+    deleteFieldByPath(json, `${path}._queryOptions.kindless`);
+    deleteFieldByPath(json, `${path}._queryOptions.projection`);
+    deleteFieldByPath(json, `${path}._queryOptions.requireConsistency`);
   });
 
   // Add field paths to document
@@ -48,7 +51,22 @@ export function serializeDocument(
   if (documents.length > 0) document.documents = documents;
   if (queries.length > 0) document.queries = queries;
 
-  return JSON.stringify(document, null, indent);
+  return document;
+}
+
+function toJSON(object: any) {
+  let output: any;
+
+  if (Array.isArray(object)) output = [...object];
+  else output = { ...object };
+
+  for (const key in output) {
+    const value = output[key];
+    if (typeof value !== "object") continue;
+    output[key] = toJSON(value);
+  }
+
+  return output;
 }
 
 /**

@@ -33,18 +33,6 @@ describe(deserializeDocument.name, () => {
     expect(data).toMatchSnapshot();
   });
 
-  test("deserializes documents as arrays", () => {
-    const data = deserializeDocument(
-      [
-        { path: "documents/1", data: {} },
-        { path: "documents/2", data: {} },
-        { path: "documents/3", data: {} },
-      ],
-      firestore
-    );
-    expect(data).toMatchSnapshot();
-  });
-
   test("deserializes documents with timestamps", () => {
     const seconds = new Date("2022-01-01").getTime() / 1000;
     const data = deserializeDocument(

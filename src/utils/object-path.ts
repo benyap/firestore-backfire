@@ -92,6 +92,9 @@ export function deleteFieldByPath(
 
   // Follow the path if it exists
   if (field in object) deleteFieldByPath(object[field], segments);
+  if (field === "*" && Array.isArray(object)) {
+    object.forEach((_, index) => deleteFieldByPath(object[index], segments));
+  }
 
   return object;
 }

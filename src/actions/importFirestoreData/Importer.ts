@@ -20,7 +20,10 @@ import {
   y,
 } from "~/utils";
 import { IDataSourceReader } from "~/data-source/interface";
-import { DeserializedFirestoreDocument } from "~/firestore/FirestoreDocument/types";
+import {
+  DeserializedFirestoreDocument,
+  SerializedFirestoreDocument,
+} from "~/firestore/FirestoreDocument/types";
 
 import { ImportFirestoreDataOptions as ImportOptions } from "./types";
 
@@ -156,7 +159,10 @@ export class Importer {
 
     let document: DeserializedFirestoreDocument;
     try {
-      document = FirestoreDocument.deserialize(object, this.firestore);
+      document = FirestoreDocument.deserialize(
+        object as Partial<SerializedFirestoreDocument>,
+        this.firestore
+      );
     } catch (error) {
       this.processing.decrement(1);
       this.failed.increment(1);
