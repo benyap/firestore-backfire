@@ -83,7 +83,9 @@ export interface IDataSource<T extends { [key: string]: any } = {}> {
  * yourself. Use the default instance that is created for you
  * through the `dataSourceFactory` export.
  */
-export class DataSourceFactory<DefaultOptions = DataSourceOptions> {
+export class DataSourceFactory<
+  DefaultOptions extends { [key: string]: any } = DataSourceOptions
+> {
   private sources: { [id: string]: IDataSource<any> } = {};
 
   /**
