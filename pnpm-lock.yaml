@@ -6,7 +6,7 @@ specifiers:
   '@aws-sdk/types': 3.127.0
   '@commitlint/cli': 17.1.2
   '@commitlint/config-conventional': 17.1.0
-  '@google-cloud/firestore': 6.0.0
+  '@google-cloud/firestore': 6.2.0
   '@google-cloud/storage': 6.4.1
   '@release-it/bumper': 4.0.0
   '@release-it/conventional-changelog': 5.1.0
@@ -44,7 +44,7 @@ devDependencies:
   '@aws-sdk/types': 3.127.0
   '@commitlint/cli': 17.1.2_@swc+core@1.2.239
   '@commitlint/config-conventional': 17.1.0
-  '@google-cloud/firestore': 6.0.0
+  '@google-cloud/firestore': 6.2.0
   '@google-cloud/storage': 6.4.1
   '@release-it/bumper': 4.0.0_release-it@15.4.2
   '@release-it/conventional-changelog': 5.1.0_release-it@15.4.2
@@ -1205,13 +1205,13 @@ packages:
     dev: true
     optional: true
 
-  /@google-cloud/firestore/6.0.0:
-    resolution: {integrity: sha512-5yBLdYIhIRANBRqAGUwN7vd6yDFqntdSGwc7ghT6ikZIRYVHW3QP6LPHYaPLQPRU0dRLLAzJIpiCY/pFGKiSNw==}
+  /@google-cloud/firestore/6.2.0:
+    resolution: {integrity: sha512-tpy1mRpjCdFhso77sAeoETEEBTQ3Px5wIuZZU2MSpz4iv4Qx4Mg40aeGA75Oj78o+1eHxMLDmEPrVcTFlR4uBw==}
     engines: {node: '>=12.0.0'}
     dependencies:
       fast-deep-equal: 3.1.3
       functional-red-black-tree: 1.0.1
-      google-gax: 3.1.4
+      google-gax: 3.5.1
       protobufjs: 7.0.0
     transitivePeerDependencies:
       - encoding
@@ -1268,8 +1268,8 @@ packages:
       '@types/long': 4.0.2
       arrify: 2.0.1
       extend: 3.0.2
-      google-auth-library: 8.1.1
-      google-gax: 3.1.4
+      google-auth-library: 8.2.0
+      google-gax: 3.5.1
       is-stream-ended: 0.1.4
       lodash.snakecase: 4.1.1
       p-defer: 3.0.0
@@ -1305,8 +1305,8 @@ packages:
       - supports-color
     dev: true
 
-  /@grpc/grpc-js/1.6.10:
-    resolution: {integrity: sha512-XTX5z/P5kH802MDoVm/rqOil0UwYEOEjf9+NPgfmm5UINIxDzwYaXfVR6z8svCBG8Hlbu/FzkXqhP8J5xaWzSQ==}
+  /@grpc/grpc-js/1.7.0:
+    resolution: {integrity: sha512-wvKxal+40Xx11DXO2q5PfY3UiE25iwTb8SOz6A9IJII/V7d19x2ex0he+GJfVW0JZCaBjCPSjUB0yU9Ecm4WCw==}
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.0
@@ -1321,7 +1321,7 @@ packages:
       '@types/long': 4.0.2
       lodash.camelcase: 4.3.0
       long: 4.0.0
-      protobufjs: 7.0.0
+      protobufjs: 7.1.1
       yargs: 16.2.0
     dev: true
 
@@ -4754,24 +4754,6 @@ packages:
       - supports-color
     dev: true
 
-  /google-auth-library/8.1.1:
-    resolution: {integrity: sha512-eG3pCfrLgVJe19KhAeZwW0m1LplNEo0FX1GboWf3hu18zD2jq8TUH2K8900AB2YRAuJ7A+1aSXDp1BODjwwRzg==}
-    engines: {node: '>=12'}
-    dependencies:
-      arrify: 2.0.1
-      base64-js: 1.5.1
-      ecdsa-sig-formatter: 1.0.11
-      fast-text-encoding: 1.0.4
-      gaxios: 5.0.1
-      gcp-metadata: 5.0.0
-      gtoken: 6.1.1
-      jws: 4.0.0
-      lru-cache: 6.0.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: true
-
   /google-auth-library/8.2.0:
     resolution: {integrity: sha512-wCWs44jLT3cbzONVk2NKK1sfWaKCqzR21cudG3r9tV53/DC/wImxEr7HK5OBlEU5Q1iepZsrdFOxvzmC0M/YRQ==}
     engines: {node: '>=12'}
@@ -4790,24 +4772,24 @@ packages:
       - supports-color
     dev: true
 
-  /google-gax/3.1.4:
-    resolution: {integrity: sha512-+EOIVCSpFVabuqSBQHEy5kE8rGapc5sS47wbShJLzRnxIBWXs9+2vCnnmBP3pPZSsRQU08rp5C26j7spk+liUQ==}
+  /google-gax/3.5.1:
+    resolution: {integrity: sha512-lFw8StOfu3lqADD7BDLcM+XNnHWTCr1XsMZiaNxq/51eb74p3ZZ2faXqHn3PdWDVTv4bLQ7GT+vd0ocgoH+apQ==}
     engines: {node: '>=12'}
     hasBin: true
     dependencies:
-      '@grpc/grpc-js': 1.6.10
+      '@grpc/grpc-js': 1.7.0
       '@grpc/proto-loader': 0.7.0
       '@types/long': 4.0.2
       abort-controller: 3.0.0
       duplexify: 4.1.2
       fast-text-encoding: 1.0.4
-      google-auth-library: 8.1.1
+      google-auth-library: 8.2.0
       is-stream-ended: 0.1.4
       node-fetch: 2.6.7
       object-hash: 3.0.0
       proto3-json-serializer: 1.0.3
-      protobufjs: 7.0.0
-      protobufjs-cli: 1.0.0_protobufjs@7.0.0
+      protobufjs: 7.1.1
+      protobufjs-cli: 1.0.2_protobufjs@7.1.1
       retry-request: 5.0.1
     transitivePeerDependencies:
       - encoding
@@ -4836,7 +4818,7 @@ packages:
     dependencies:
       extend: 3.0.2
       gaxios: 5.0.1
-      google-auth-library: 8.1.1
+      google-auth-library: 8.2.0
       qs: 6.11.0
       url-template: 2.0.8
       uuid: 8.3.2
@@ -4849,7 +4831,7 @@ packages:
     resolution: {integrity: sha512-wH/jU/6QpqwsjTKj4vfKZz97ne7xT7BBbKwzQEwnbsG8iH9Seyw19P+AuLJcxNNrmgblwLqfr3LORg4Okat1BQ==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      google-auth-library: 8.1.1
+      google-auth-library: 8.2.0
       googleapis-common: 6.0.1
     transitivePeerDependencies:
       - encoding
@@ -7084,11 +7066,11 @@ packages:
     resolution: {integrity: sha512-4Xo7uzbTfc8ur9R8VgI0pJpI6aHix76cc7DHJEfZKrZ6vOUbOddxBrsMzAGG2s6b3iHknl4Gn50dA2Y3AoCdow==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      protobufjs: 7.0.0
+      protobufjs: 7.1.1
     dev: true
 
-  /protobufjs-cli/1.0.0_protobufjs@7.0.0:
-    resolution: {integrity: sha512-7NZEBrFuuU2ZdzlhmAmvh8fdU7A4OFhzYX9AB7a5vXjopAeiks6ZgUSjOlOO7ItCDJQm3y9RWjk7spUbHc4X0w==}
+  /protobufjs-cli/1.0.2_protobufjs@7.1.1:
+    resolution: {integrity: sha512-cz9Pq9p/Zs7okc6avH20W7QuyjTclwJPgqXG11jNaulfS3nbVisID8rC+prfgq0gbZE0w9LBFd1OKFF03kgFzg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     peerDependencies:
@@ -7101,10 +7083,10 @@ packages:
       glob: 8.0.3
       jsdoc: 3.6.11
       minimist: 1.2.6
-      protobufjs: 7.0.0
+      protobufjs: 7.1.1
       semver: 7.3.7
       tmp: 0.2.1
-      uglify-js: 3.16.3
+      uglify-js: 3.17.0
     dev: true
 
   /protobufjs/7.0.0:
@@ -7123,6 +7105,25 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
+      '@types/node': 18.7.6
+      long: 5.2.0
+    dev: true
+
+  /protobufjs/7.1.1:
+    resolution: {integrity: sha512-d0nMQqS/aT3lfV8bKi9Gbg73vPd2LcDdTDOu6RE/M+h9DY8g1EmDzk3ADPccthEWfTBjkR2oxNdx9Gs8YubT+g==}
+    engines: {node: '>=12.0.0'}
+    requiresBuild: true
+    dependencies:
+      '@protobufjs/aspromise': 1.1.2
+      '@protobufjs/base64': 1.1.2
+      '@protobufjs/codegen': 2.0.4
+      '@protobufjs/eventemitter': 1.1.0
+      '@protobufjs/fetch': 1.1.0
+      '@protobufjs/float': 1.0.2
+      '@protobufjs/inquire': 1.1.0
+      '@protobufjs/path': 1.1.2
+      '@protobufjs/pool': 1.1.0
+      '@protobufjs/utf8': 1.1.0
       '@types/node': 18.7.6
       long: 5.2.0
     dev: true
@@ -8440,19 +8441,12 @@ packages:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
     dev: true
 
-  /uglify-js/3.16.3:
-    resolution: {integrity: sha512-uVbFqx9vvLhQg0iBaau9Z75AxWJ8tqM9AV890dIZCLApF4rTcyHwmAvLeEdYRs+BzYWu8Iw81F79ah0EfTXbaw==}
-    engines: {node: '>=0.8.0'}
-    hasBin: true
-    dev: true
-
   /uglify-js/3.17.0:
     resolution: {integrity: sha512-aTeNPVmgIMPpm1cxXr2Q/nEbvkmV8yq66F3om7X3P/cvOXQ0TMQ64Wk63iyT1gPlmdmGzjGpyLh1f3y8MZWXGg==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true
     dev: true
-    optional: true
 
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
