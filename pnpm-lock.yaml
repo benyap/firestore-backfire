@@ -7,7 +7,7 @@ specifiers:
   '@commitlint/cli': 17.1.2
   '@commitlint/config-conventional': 17.1.0
   '@google-cloud/firestore': 6.2.0
-  '@google-cloud/storage': 6.4.1
+  '@google-cloud/storage': 6.5.0
   '@release-it/bumper': 4.0.0
   '@release-it/conventional-changelog': 5.1.0
   '@swc/cli': 0.1.57
@@ -45,7 +45,7 @@ devDependencies:
   '@commitlint/cli': 17.1.2_@swc+core@1.2.239
   '@commitlint/config-conventional': 17.1.0
   '@google-cloud/firestore': 6.2.0
-  '@google-cloud/storage': 6.4.1
+  '@google-cloud/storage': 6.5.0
   '@release-it/bumper': 4.0.0_release-it@15.4.2
   '@release-it/conventional-changelog': 5.1.0_release-it@15.4.2
   '@swc/cli': 0.1.57_@swc+core@1.2.239
@@ -1278,8 +1278,8 @@ packages:
       - supports-color
     dev: true
 
-  /@google-cloud/storage/6.4.1:
-    resolution: {integrity: sha512-lAddmRJ8tvxPykUqJfONBQA5XGwGk0vut1POXublc64+nCdB5aQMxwuBMf7J1zubx19QGpYPQwW6wR7YTWrvLw==}
+  /@google-cloud/storage/6.5.0:
+    resolution: {integrity: sha512-fAWk+NxsgII769YMfq/dDf3vaCuRWkp8aKmBZfi8NPTkKOm24tv8wqb4MQ0XL/I09oLiNqUZZe4q6hqzzQbryA==}
     engines: {node: '>=12'}
     dependencies:
       '@google-cloud/paginator': 3.0.7
