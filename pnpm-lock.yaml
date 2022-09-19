@@ -20,7 +20,7 @@ specifiers:
   cosmiconfig: 7.0.1
   cross-env: 7.0.3
   exceptional-errors: 0.3.3
-  firebase-tools: 11.7.0
+  firebase-tools: 11.9.0
   husky: 8.0.1
   prettier: 2.7.1
   regenerator-runtime: 0.13.9
@@ -54,7 +54,7 @@ devDependencies:
   all-contributors-cli: 6.20.4
   concurrently: 7.4.0
   cross-env: 7.0.3
-  firebase-tools: 11.7.0
+  firebase-tools: 11.9.0
   husky: 8.0.1
   prettier: 2.7.1
   release-it: 15.4.2
@@ -2254,6 +2254,10 @@ packages:
       tslib: 2.4.0
     dev: true
 
+  /async-lock/1.3.2:
+    resolution: {integrity: sha512-phnXdS3RP7PPcmP6NWWzWMU0sLTeyvtZCxBPpZdkYE3seGLKSQZs9FrmVO/qwypq98FUtWWUEYxziLkdGk5nnA==}
+    dev: true
+
   /async-retry/1.3.3:
     resolution: {integrity: sha512-wfr/jstw9xNi/0teMHrRW7dsz3Lt5ARhYNZ2ewpadnhaIp5mbALhOAP+EAdsC7t4Z6wqsDVv9+W6gm1Dk9mEyw==}
     dependencies:
@@ -4273,8 +4277,8 @@ packages:
       tslib: 2.4.0
     dev: true
 
-  /firebase-tools/11.7.0:
-    resolution: {integrity: sha512-im3oCXpxcUWqflVbBTi8bEtRHdpQqyuwsninGqvLCzY87wwkI6IR3pT4gv/xUAkA4xU4xmQQDnLlQ5XoxA4OlA==}
+  /firebase-tools/11.9.0:
+    resolution: {integrity: sha512-HbI0WpCpNATwDF+YnzJ/UjaXsYRDo2lW7Hxtqv6XKvwW/SsFpT7EgYBI76zFmHRL8YsnzDZ++63Gx/7nY4PB7A==}
     engines: {node: ^14.18.0 || >=16.4.0}
     hasBin: true
     dependencies:
@@ -4282,6 +4286,7 @@ packages:
       abort-controller: 3.0.0
       ajv: 6.12.6
       archiver: 5.3.1
+      async-lock: 1.3.2
       body-parser: 1.20.0
       chokidar: 3.5.3
       cjson: 0.3.3
