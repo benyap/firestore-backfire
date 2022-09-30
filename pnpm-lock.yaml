@@ -15,7 +15,7 @@ specifiers:
   '@types/node': 18.7.6
   all-contributors-cli: 6.20.4
   ansi-colors: 4.1.3
-  commander: 9.4.0
+  commander: 9.4.1
   concurrently: 7.4.0
   cosmiconfig: 7.0.1
   cross-env: 7.0.3
@@ -33,7 +33,7 @@ specifiers:
 
 dependencies:
   ansi-colors: 4.1.3
-  commander: 9.4.0
+  commander: 9.4.1
   cosmiconfig: 7.0.1
   exceptional-errors: 0.3.3
   regenerator-runtime: 0.13.9
@@ -2872,6 +2872,11 @@ packages:
 
   /commander/9.4.0:
     resolution: {integrity: sha512-sRPT+umqkz90UA8M1yqYfnHlZA7fF6nSphDtxeywPZ49ysjxDQybzk13CL+mXekDRG92skbcqCLVovuCusNmFw==}
+    engines: {node: ^12.20.0 || >=14}
+    dev: true
+
+  /commander/9.4.1:
+    resolution: {integrity: sha512-5EEkTNyHNGFPD2H+c/dXXfQZYa/scCKasxWcXJaWnNJ99pnQN9Vnmqow+p+PlFPE63Q6mThaZws1T+HxfpgtPw==}
     engines: {node: ^12.20.0 || >=14}
 
   /compare-func/2.0.0:
@@ -8111,7 +8116,7 @@ packages:
     dependencies:
       basic-auth-connect: 1.0.0
       chalk: 1.1.3
-      commander: 9.4.0
+      commander: 9.4.1
       compare-semver: 1.1.0
       compression: 1.7.4
       connect: 3.7.0
