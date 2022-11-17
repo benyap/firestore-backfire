@@ -23,7 +23,7 @@ specifiers:
   firebase-tools: 11.9.0
   husky: 8.0.1
   prettier: 2.7.1
-  regenerator-runtime: 0.13.9
+  regenerator-runtime: 0.13.11
   release-it: 15.5.0
   resolve-tspaths: 0.8.0
   rimraf: 3.0.2
@@ -36,7 +36,7 @@ dependencies:
   commander: 9.4.1
   cosmiconfig: 7.0.1
   exceptional-errors: 0.3.3
-  regenerator-runtime: 0.13.9
+  regenerator-runtime: 0.13.11
 
 devDependencies:
   '@aws-sdk/client-s3': 3.183.0
@@ -988,7 +988,7 @@ packages:
     resolution: {integrity: sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      regenerator-runtime: 0.13.9
+      regenerator-runtime: 0.13.11
     dev: true
 
   /@babel/types/7.18.10:
@@ -7365,8 +7365,8 @@ packages:
       esprima: 4.0.1
     dev: true
 
-  /regenerator-runtime/0.13.9:
-    resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
+  /regenerator-runtime/0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
 
   /regexp.prototype.flags/1.4.3:
     resolution: {integrity: sha512-fjggEOO3slI6Wvgjwflkc4NFRCTZAu5CnNfBd5qOMYhWdn67nJBBu34/TkD++eeFmd8C9r9jfXJ27+nSiRkSUA==}

@@ -48,7 +48,7 @@
     "commander": "9.4.1",
     "cosmiconfig": "7.0.1",
     "exceptional-errors": "0.3.3",
-    "regenerator-runtime": "0.13.9"
+    "regenerator-runtime": "0.13.11"
   },
   "peerDependencies": {
     "@aws-sdk/client-s3": ">=3.0.0",
