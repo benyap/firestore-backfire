@@ -25,7 +25,7 @@ specifiers:
   prettier: 2.7.1
   regenerator-runtime: 0.13.9
   release-it: 15.5.0
-  resolve-tspaths: 0.8.0
+  resolve-tspaths: 0.8.3
   rimraf: 3.0.2
   typescript: 4.8.3
   vite: 3.2.4
@@ -58,7 +58,7 @@ devDependencies:
   husky: 8.0.1
   prettier: 2.7.1
   release-it: 15.5.0
-  resolve-tspaths: 0.8.0_typescript@4.8.3
+  resolve-tspaths: 0.8.3_typescript@4.8.3
   rimraf: 3.0.2
   typescript: 4.8.3
   vite: 3.2.4_@types+node@18.7.6
@@ -2862,11 +2862,6 @@ packages:
   /commander/7.2.0:
     resolution: {integrity: sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==}
     engines: {node: '>= 10'}
-    dev: true
-
-  /commander/9.4.0:
-    resolution: {integrity: sha512-sRPT+umqkz90UA8M1yqYfnHlZA7fF6nSphDtxeywPZ49ysjxDQybzk13CL+mXekDRG92skbcqCLVovuCusNmFw==}
-    engines: {node: ^12.20.0 || >=14}
     dev: true
 
   /commander/9.4.1:
@@ -7512,14 +7507,14 @@ packages:
       global-dirs: 0.1.1
     dev: true
 
-  /resolve-tspaths/0.8.0_typescript@4.8.3:
-    resolution: {integrity: sha512-HUQA7vXQw8NHbPix1RLykDV+1QEQuMgoT+pv2+SeaHsxlYiOYxLjV1wD62wKBMezISLz/Yq6q+oaaqvbKCCYRg==}
+  /resolve-tspaths/0.8.3_typescript@4.8.3:
+    resolution: {integrity: sha512-91Qc0+Ta7teMjjqW0DOmeCkcx54QAkS1TcEwwMnnjg2g7BCRxM+2lutWnEPBtzVMcHtc+hRNy2O+zmOfREV0dg==}
     hasBin: true
     peerDependencies:
       typescript: '>=3.0.3'
     dependencies:
       ansi-colors: 4.1.3
-      commander: 9.4.0
+      commander: 9.4.1
       fast-glob: 3.2.12
       typescript: 4.8.3
     dev: true
