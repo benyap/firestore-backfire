@@ -28,7 +28,7 @@ specifiers:
   resolve-tspaths: 0.8.3
   rimraf: 3.0.2
   typescript: 4.8.3
-  vite: 3.2.4
+  vite: 3.2.5
   vitest: 0.25.5
 
 dependencies:
@@ -61,7 +61,7 @@ devDependencies:
   resolve-tspaths: 0.8.3_typescript@4.8.3
   rimraf: 3.0.2
   typescript: 4.8.3
-  vite: 3.2.4_@types+node@18.11.11
+  vite: 3.2.5_@types+node@18.11.11
   vitest: 0.25.5
 
 packages:
@@ -8696,8 +8696,8 @@ packages:
       extsprintf: 1.3.0
     dev: true
 
-  /vite/3.2.4_@types+node@18.11.11:
-    resolution: {integrity: sha512-Z2X6SRAffOUYTa+sLy3NQ7nlHFU100xwanq1WDwqaiFiCe+25zdxP1TfCS5ojPV2oDDcXudHIoPnI1Z/66B7Yw==}
+  /vite/3.2.5_@types+node@18.11.11:
+    resolution: {integrity: sha512-4mVEpXpSOgrssFZAOmGIr85wPHKvaDAcXqxVxVRZhljkJOMZi1ibLibzjLHzJvcok8BMguLc7g1W6W/GqZbLdQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -8765,7 +8765,7 @@ packages:
       tinybench: 2.3.1
       tinypool: 0.3.0
       tinyspy: 1.0.2
-      vite: 3.2.4_@types+node@18.11.11
+      vite: 3.2.5_@types+node@18.11.11
     transitivePeerDependencies:
       - less
       - sass
