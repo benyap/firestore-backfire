@@ -17,11 +17,11 @@ This documentation is for 2.x. Find documentation for 1.x
 - Limit the number of documents to export
 - Import and export data as
   [NDJSON](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON) to
-  a variety of different storage sources:
+  a variety of storage sources:
   - local files
   - Google Cloud Storage
   - AWS S3
-  - Or implement your own data source
+  - Or implement your own [data source](#data-sources)
 
 ## Table of contents <!-- omit in toc -->
 
@@ -190,8 +190,9 @@ await exportFirestoreData(connection, writer, options);
 
 Options for specifying the Firestore instance to connect to can be provided
 through the `connection` parameter. The `reader` and `writer` parameters are
-[data sources](#data-sources), and the `options` parameter allow you to
-configure the import/export behaviour.
+[data sources](#data-sources) (see [here](#creating-a-data-source-in-node) for
+more information on how to create a data source). The `options` parameter allow
+you to configure the import/export behaviour.
 
 ## Exporting data
 
@@ -287,7 +288,7 @@ an instance of Firestore, or it can be an object that specifies
 [IDataSourceReader](src/data-source/interface/reader.ts). See the section on
 [data sources](#data-sources) for more information.
 
-**NOTE**: When using the Firestore Emulator, importing a large amount of data
+⚠️ **NOTE**: When using the Firestore Emulator, importing a large amount of data
 can result in errors as the emulator is not designed to scale.
 
 ### Options
@@ -397,18 +398,19 @@ In order to read and write data to Firestore, you will need to specify some
 options for the connection. Follows the
 [FirestoreConnectionOptions](src/firestore/FirestoreFactory/types.ts) interface.
 
-| Option        | Type                  | Description                                                                                                                                              |
-| ------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| project       | `string`              | The ID of the Firestore project to connect to.                                                                                                           |
-| keyFile       | `string`              | The path to a service account's private key JSON file.                                                                                                   |
-| emulator      | `string` or `boolean` | Connect to a local Firestore emulator. Defaults to `localhost:8080`. Pass a `string` value to specify a different host. Takes precedence over `keyFile`. |
-| credentials\* | `object`              | Service account credentials. Fields `client_email` and `private_key` are expected. Takes precedence over `keyFile` and `emulator`.                       |
+| Option        | Type                  | Description                                                                                                                                                        |
+| ------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| project       | `string`              | The ID of the Firestore project to connect to.                                                                                                                     |
+| adc           | `boolean`             | Use [Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc).                                                       |
+| keyFile       | `string`              | The path to a service account's private key JSON file. Takes precedence over `adc`.                                                                                |
+| emulator      | `string` or `boolean` | Connect to a local Firestore emulator. Defaults to `localhost:8080`. Pass a `string` value to specify a different host. Takes precedence over `adc` and `keyFile`. |
+| credentials\* | `object`              | Service account credentials. Fields `client_email` and `private_key` are expected. Takes precedence over `adc`, `keyFile` and `emulator`.                          |
 
 \* Not available in the CLI.
 
 - The `project` option is always required
-- To connect to a real Firestore instance, you must specify `keyFile` or pass a
-  `credentials` object (Node only)
+- To connect to a real Firestore instance, you must specify `adc` or `keyFile`,
+  or pass a `credentials` object (Node only)
 - If you are connecting to a local Firestore emulator, you can use the
   `emulator` option
 
@@ -448,16 +450,24 @@ Credentials for reading and writing to the Google Cloud Storage bucket must also
 be provided as CLI options or through a
 [configuration file](#configuration-file).
 
-| Option     | Type     | Description                                          |
-| ---------- | -------- | ---------------------------------------------------- |
-| gcpProject | `string` | The Google Cloud project the bucket belongs to.      |
-| gcpKeyFile | `string` | Path to the service account credentials file to use. |
+| Option           | Type      | Description                                                                                                                         |
+| ---------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| gcpProject       | `string`  | The Google Cloud project the bucket belongs to.                                                                                     |
+| gcpAdc           | `boolean` | Use [Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc).                        |
+| gcpKeyFile       | `string`  | Path to the service account credentials file to use. Takes precedence over `gcpAdc`.                                                |
+| gcpCredentials\* | `object`  | Service account credentials. Fields `client_email` and `private_key` are expected. Takes precedence over `gcpAdc` and `gcpKeyFile`. |
+
+\* Not available in the CLI.
+
+- The `gcpProject` option is always required
+- You must specify `gcpAdc` or `gcpKeyFile`, or pass a `gcpCredentials` object
+  (Node only)
 
 Alternatively, these values can also be provided through the corresponding
 environment variables:
 
-- `GOOGLE_CLOUD_PROJECT`
-- `GOOGLE_APPLICATION_CREDENTIALS`
+- `GOOGLE_CLOUD_PROJECT` can be used to provide `gcpProject`
+- `GOOGLE_APPLICATION_CREDENTIALS` can be used to provide `gcpKeyFile`
 
 **IMPORTANT**: These environment variables are also used by
 [Firestore connection options](#connecting-to-firestore). If you need to use
@@ -471,24 +481,26 @@ This data source reads and writes data from an S3 bucket. To use this data
 source on the CLI, specify a `path` beginning with `s3://`.
 
 Credentials for reading and writing to the S3 bucket must also be provided as
-CLI options or through a [configuration file](#configuration-file). You can
-choose to use either `awsProfile`, or `awsAcecssKeyId` and `awsSecretAccessKey`.
-`awsRegion` is always required.
+CLI options or through a [configuration file](#configuration-file).
 
-| Option             | Type     | Description                                                                                                                                                                           |
-| ------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| awsProfile         | `string` | The name of the profile to use from your local AWS credentials. Requires `@aws-sdk/credential-provider-ini` to be installed.                                                          |
-| awsAccessKeyId     | `string` | The access key id to use. This takes precendence over the `awsProfile` option, which means that if you provide `awsProfile` as well as access keys, the access keys will be used.     |
-| awsSecretAccessKey | `string` | The secret access key to use. This takes precendence over the `awsProfile` option, which means that if you provide `awsProfile` as well as access keys, the access keys will be used. |
-| awsRegion          | `string` | The AWS region to use.                                                                                                                                                                |
+| Option             | Type     | Description                                                                                                                                                                                  |
+| ------------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| awsRegion          | `string` | The AWS region to use.                                                                                                                                                                       |
+| awsProfile         | `string` | The name of the profile to use from your local AWS credentials. Requires [@aws-sdk/credential-provider-ini](https://www.npmjs.com/package/@aws-sdk/credential-provider-ini) to be installed. |
+| awsAccessKeyId     | `string` | The access key id to use. This takes precendence over the `awsProfile` option, which means that if you provide `awsProfile` as well as access keys, the access keys will be used.            |
+| awsSecretAccessKey | `string` | The secret access key to use. This takes precendence over the `awsProfile` option, which means that if you provide `awsProfile` as well as access keys, the access keys will be used.        |
+
+- The `awsRegion` option is always required
+- You can choose to use either `awsProfile`, or `awsAcecssKeyId` and
+  `awsSecretAccessKey`
 
 Alternatively, these values can also be provided through the corresponding
 environment variables:
 
-- `AWS_PROFILE`
-- `AWS_ACCESS_KEY_ID`
-- `AWS_SECRET_ACCESS_KEY`
-- `AWS_REGION`
+- `AWS_REGION` can be used to provide `awsRegion`
+- `AWS_PROFILE` can be used to provide `awsProfile`
+- `AWS_ACCESS_KEY_ID` can be used to provide `awsAccessKeyId`
+- `AWS_SECRET_ACCESS_KEY` can be used to provide `awsSecretAccessKey`
 
 ### Creating a data source in Node
 
@@ -531,7 +543,7 @@ provided, you cannot export data.
 To create a data source and make it useable with **Firestore Backfire**, follow
 these steps:
 
-1. Create at least one of:
+1. Create at least one of the following:
    - A class that implements the
      [IDataSourceReader](src/data-source/interface/reader.ts) interface
    - A class that implements the
@@ -540,15 +552,16 @@ these steps:
    object, in which you should define:
    - A unique `id` for the data source
    - A `match` function, which takes a `path` parameter and returns `true` if
-     the path can be used with this data source.
+     the path can be used with this data source
    - A `reader` property, which can your IDataSourceReader class directly, or
-     provide a function that will create an instance of it. This can be left
-     empty if you do not want to import data.
+     provide a function that will create an instance of it (this can be left
+     empty if you do not want to import data)
    - A `writer` property, which can your IDataSourceWriter class directly, or
-     provide a function that will create an instance of it. This can be left
-     empty if you do not want to export data.
+     provide a function that will create an instance of it (this can be left
+     empty if you do not want to export data)
 3. Register the data source using the `register()` method on the default
-   DataSourceFactory instance (exposed as `dataSourceFactory`)
+   [DataSourceFactory](src/data-source/factory/DataSourceFactory.ts) instance
+   (exposed as `dataSourceFactory`)
 
 Once your data source has been registered, you can use the `createReader()` or
 `createWriter()` methods on the default

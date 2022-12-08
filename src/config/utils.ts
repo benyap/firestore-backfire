@@ -91,6 +91,7 @@ export async function resolveConfig(
 
   if (project) config.connection.project = project;
   if (connectionKey) config.connection[connectionKey] = connection as any;
+  config.connection.adc = pick("adc").value ?? false;
 
   //
   // Data options
@@ -129,6 +130,7 @@ export async function resolveConfig(
   config.dataSource.gcpProject = pick("gcpProject").value;
   config.dataSource.gcpKeyFile = pick("gcpKeyFile").value;
   config.dataSource.gcpCredentials = pick("gcpCredentials").value;
+  config.dataSource.gcpAdc = pick("gcpAdc").value;
   config.dataSource.awsRegion = pick("awsRegion").value;
   config.dataSource.awsProfile = pick("awsProfile").value;
   config.dataSource.awsAccessKeyId = pick("awsAccessKeyId").value;

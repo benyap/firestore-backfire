@@ -7,6 +7,7 @@ import {
 } from "~/actions/listFirestoreData";
 
 import {
+  AdcOption,
   CountOption,
   EmulatorOption,
   KeyFileOption,
@@ -22,6 +23,7 @@ export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
     .addOption(ProjectOption({ action: "read" }))
     .addOption(KeyFileOption())
     .addOption(EmulatorOption())
+    .addOption(AdcOption())
     // Action options
     .addOption(LimitOption({ countable: true }))
     .addOption(CountOption())
@@ -44,6 +46,7 @@ export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
     .addOption(ProjectOption({ action: "read" }))
     .addOption(KeyFileOption())
     .addOption(EmulatorOption())
+    .addOption(AdcOption())
     // Action options
     .addOption(LimitOption({ countable: true }))
     .addOption(CountOption())

@@ -5,6 +5,7 @@ import { dataSourceFactory } from "~/data-source/factory";
 import { exportFirestoreData } from "~/actions/exportFirestoreData";
 
 import {
+  AdcOption,
   KeyFileOption,
   EmulatorOption,
   OverwriteOption,
@@ -18,6 +19,7 @@ import {
   DepthOption,
   GcpProjectOption,
   GcpKeyFileOption,
+  GcpAdcOption,
   AwsRegionOption,
   AwsProfileOption,
   AwsAccessKeyIdOption,
@@ -41,6 +43,7 @@ export function createExportCommand(
     .addOption(ProjectOption({ action: "export" }))
     .addOption(KeyFileOption())
     .addOption(EmulatorOption())
+    .addOption(AdcOption())
     // Action options
     .addOption(PathsOption({ action: "export" }))
     .addOption(MatchOption({ action: "export" }))
@@ -60,6 +63,7 @@ export function createExportCommand(
     // Google Cloud Storage data source options
     .addOption(GcpProjectOption())
     .addOption(GcpKeyFileOption())
+    .addOption(GcpAdcOption())
     // S3 data source options
     .addOption(AwsRegionOption())
     .addOption(AwsProfileOption())

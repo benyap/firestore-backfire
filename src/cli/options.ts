@@ -35,6 +35,9 @@ export const EmulatorOption = () =>
     "use the Firestore emulator (default: `localhost:8080` if host is not specified)"
   );
 
+export const AdcOption = () =>
+  new Option("--adc", "use Application Default Credentials");
+
 // Action options
 
 export const StringifyOption = () =>
@@ -162,6 +165,9 @@ export const GcpKeyFileOption = () =>
     "--gcpKeyFile <path>",
     "used with Google Cloud Storage data source"
   );
+
+export const GcpAdcOption = () =>
+  new Option("--gcpAdc", "used with Google Cloud Storage data source");
 
 // S3 data source options
 

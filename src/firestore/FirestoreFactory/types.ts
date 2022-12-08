@@ -7,26 +7,36 @@ export interface FirestoreConnectionOptions {
   project?: string;
 
   /**
+   * Use [Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc)
+   * to connect to Firestore.
+   */
+  adc?: boolean;
+
+  /**
    * The path to the service account private key to use to connect to Firestore.
+   *
+   * Takes precedence over {@link adc}.
    */
   keyFile?: string;
 
   /**
-   * The service account credentials to use to connect to Firestore.
-   *
-   * Takes precedence over `keyFile`.
-   */
-  credentials?: Required<Settings["credentials"]>;
-
-  /**
    * The host and port of the local Firestore emulator to connect to.
    *
-   * Takes precedence over `keyFile` and `credentials`.
+   * Takes precedence over {@link keyFile} and {@link adc}.
    */
   emulator?: string | boolean;
 
   /**
+   * The service account credentials to use to connect to Firestore.
+   *
+   * Takes precedence over {@link keyFile}, {@link emulator} and {@link adc}.
+   */
+  credentials?: Required<Settings["credentials"]>;
+
+  /**
    * Provide a Firestore instance directly.
+   *
+   * Takes precedence over all other connection options.
    */
   firestore?: FirebaseFirestore.Firestore;
 }

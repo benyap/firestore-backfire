@@ -8,13 +8,14 @@ export async function getGCSOptions(options: DataSourceOptions) {
     gcpProject = process.env["GOOGLE_CLOUD_PROJECT"],
     gcpKeyFile = process.env["GOOGLE_APPLICATION_CREDENTIALS"],
     gcpCredentials,
+    gcpAdc,
   } = options;
 
   if (!gcpProject) throw new DataSourceError("`gcpProject` is required");
 
-  if (!gcpKeyFile && !gcpCredentials)
+  if (!gcpKeyFile && !gcpCredentials && !gcpAdc)
     throw new DataSourceError(
-      "either `gcpKeyFile` or `gcpCredentials` is required"
+      "either `gcpAdc`, `gcpKeyFile` or `gcpCredentials` is required"
     );
 
   ensureDependencyInstalled(
@@ -22,8 +23,9 @@ export async function getGCSOptions(options: DataSourceOptions) {
     "required to use Google Cloud Storage data source"
   );
 
-  if (gcpKeyFile) return { gcpProject, gcpKeyFile };
   if (gcpCredentials) return { gcpProject, gcpCredentials };
+  if (gcpKeyFile) return { gcpProject, gcpKeyFile };
+  if (gcpAdc) return { gcpProject };
 
   throw new DataSourceError(
     "no credentials provided for Google Cloud Storage data source"

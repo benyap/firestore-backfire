@@ -21,6 +21,7 @@ export type GoogleCloudStorageOptions = {
   gcpProject: string;
   gcpKeyFile?: string;
   gcpCredentials?: CredentialBody;
+  gcpAdc?: boolean;
 };
 
 class GoogleCloudStorageSource {
@@ -31,7 +32,7 @@ class GoogleCloudStorageSource {
   constructor(
     readonly path: string,
     projectId: string,
-    credentials: string | CredentialBody
+    credentials?: string | CredentialBody
   ) {
     if (!this.path.endsWith(".ndjson")) this.path += ".ndjson";
 
@@ -40,11 +41,13 @@ class GoogleCloudStorageSource {
         projectId,
         keyFile: credentials,
       });
-    } else {
+    } else if (credentials) {
       this.storage = new Storage({
         projectId,
         credentials,
       });
+    } else {
+      this.storage = new Storage({ projectId });
     }
 
     const filePath = this.path.replace(GCS_PREFIX, "");
@@ -87,7 +90,7 @@ export class GoogleCloudStorageReader extends StreamReader {
   constructor(
     path: string,
     projectId: string,
-    credentials: string | CredentialBody
+    credentials?: string | CredentialBody
   ) {
     super();
     this.source = new GoogleCloudStorageSource(path, projectId, credentials);
@@ -112,7 +115,7 @@ export class GoogleCloudStorageWriter extends StreamWriter {
   constructor(
     path: string,
     projectId: string,
-    credentials: string | CredentialBody
+    credentials?: string | CredentialBody
   ) {
     super();
     this.source = new GoogleCloudStorageSource(path, projectId, credentials);

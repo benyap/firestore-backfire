@@ -4,6 +4,7 @@ import { resolveConfig, GlobalOptions } from "~/config";
 import { getFirestoreData } from "~/actions/getFirestoreData";
 
 import {
+  AdcOption,
   EmulatorOption,
   KeyFileOption,
   ProjectOption,
@@ -18,6 +19,7 @@ export function createGetCommand(cli: Command, globalOptions: GlobalOptions) {
     .addOption(ProjectOption({ action: "read" }))
     .addOption(KeyFileOption())
     .addOption(EmulatorOption())
+    .addOption(AdcOption())
     // Action options
     .addOption(StringifyOption())
     // Action handler

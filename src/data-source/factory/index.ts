@@ -33,7 +33,9 @@ dataSourceFactory.register({
       );
       if (opt.gcpCredentials)
         return new GCSReader(path, opt.gcpProject, opt.gcpCredentials);
-      else return new GCSReader(path, opt.gcpProject, opt.gcpKeyFile);
+      if (opt.gcpKeyFile)
+        return new GCSReader(path, opt.gcpProject, opt.gcpKeyFile);
+      else return new GCSReader(path, opt.gcpProject);
     },
   },
   writer: {
@@ -44,7 +46,9 @@ dataSourceFactory.register({
       );
       if (opt.gcpCredentials)
         return new GCSWriter(path, opt.gcpProject, opt.gcpCredentials);
-      else return new GCSWriter(path, opt.gcpProject, opt.gcpKeyFile);
+      if (opt.gcpKeyFile)
+        return new GCSWriter(path, opt.gcpProject, opt.gcpKeyFile);
+      else return new GCSWriter(path, opt.gcpProject);
     },
   },
 });
