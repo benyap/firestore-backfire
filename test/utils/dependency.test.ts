@@ -7,23 +7,23 @@ import {
 } from "~/utils/dependency";
 
 describe(ensureDependencyInstalled.name, () => {
-  test("resolves when dependency is installed", async () => {
-    await expect(ensureDependencyInstalled("vitest")).resolves.toBeUndefined();
+  test("resolves when dependency is installed", () => {
+    expect(ensureDependencyInstalled("vitest")).toBeUndefined();
   });
 
-  test("rejects when dependency is not installed", async () => {
-    await expect(ensureDependencyInstalled("?")).rejects.toThrow(
+  test("rejects when dependency is not installed", () => {
+    expect(() => ensureDependencyInstalled("?")).toThrow(
       MissingPeerDependencyError
     );
   });
 });
 
 describe(isDependencyInstalled.name, () => {
-  test("returns `true` when dependency is installed", async () => {
-    await expect(isDependencyInstalled("vitest")).resolves.toBe(true);
+  test("returns `true` when dependency is installed", () => {
+    expect(isDependencyInstalled("vitest")).toBe(true);
   });
 
-  test("returns `false` when dependency is not installed", async () => {
-    await expect(isDependencyInstalled("?")).resolves.toBe(false);
+  test("returns `false` when dependency is not installed", () => {
+    expect(isDependencyInstalled("?")).toBe(false);
   });
 });

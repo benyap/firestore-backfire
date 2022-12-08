@@ -17,7 +17,7 @@ export async function getGCSOptions(options: DataSourceOptions) {
       "either `gcpKeyFile` or `gcpCredentials` is required"
     );
 
-  await ensureDependencyInstalled(
+  ensureDependencyInstalled(
     "@google-cloud/storage",
     "required to use Google Cloud Storage data source"
   );
