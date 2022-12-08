@@ -224,8 +224,8 @@ an instance of Firestore, or it can be an object that specifies
 
 ### Options
 
-All options have a [CLI flag equivalent](#cli-options----omit-in-toc) unless
-otherwise specified. Follows the
+All options have a [CLI flag equivalent](#cli-options-) unless otherwise
+specified. Follows the
 [ExportFirestoreDataOptions](src/actions/exportFirestoreData/types.ts)
 interface.
 
@@ -292,8 +292,8 @@ can result in errors as the emulator is not designed to scale.
 
 ### Options
 
-All options have a [CLI flag equivalent](#cli-options----omit-in-toc) unless
-otherwise specified. Follows the
+All options have a [CLI flag equivalent](#cli-options-) unless otherwise
+specified. Follows the
 [ImportFirestoreDataOptions](src/actions/importFirestoreData/types.ts)
 interface.
 
@@ -353,8 +353,9 @@ backfire get <path> [options]
 
 ### Options
 
-Follows the [GetFirestoreDataOptions](src/actions/getFirestoreData/types.ts)
-interface.
+All options have a [CLI flag equivalent](#cli-options-) unless otherwise
+specified. Follows the
+[GetFirestoreDataOptions](src/actions/getFirestoreData/types.ts) interface.
 
 | Option    | Type                  | Description                                                                                                             |
 | --------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------- |
@@ -381,8 +382,9 @@ backfire list:collections [path] [options]
 
 ### Options
 
-Follows the [ListFirestoreDataOptions](src/actions/listFirestoreData/types.ts)
-interface.
+All options have a [CLI flag equivalent](#cli-options-) unless otherwise
+specified. Follows the
+[ListFirestoreDataOptions](src/actions/listFirestoreData/types.ts) interface.
 
 | Option | Type      | Description                                                                                       |
 | ------ | --------- | ------------------------------------------------------------------------------------------------- |
