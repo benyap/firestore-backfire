@@ -21,7 +21,7 @@ specifiers:
   cross-env: 7.0.3
   exceptional-errors: 0.3.3
   firebase-tools: 11.9.0
-  husky: 8.0.1
+  husky: 8.0.2
   prettier: 2.8.1
   regenerator-runtime: 0.13.11
   release-it: 15.5.0
@@ -55,7 +55,7 @@ devDependencies:
   concurrently: 7.6.0
   cross-env: 7.0.3
   firebase-tools: 11.9.0
-  husky: 8.0.1
+  husky: 8.0.2
   prettier: 2.8.1
   release-it: 15.5.0
   resolve-tspaths: 0.8.3_typescript@4.8.3
@@ -5088,8 +5088,8 @@ packages:
     dev: true
     optional: true
 
-  /husky/8.0.1:
-    resolution: {integrity: sha512-xs7/chUH/CKdOCs7Zy0Aev9e/dKOMZf3K1Az1nar3tzlv0jfqnYtu235bstsWTmXOR0EfINrPa97yy4Lz6RiKw==}
+  /husky/8.0.2:
+    resolution: {integrity: sha512-Tkv80jtvbnkK3mYWxPZePGFpQ/tT3HNSs/sasF9P2YfkMezDl3ON37YN6jUUI4eTg5LcyVynlb6r4eyvOmspvg==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
