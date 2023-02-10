@@ -20,7 +20,7 @@ specifiers:
   exceptional-errors: 0.4.0
   firebase-tools: 11.17.0
   husky: 8.0.3
-  prettier: 2.8.1
+  prettier: 2.8.4
   regenerator-runtime: 0.13.11
   release-it: 15.6.0
   resolve-tspaths: 0.8.3
@@ -52,7 +52,7 @@ devDependencies:
   concurrently: 7.6.0
   firebase-tools: 11.17.0
   husky: 8.0.3
-  prettier: 2.8.1
+  prettier: 2.8.4
   release-it: 15.6.0
   resolve-tspaths: 0.8.3_typescript@4.9.4
   rimraf: 3.0.2
@@ -7277,8 +7277,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /prettier/2.8.1:
-    resolution: {integrity: sha512-lqGoSJBQNJidqCHE80vqZJHWHRFoNYsSpP9AjFhlhi9ODCJA541svILes/+/1GM3VaL/abZi7cpFzOpdR9UPKg==}
+  /prettier/2.8.4:
+    resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
