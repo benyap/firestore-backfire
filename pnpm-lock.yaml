@@ -24,7 +24,7 @@ specifiers:
   regenerator-runtime: 0.13.11
   release-it: 15.6.0
   resolve-tspaths: 0.8.7
-  rimraf: 3.0.2
+  rimraf: 4.1.2
   typescript: 4.9.4
   vite: 3.2.5
   vitest: 0.28.4
@@ -55,7 +55,7 @@ devDependencies:
   prettier: 2.8.4
   release-it: 15.6.0
   resolve-tspaths: 0.8.7_typescript@4.9.4
-  rimraf: 3.0.2
+  rimraf: 4.1.2
   typescript: 4.9.4
   vite: 3.2.5_@types+node@18.13.0
   vitest: 0.28.4
@@ -7645,6 +7645,12 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
+    dev: true
+
+  /rimraf/4.1.2:
+    resolution: {integrity: sha512-BlIbgFryTbw3Dz6hyoWFhKk+unCcHMSkZGrTFVAx2WmttdBSonsdtRlwiuTbDqTKr+UlXIUqJVS4QT5tUzGENQ==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /rollup/2.79.1:
