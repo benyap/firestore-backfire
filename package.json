@@ -86,7 +86,7 @@
     "release-it": "15.6.0",
     "resolve-tspaths": "0.8.7",
     "rimraf": "4.1.2",
-    "typescript": "4.9.4",
+    "typescript": "4.9.5",
     "vite": "3.2.5",
     "vitest": "0.28.4"
   }
