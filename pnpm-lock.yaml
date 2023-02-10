@@ -17,7 +17,7 @@ specifiers:
   commander: 9.4.1
   concurrently: 7.6.0
   cosmiconfig: 8.0.0
-  exceptional-errors: 0.4.0
+  exceptional-errors: 0.4.1
   firebase-tools: 11.22.0
   husky: 8.0.3
   prettier: 2.8.4
@@ -33,7 +33,7 @@ dependencies:
   ansi-colors: 4.1.3
   commander: 9.4.1
   cosmiconfig: 8.0.0
-  exceptional-errors: 0.4.0
+  exceptional-errors: 0.4.1
   regenerator-runtime: 0.13.11
 
 devDependencies:
@@ -4022,8 +4022,8 @@ packages:
     resolution: {integrity: sha512-Kd3EgYfODHueq6GzVfs/VUolh2EgJsS8hkO3KpnDrxVjU3eq63eXM2ujXkhPP+OkeUOhL8CxdfZbQXzryb5C4g==}
     dev: true
 
-  /exceptional-errors/0.4.0:
-    resolution: {integrity: sha512-Ly6hrY983OZOZyc94sCm7wDg60Nzb0WLf73MfCBfwwtWTUkABiXfPKZV5T/n9dCsFI2WFPTSl/qJfif8VWN4cQ==}
+  /exceptional-errors/0.4.1:
+    resolution: {integrity: sha512-yzH94d1S66nFEAFcvkYkxVjT1qxYOoY6dkKnvXGE2VE0xhtM46MPwgyhIQA85s9Cm6LypxrRKHGdY2TsE850zA==}
     dev: false
 
   /execa/0.7.0:
