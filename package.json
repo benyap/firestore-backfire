@@ -72,7 +72,7 @@
     "@aws-sdk/types": "3.226.0",
     "@commitlint/cli": "17.4.2",
     "@commitlint/config-conventional": "17.4.2",
-    "@google-cloud/firestore": "6.4.1",
+    "@google-cloud/firestore": "6.4.2",
     "@google-cloud/storage": "6.8.0",
     "@release-it/bumper": "4.0.0",
     "@release-it/conventional-changelog": "5.1.1",
