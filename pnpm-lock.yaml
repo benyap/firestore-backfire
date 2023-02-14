@@ -19,7 +19,7 @@ specifiers:
   concurrently: 7.6.0
   cosmiconfig: 8.0.0
   exceptional-errors: 0.4.1
-  firebase-tools: 11.22.0
+  firebase-tools: 11.23.1
   husky: 8.0.3
   prettier: 2.8.4
   regenerator-runtime: 0.13.11
@@ -52,7 +52,7 @@ devDependencies:
   '@types/node': 18.13.0
   '@vitest/coverage-c8': 0.28.4
   concurrently: 7.6.0
-  firebase-tools: 11.22.0
+  firebase-tools: 11.23.1
   husky: 8.0.3
   prettier: 2.8.4
   release-it: 15.6.0
@@ -3172,11 +3172,6 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /commander/9.4.1:
-    resolution: {integrity: sha512-5EEkTNyHNGFPD2H+c/dXXfQZYa/scCKasxWcXJaWnNJ99pnQN9Vnmqow+p+PlFPE63Q6mThaZws1T+HxfpgtPw==}
-    engines: {node: ^12.20.0 || >=14}
-    dev: true
-
   /compare-func/2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==}
     dependencies:
@@ -4421,8 +4416,8 @@ packages:
       semver-regex: 4.0.5
     dev: true
 
-  /firebase-tools/11.22.0:
-    resolution: {integrity: sha512-wTM/bjceNKipTQTk1ocpAvqg9075L/wWAzScLB+M9uzYSBaz8xA0lfOPo0e6L0AoXpOXJBkOBTlcJ6No0LQ66w==}
+  /firebase-tools/11.23.1:
+    resolution: {integrity: sha512-yBYvIrdG+NTnkcWEP4QIdyqbpfwj01X6CQ3uozSEzr2yx1mmWgg148PGy5+ap/NuFkPiMkxBC0UqktoudZFGGg==}
     engines: {node: ^14.18.0 || >=16.4.0}
     hasBin: true
     dependencies:
@@ -4474,7 +4469,7 @@ packages:
       stream-chain: 2.2.5
       stream-json: 1.7.5
       strip-ansi: 6.0.1
-      superstatic: 9.0.2
+      superstatic: 9.0.3
       tar: 6.1.13
       tcp-port-used: 1.0.2
       tmp: 0.2.1
@@ -6412,6 +6407,13 @@ packages:
       brace-expansion: 2.0.1
     dev: true
 
+  /minimatch/6.2.0:
+    resolution: {integrity: sha512-sauLxniAmvnhhRjFwPNnJKaPFYyddAgbYdeUpHULtCT/GhzdCx/MDNy+Y40lBxTQUrMzDE8e0S43Z5uqfO0REg==}
+    engines: {node: '>=10'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: true
+
   /minimist-options/4.1.0:
     resolution: {integrity: sha512-Q4r8ghd80yhO/0j1O3B2BjweX3fiHg9cdOwjJd2J76Q135c+NDxGCqdYKQ1SKBuFfgWbAUzBfvYjPUEeNgqN1A==}
     engines: {node: '>= 6'}
@@ -8294,13 +8296,13 @@ packages:
     resolution: {integrity: sha512-PdHt7hHUJKxvTCgbKX9C1V/ftOcjJQgz8BZwNfV5c4B6dcGqlpelTbJ999jBGZ2jYiPAwcX5dP6oBwVlBlUbxw==}
     dev: true
 
-  /superstatic/9.0.2:
-    resolution: {integrity: sha512-eKX9qubOaJbtdxn4gWhVVMXuno8cn0WPKOYgLAmLwYiHafrASXAIXHzL3Jx7w06yXiaM5e1DA2Ezeb08iV28+A==}
+  /superstatic/9.0.3:
+    resolution: {integrity: sha512-e/tmW0bsnQ/33ivK6y3CapJT0Ovy4pk/ohNPGhIAGU2oasoNLRQ1cv6enua09NU9w6Y0H/fBu07cjzuiWvLXxw==}
     engines: {node: ^14.18.0 || >=16.4.0}
     hasBin: true
     dependencies:
       basic-auth-connect: 1.0.0
-      commander: 9.4.1
+      commander: 10.0.0
       compression: 1.7.4
       connect: 3.7.0
       destroy: 1.2.0
@@ -8310,7 +8312,7 @@ packages:
       join-path: 1.1.1
       lodash: 4.17.21
       mime-types: 2.1.35
-      minimatch: 5.1.1
+      minimatch: 6.2.0
       morgan: 1.10.0
       on-finished: 2.4.1
       on-headers: 1.0.2
