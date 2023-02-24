@@ -47,7 +47,7 @@
   "dependencies": {
     "ansi-colors": "4.1.3",
     "commander": "10.0.0",
-    "cosmiconfig": "8.0.0",
+    "cosmiconfig": "8.1.0",
     "exceptional-errors": "0.4.1",
     "regenerator-runtime": "0.13.11"
   },
