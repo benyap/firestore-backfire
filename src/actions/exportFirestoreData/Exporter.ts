@@ -76,8 +76,11 @@ export class Exporter {
       this.exploreQueue.set(collections.map((col) => col.path));
     }
 
+    let download: RepeatedOperation | null = null;
+    let explore: RepeatedOperation | null = null;
+
     // Explore data paths in Firestore
-    const explore = new RepeatedOperation({
+    explore = new RepeatedOperation({
       interval: exploreInterval,
       when: () => this.exploreQueue.length > 0,
       until: () =>
@@ -86,10 +89,11 @@ export class Exporter {
           !this.writeLock.locked) ||
         this.limitReached,
       action: () => this.exploreAction(options),
+      onError: () => download?.abort(),
     });
 
     // Download data from Firestore and export it
-    const download = new RepeatedOperation({
+    download = new RepeatedOperation({
       interval: downloadInterval,
       when: () => this.exports.length > 0,
       until: () =>
@@ -100,7 +104,7 @@ export class Exporter {
         this.exporting.val === 0 &&
         !this.writeLock.locked,
       action: () => this.downloadAction(options),
-      onDone: () => explore.abort(),
+      onDone: () => explore?.abort(),
     });
 
     // Log status every few seconds
@@ -113,10 +117,15 @@ export class Exporter {
       onAbort: () => this.logStatus(),
     });
 
-    log.start();
-    await Promise.all([explore.start(), download.start()]);
-    await this.writer.close();
-    log.abort();
+    try {
+      log.start();
+      await Promise.all([explore.start(), download.start()]);
+    } catch (error) {
+      throw error;
+    } finally {
+      await this.writer.close();
+      log.abort();
+    }
 
     return { exported: this.exported.val };
   }
