@@ -4,8 +4,8 @@ specifiers:
   '@aws-sdk/client-s3': 3.271.0
   '@aws-sdk/credential-provider-ini': 3.271.0
   '@aws-sdk/types': 3.271.0
-  '@commitlint/cli': 17.4.3
-  '@commitlint/config-conventional': 17.4.3
+  '@commitlint/cli': 17.4.4
+  '@commitlint/config-conventional': 17.4.4
   '@google-cloud/firestore': 6.4.2
   '@google-cloud/storage': 6.9.2
   '@release-it/bumper': 4.0.2
@@ -41,8 +41,8 @@ devDependencies:
   '@aws-sdk/client-s3': 3.271.0
   '@aws-sdk/credential-provider-ini': 3.271.0
   '@aws-sdk/types': 3.271.0
-  '@commitlint/cli': 17.4.3_@swc+core@1.3.35
-  '@commitlint/config-conventional': 17.4.3
+  '@commitlint/cli': 17.4.4_@swc+core@1.3.35
+  '@commitlint/config-conventional': 17.4.4
   '@google-cloud/firestore': 6.4.2
   '@google-cloud/storage': 6.9.2
   '@release-it/bumper': 4.0.2_release-it@15.6.0
@@ -1086,16 +1086,16 @@ packages:
     engines: {node: '>=0.1.90'}
     dev: true
 
-  /@commitlint/cli/17.4.3_@swc+core@1.3.35:
-    resolution: {integrity: sha512-IPTS7AZuBHgD0gl24El8HwuDM9zJN9JLa5KmZUQoFD1BQeGGdzAYJOnAr85CeJWpTDok0BGHDL0+4odnH0iTyA==}
+  /@commitlint/cli/17.4.4_@swc+core@1.3.35:
+    resolution: {integrity: sha512-HwKlD7CPVMVGTAeFZylVNy14Vm5POVY0WxPkZr7EXLC/os0LH/obs6z4HRvJtH/nHCMYBvUBQhGwnufKfTjd5g==}
     engines: {node: '>=v14'}
     hasBin: true
     dependencies:
-      '@commitlint/format': 17.4.0
+      '@commitlint/format': 17.4.4
       '@commitlint/lint': 17.4.4
-      '@commitlint/load': 17.4.2_@swc+core@1.3.35
-      '@commitlint/read': 17.4.2
-      '@commitlint/types': 17.4.0
+      '@commitlint/load': 17.4.4_@swc+core@1.3.35
+      '@commitlint/read': 17.4.4
+      '@commitlint/types': 17.4.4
       execa: 5.1.1
       lodash.isfunction: 3.0.9
       resolve-from: 5.0.0
@@ -1106,15 +1106,15 @@ packages:
       - '@swc/wasm'
     dev: true
 
-  /@commitlint/config-conventional/17.4.3:
-    resolution: {integrity: sha512-8EsY2iDw74hCk3hIQSg7/E0R8/KtPjnFPZVwmmHxcjhZjkSykmxysefICPDnbI3xgxfov0zwL1WKDHM8zglJdw==}
+  /@commitlint/config-conventional/17.4.4:
+    resolution: {integrity: sha512-u6ztvxqzi6NuhrcEDR7a+z0yrh11elY66nRrQIpqsqW6sZmpxYkDLtpRH8jRML+mmxYQ8s4qqF06Q/IQx5aJeQ==}
     engines: {node: '>=v14'}
     dependencies:
       conventional-changelog-conventionalcommits: 5.0.0
     dev: true
 
-  /@commitlint/config-validator/17.4.0:
-    resolution: {integrity: sha512-Sa/+8KNpDXz4zT4bVbz2fpFjvgkPO6u2V2fP4TKgt6FjmOw2z3eEX859vtfeaTav/ukBw0/0jr+5ZTZp9zCBhA==}
+  /@commitlint/config-validator/17.4.4:
+    resolution: {integrity: sha512-bi0+TstqMiqoBAQDvdEP4AFh0GaKyLFlPPEObgI29utoKEYoPQTvF0EYqIwYYLEoJYhj5GfMIhPHJkTJhagfeg==}
     engines: {node: '>=v14'}
     dependencies:
       '@commitlint/types': 17.4.4
@@ -1138,11 +1138,11 @@ packages:
     engines: {node: '>=v14'}
     dev: true
 
-  /@commitlint/format/17.4.0:
-    resolution: {integrity: sha512-Z2bWAU5+f1YZh9W76c84J8iLIWIvvm+mzqogTz0Nsc1x6EHW0Z2gI38g5HAjB0r0I3ZjR15IDEJKhsxyblcyhA==}
+  /@commitlint/format/17.4.4:
+    resolution: {integrity: sha512-+IS7vpC4Gd/x+uyQPTAt3hXs5NxnkqAZ3aqrHd5Bx/R9skyCAWusNlNbw3InDbAK6j166D9asQM8fnmYIa+CXQ==}
     engines: {node: '>=v14'}
     dependencies:
-      '@commitlint/types': 17.4.0
+      '@commitlint/types': 17.4.4
       chalk: 4.1.2
     dev: true
 
@@ -1164,13 +1164,13 @@ packages:
       '@commitlint/types': 17.4.4
     dev: true
 
-  /@commitlint/load/17.4.2_@swc+core@1.3.35:
-    resolution: {integrity: sha512-Si++F85rJ9t4hw6JcOw1i2h0fdpdFQt0YKwjuK4bk9KhFjyFkRxvR3SB2dPaMs+EwWlDrDBGL+ygip1QD6gmPw==}
+  /@commitlint/load/17.4.4_@swc+core@1.3.35:
+    resolution: {integrity: sha512-z6uFIQ7wfKX5FGBe1AkOF4l/ShOQsaa1ml/nLMkbW7R/xF8galGS7Zh0yHvzVp/srtfS0brC+0bUfQfmpMPFVQ==}
     engines: {node: '>=v14'}
     dependencies:
-      '@commitlint/config-validator': 17.4.0
+      '@commitlint/config-validator': 17.4.4
       '@commitlint/execute-rule': 17.4.0
-      '@commitlint/resolve-extends': 17.4.0
+      '@commitlint/resolve-extends': 17.4.4
       '@commitlint/types': 17.4.4
       '@types/node': 18.13.0
       chalk: 4.1.2
@@ -1201,8 +1201,8 @@ packages:
       conventional-commits-parser: 3.2.4
     dev: true
 
-  /@commitlint/read/17.4.2:
-    resolution: {integrity: sha512-hasYOdbhEg+W4hi0InmXHxtD/1favB4WdwyFxs1eOy/DvMw6+2IZBmATgGOlqhahsypk4kChhxjAFJAZ2F+JBg==}
+  /@commitlint/read/17.4.4:
+    resolution: {integrity: sha512-B2TvUMJKK+Svzs6eji23WXsRJ8PAD+orI44lVuVNsm5zmI7O8RSGJMvdEZEikiA4Vohfb+HevaPoWZ7PiFZ3zA==}
     engines: {node: '>=v14'}
     dependencies:
       '@commitlint/top-level': 17.4.0
@@ -1212,11 +1212,11 @@ packages:
       minimist: 1.2.7
     dev: true
 
-  /@commitlint/resolve-extends/17.4.0:
-    resolution: {integrity: sha512-3JsmwkrCzoK8sO22AzLBvNEvC1Pmdn/65RKXzEtQMy6oYMl0Snrq97a5bQQEFETF0VsvbtUuKttLqqgn99OXRQ==}
+  /@commitlint/resolve-extends/17.4.4:
+    resolution: {integrity: sha512-znXr1S0Rr8adInptHw0JeLgumS11lWbk5xAWFVno+HUFVN45875kUtqjrI6AppmD3JI+4s0uZlqqlkepjJd99A==}
     engines: {node: '>=v14'}
     dependencies:
-      '@commitlint/config-validator': 17.4.0
+      '@commitlint/config-validator': 17.4.4
       '@commitlint/types': 17.4.4
       import-fresh: 3.3.0
       lodash.mergewith: 4.6.2
@@ -1245,13 +1245,6 @@ packages:
     engines: {node: '>=v14'}
     dependencies:
       find-up: 5.0.0
-    dev: true
-
-  /@commitlint/types/17.4.0:
-    resolution: {integrity: sha512-2NjAnq5IcxY9kXtUeO2Ac0aPpvkuOmwbH/BxIm36XXK5LtWFObWJWjXOA+kcaABMrthjWu6la+FUpyYFMHRvbA==}
-    engines: {node: '>=v14'}
-    dependencies:
-      chalk: 4.1.2
     dev: true
 
   /@commitlint/types/17.4.4:
