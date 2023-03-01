@@ -19,7 +19,7 @@ specifiers:
   concurrently: 7.6.0
   cosmiconfig: 8.1.0
   exceptional-errors: 0.4.1
-  firebase-tools: 11.23.1
+  firebase-tools: 11.24.0
   husky: 8.0.3
   prettier: 2.8.4
   regenerator-runtime: 0.13.11
@@ -52,7 +52,7 @@ devDependencies:
   '@types/node': 18.13.0
   '@vitest/coverage-c8': 0.28.5
   concurrently: 7.6.0
-  firebase-tools: 11.23.1
+  firebase-tools: 11.24.0
   husky: 8.0.3
   prettier: 2.8.4
   release-it: 15.6.0
@@ -4433,8 +4433,8 @@ packages:
       semver-regex: 4.0.5
     dev: true
 
-  /firebase-tools/11.23.1:
-    resolution: {integrity: sha512-yBYvIrdG+NTnkcWEP4QIdyqbpfwj01X6CQ3uozSEzr2yx1mmWgg148PGy5+ap/NuFkPiMkxBC0UqktoudZFGGg==}
+  /firebase-tools/11.24.0:
+    resolution: {integrity: sha512-fqwI6rBCvMs3E2pLYEzJYPIB+cmLxV9l+bX7VZHpxhUvbZZrM7271C8sjiBdIh97ue+BvgXHqTDlsW88ZZXt1g==}
     engines: {node: ^14.18.0 || >=16.4.0}
     hasBin: true
     dependencies:
