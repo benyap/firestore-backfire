@@ -4,6 +4,8 @@ import { resolveConfig, GlobalOptions } from "~/config";
 import {
   listFirestoreCollections,
   listFirestoreDocuments,
+  countFirestoreCollections,
+  countFirestoreDocuments,
 } from "~/actions/listFirestoreData";
 
 import {
@@ -16,8 +18,14 @@ import {
 } from "./options";
 
 export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
-  cli
-    .command("list:documents <path>")
+  const list = cli.command("list").description("list documents or collections");
+
+  const count = cli
+    .command("count")
+    .description("count documents or collections");
+
+  list
+    .command("documents <path>")
     .description("list document IDs from a collection")
     // Connection options
     .addOption(ProjectOption({ action: "read" }))
@@ -35,13 +43,12 @@ export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
         path,
         options
       );
-      if (Array.isArray(output)) output.forEach((id) => console.log(id));
-      else console.log(output);
+      output.forEach((id) => console.log(id));
     });
 
-  cli
-    .command("list:collections [path]")
-    .description("list the collections at the specified path")
+  list
+    .command("collections [path]")
+    .description("list collections at the specified path")
     // Connection options
     .addOption(ProjectOption({ action: "read" }))
     .addOption(KeyFileOption())
@@ -59,8 +66,39 @@ export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
         path,
         action as any
       );
-      if (Array.isArray(output)) output.forEach((id) => console.log(id));
-      else console.log(output);
+      output.forEach((id) => console.log(id));
+      process.exit(0);
+    });
+
+  count
+    .command("documents <path>")
+    .description("count documents from a collection")
+    // Connection options
+    .addOption(ProjectOption({ action: "read" }))
+    .addOption(KeyFileOption())
+    .addOption(EmulatorOption())
+    .addOption(AdcOption())
+    // Action handler
+    .action(async (path: string, options: any) => {
+      const config = await resolveConfig(globalOptions, options);
+      const output = await countFirestoreDocuments(config.connection, path);
+      console.log(output);
+    });
+
+  count
+    .command("collections [path]")
+    .description("count the collections at the specified path")
+    // Connection options
+    .addOption(ProjectOption({ action: "read" }))
+    .addOption(KeyFileOption())
+    .addOption(EmulatorOption())
+    .addOption(AdcOption())
+    // Action handler
+    .action(async (path: string | undefined, options: any) => {
+      const config = await resolveConfig(globalOptions, options);
+      const { connection } = config;
+      const output = await countFirestoreCollections(connection, path);
+      console.log(output);
       process.exit(0);
     });
 }

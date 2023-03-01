@@ -98,7 +98,6 @@ export async function resolveConfig(
   //
 
   config.action.stringify = pick("stringify").value;
-  config.action.count = pick("count").value;
   config.action.limit = pick("limit").value;
   config.action.debug = pick("debug").value;
   config.action.verbose = pick("verbose").value;

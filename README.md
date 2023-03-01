@@ -41,6 +41,7 @@ This documentation is for 2.x. Find documentation for 1.x
   - [Options](#options-2)
 - [List documents and collections](#list-documents-and-collections)
   - [Options](#options-3)
+- [Count documents and collections](#count-documents-and-collections)
 - [Connecting to Firestore](#connecting-to-firestore)
 - [Data sources](#data-sources)
   - [Local](#local)
@@ -364,22 +365,21 @@ specified. Follows the
 
 ## List documents and collections
 
-List the paths of the documents in a collection or subcollection. `path` should
-be a valid Firestore collection path.
+List the document IDs or collection IDs at the specified `path`.
 
 Also ensure you provide appropriate options for
 [connecting to Firestore](#connecting-to-firestore).
 
 ```text
-backfire list:documents <path> [options]
+backfire list documents <path> [options]
 ```
-
-You can also list root collections or the subcollections in a document. Leave
-`path` empty to list root collections, or pass a valid Firestore document path.
 
 ```text
-backfire list:collections [path] [options]
+backfire list collections [path] [options]
 ```
+
+When listing collections, you may leave `path` empty to list root collections,
+or pass a valid Firestore document path to list its subcollections.
 
 ### Options
 
@@ -387,10 +387,28 @@ All options have a [CLI flag equivalent](#cli-options-) unless otherwise
 specified. Follows the
 [ListFirestoreDataOptions](src/actions/listFirestoreData/types.ts) interface.
 
-| Option | Type      | Description                                                                                       |
-| ------ | --------- | ------------------------------------------------------------------------------------------------- |
-| count  | `boolean` | Return a count of the number of documents/collections instead of the paths.                       |
-| limit  | `number`  | Limit the number of documents/collections to return. This option is ignored if `count` is `true`. |
+| Option | Type     | Description                                                                                                                                                                     |
+| ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| limit  | `number` | Limit the number of documents/collections to return. Note that this does not "truly" limit the API call, it only truncates the output after the data is received from Firebase. |
+
+## Count documents and collections
+
+Count the number of the documents in a collection, or the number of collections
+at the specified `path`.
+
+Also ensure you provide appropriate options for
+[connecting to Firestore](#connecting-to-firestore).
+
+```text
+backfire count documents <path> [options]
+```
+
+```text
+backfire count collections [path] [options]
+```
+
+When counting collections, you may leave `path` empty to count root collections,
+or pass a valid Firestore document path to count its subcollections.
 
 ## Connecting to Firestore
 
