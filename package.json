@@ -83,7 +83,7 @@
     "@types/node": "18.14.2",
     "@vitest/coverage-c8": "0.29.2",
     "concurrently": "7.6.0",
-    "firebase-tools": "11.24.0",
+    "firebase-tools": "11.25.3",
     "husky": "8.0.3",
     "prettier": "2.8.4",
     "release-it": "15.6.1",
