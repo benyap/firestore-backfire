@@ -73,8 +73,8 @@ devDependencies:
     specifier: 15.10.1
     version: 15.10.1
   resolve-tspaths:
-    specifier: 0.8.8
-    version: 0.8.8(typescript@4.9.5)
+    specifier: 0.8.13
+    version: 0.8.13(typescript@4.9.5)
   rimraf:
     specifier: 4.4.1
     version: 4.4.1
@@ -7799,8 +7799,8 @@ packages:
       global-dirs: 0.1.1
     dev: true
 
-  /resolve-tspaths@0.8.8(typescript@4.9.5):
-    resolution: {integrity: sha512-4u3gkyBAsLW/u+uXGZgVucbSp+/0rc28U5pbKZUX3Gm7Y+oIAcKoi8h91D2RhCIrfzrCAMv0oSGvAAb9Sq0UZg==}
+  /resolve-tspaths@0.8.13(typescript@4.9.5):
+    resolution: {integrity: sha512-eHlHinC2qt3jQLFiZyUE4HXZOTlT1abHO2fb+OI9Ybsn8wdhKiAtIFVy1+QVTaIQNphCLvm42EkqJt/+ZAA8Sw==}
     hasBin: true
     peerDependencies:
       typescript: '>=3.0.3'
