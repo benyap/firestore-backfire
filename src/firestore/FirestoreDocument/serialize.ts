@@ -39,7 +39,7 @@ export function serializeDocument(
     deleteFieldByPath(json, `${path}._allowUndefined`);
     deleteFieldByPath(json, `${path}._queryOptions.allDescendants`);
     deleteFieldByPath(json, `${path}._queryOptions.converter`);
-    deleteFieldByPath(json, `${path}._queryOptions.fieldFilters.*.serializer`);
+    deleteFieldByPath(json, `${path}._queryOptions.filters.*.serializer`);
     deleteFieldByPath(json, `${path}._queryOptions.kindless`);
     deleteFieldByPath(json, `${path}._queryOptions.projection`);
     deleteFieldByPath(json, `${path}._queryOptions.requireConsistency`);

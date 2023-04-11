@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`serializeDocument > serializes documents with collection references 1`] = `
 {
@@ -8,8 +8,8 @@ exports[`serializeDocument > serializes documents with collection references 1`]
       "_queryOptions": {
         "collectionId": "email",
         "endAt": undefined,
-        "fieldFilters": [],
         "fieldOrders": [],
+        "filters": [],
         "limit": undefined,
         "limitType": undefined,
         "offset": undefined,
@@ -24,8 +24,8 @@ exports[`serializeDocument > serializes documents with collection references 1`]
         "_queryOptions": {
           "collectionId": "threads",
           "endAt": undefined,
-          "fieldFilters": [],
           "fieldOrders": [],
+          "filters": [],
           "limit": undefined,
           "limitType": undefined,
           "offset": undefined,
@@ -117,7 +117,17 @@ exports[`serializeDocument > serializes documents with queries 1`] = `
       "_queryOptions": {
         "collectionId": "threads",
         "endAt": undefined,
-        "fieldFilters": [
+        "fieldOrders": [
+          {
+            "direction": "DESCENDING",
+            "field": {
+              "segments": [
+                "date",
+              ],
+            },
+          },
+        ],
+        "filters": [
           {
             "field": {
               "segments": [
@@ -129,16 +139,6 @@ exports[`serializeDocument > serializes documents with queries 1`] = `
               1,
               2,
             ],
-          },
-        ],
-        "fieldOrders": [
-          {
-            "direction": "DESCENDING",
-            "field": {
-              "segments": [
-                "date",
-              ],
-            },
           },
         ],
         "limit": undefined,

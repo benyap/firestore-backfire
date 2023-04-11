@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`deserializeDocument > deserializes documents with collection references 1`] = `
 {
@@ -17,8 +17,8 @@ exports[`deserializeDocument > deserializes documents with collection references
           "toFirestore": [Function],
         },
         "endAt": undefined,
-        "fieldFilters": [],
         "fieldOrders": [],
+        "filters": [],
         "kindless": false,
         "limit": undefined,
         "limitType": undefined,
@@ -50,8 +50,8 @@ exports[`deserializeDocument > deserializes documents with collection references
             "toFirestore": [Function],
           },
           "endAt": undefined,
-          "fieldFilters": [],
           "fieldOrders": [],
+          "filters": [],
           "kindless": false,
           "limit": undefined,
           "limitType": undefined,
@@ -185,7 +185,6 @@ exports[`deserializeDocument > deserializes documents with queries > endAt (with
             },
           ],
         },
-        "fieldFilters": [],
         "fieldOrders": [
           FieldOrder {
             "direction": "ASCENDING",
@@ -196,6 +195,7 @@ exports[`deserializeDocument > deserializes documents with queries > endAt (with
             },
           },
         ],
+        "filters": [],
         "kindless": false,
         "limit": undefined,
         "limitType": undefined,
@@ -250,7 +250,6 @@ exports[`deserializeDocument > deserializes documents with queries > endBefore (
             },
           ],
         },
-        "fieldFilters": [],
         "fieldOrders": [
           FieldOrder {
             "direction": "ASCENDING",
@@ -269,6 +268,7 @@ exports[`deserializeDocument > deserializes documents with queries > endBefore (
             },
           },
         ],
+        "filters": [],
         "kindless": false,
         "limit": undefined,
         "limitType": undefined,
@@ -307,8 +307,9 @@ exports[`deserializeDocument > deserializes documents with queries > field filte
           "toFirestore": [Function],
         },
         "endAt": undefined,
-        "fieldFilters": [
-          FieldFilter {
+        "fieldOrders": [],
+        "filters": [
+          FieldFilterInternal {
             "field": FieldPath {
               "segments": [
                 "id",
@@ -326,7 +327,7 @@ exports[`deserializeDocument > deserializes documents with queries > field filte
               17,
             ],
           },
-          FieldFilter {
+          FieldFilterInternal {
             "field": FieldPath {
               "segments": [
                 "count",
@@ -346,7 +347,6 @@ exports[`deserializeDocument > deserializes documents with queries > field filte
             ],
           },
         ],
-        "fieldOrders": [],
         "kindless": false,
         "limit": undefined,
         "limitType": undefined,
@@ -388,8 +388,9 @@ exports[`deserializeDocument > deserializes documents with queries > field filte
           "toFirestore": [Function],
         },
         "endAt": undefined,
-        "fieldFilters": [
-          FieldFilter {
+        "fieldOrders": [],
+        "filters": [
+          FieldFilterInternal {
             "field": FieldPath {
               "segments": [
                 "details",
@@ -404,7 +405,7 @@ exports[`deserializeDocument > deserializes documents with queries > field filte
             },
             "value": 10,
           },
-          FieldFilter {
+          FieldFilterInternal {
             "field": FieldPath {
               "segments": [
                 "details",
@@ -420,7 +421,6 @@ exports[`deserializeDocument > deserializes documents with queries > field filte
             "value": 100,
           },
         ],
-        "fieldOrders": [],
         "kindless": false,
         "limit": undefined,
         "limitType": undefined,
@@ -462,8 +462,9 @@ exports[`deserializeDocument > deserializes documents with queries > field filte
           "toFirestore": [Function],
         },
         "endAt": undefined,
-        "fieldFilters": [
-          FieldFilter {
+        "fieldOrders": [],
+        "filters": [
+          FieldFilterInternal {
             "field": FieldPath {
               "segments": [
                 "id",
@@ -477,7 +478,7 @@ exports[`deserializeDocument > deserializes documents with queries > field filte
             },
             "value": "1",
           },
-          FieldFilter {
+          FieldFilterInternal {
             "field": FieldPath {
               "segments": [
                 "user",
@@ -492,7 +493,6 @@ exports[`deserializeDocument > deserializes documents with queries > field filte
             "value": "123",
           },
         ],
-        "fieldOrders": [],
         "kindless": false,
         "limit": undefined,
         "limitType": undefined,
@@ -534,7 +534,6 @@ exports[`deserializeDocument > deserializes documents with queries > field order
           "toFirestore": [Function],
         },
         "endAt": undefined,
-        "fieldFilters": [],
         "fieldOrders": [
           FieldOrder {
             "direction": "ASCENDING",
@@ -553,6 +552,7 @@ exports[`deserializeDocument > deserializes documents with queries > field order
             },
           },
         ],
+        "filters": [],
         "kindless": false,
         "limit": undefined,
         "limitType": undefined,
@@ -594,8 +594,8 @@ exports[`deserializeDocument > deserializes documents with queries > limit 1`] =
           "toFirestore": [Function],
         },
         "endAt": undefined,
-        "fieldFilters": [],
         "fieldOrders": [],
+        "filters": [],
         "kindless": false,
         "limit": 10,
         "limitType": 0,
@@ -634,8 +634,8 @@ exports[`deserializeDocument > deserializes documents with queries > limitToLast
           "toFirestore": [Function],
         },
         "endAt": undefined,
-        "fieldFilters": [],
         "fieldOrders": [],
+        "filters": [],
         "kindless": false,
         "limit": 10,
         "limitType": 1,
@@ -674,8 +674,8 @@ exports[`deserializeDocument > deserializes documents with queries > offset 1`] 
           "toFirestore": [Function],
         },
         "endAt": undefined,
-        "fieldFilters": [],
         "fieldOrders": [],
+        "filters": [],
         "kindless": false,
         "limit": undefined,
         "limitType": undefined,
@@ -714,7 +714,6 @@ exports[`deserializeDocument > deserializes documents with queries > startAfter 
           "toFirestore": [Function],
         },
         "endAt": undefined,
-        "fieldFilters": [],
         "fieldOrders": [
           FieldOrder {
             "direction": "DESCENDING",
@@ -725,6 +724,7 @@ exports[`deserializeDocument > deserializes documents with queries > startAfter 
             },
           },
         ],
+        "filters": [],
         "kindless": false,
         "limit": undefined,
         "limitType": undefined,
@@ -782,7 +782,6 @@ exports[`deserializeDocument > deserializes documents with queries > startAt (wi
           "toFirestore": [Function],
         },
         "endAt": undefined,
-        "fieldFilters": [],
         "fieldOrders": [
           FieldOrder {
             "direction": "ASCENDING",
@@ -793,6 +792,7 @@ exports[`deserializeDocument > deserializes documents with queries > startAt (wi
             },
           },
         ],
+        "filters": [],
         "kindless": false,
         "limit": undefined,
         "limitType": undefined,
