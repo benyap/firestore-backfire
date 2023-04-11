@@ -37,8 +37,8 @@ devDependencies:
     specifier: 6.5.0
     version: 6.5.0
   '@google-cloud/storage':
-    specifier: 6.9.3
-    version: 6.9.3
+    specifier: 6.9.5
+    version: 6.9.5
   '@release-it/bumper':
     specifier: 4.0.2
     version: 4.0.2(release-it@15.6.1)
@@ -1572,8 +1572,8 @@ packages:
       - supports-color
     dev: true
 
-  /@google-cloud/storage@6.9.3:
-    resolution: {integrity: sha512-ucbHoDvjXlcR/DrJNQlCFnQSaO7pXHTPGs3Gt2TQtPQ+b7Y6DR0ztIt/CEeH+O03I41g9e+T2N1SOOVq5UyaKQ==}
+  /@google-cloud/storage@6.9.5:
+    resolution: {integrity: sha512-fcLsDA8YKcGuqvhk0XTjJGVpG9dzs5Em8IcUjSjspYvERuHYqMy9CMChWapSjv3Lyw//exa3mv4nUxPlV93BnA==}
     engines: {node: '>=12'}
     dependencies:
       '@google-cloud/paginator': 3.0.7
