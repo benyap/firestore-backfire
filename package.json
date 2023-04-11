@@ -85,7 +85,7 @@
     "concurrently": "7.6.0",
     "firebase-tools": "11.25.3",
     "husky": "8.0.3",
-    "prettier": "2.8.4",
+    "prettier": "2.8.7",
     "release-it": "15.10.1",
     "resolve-tspaths": "0.8.8",
     "rimraf": "4.4.1",
