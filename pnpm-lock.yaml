@@ -61,8 +61,8 @@ devDependencies:
     specifier: 7.6.0
     version: 7.6.0
   firebase-tools:
-    specifier: 11.24.0
-    version: 11.24.0
+    specifier: 11.25.3
+    version: 11.25.3
   husky:
     specifier: 8.0.3
     version: 8.0.3
@@ -4494,8 +4494,8 @@ packages:
       semver-regex: 4.0.5
     dev: true
 
-  /firebase-tools@11.24.0:
-    resolution: {integrity: sha512-fqwI6rBCvMs3E2pLYEzJYPIB+cmLxV9l+bX7VZHpxhUvbZZrM7271C8sjiBdIh97ue+BvgXHqTDlsW88ZZXt1g==}
+  /firebase-tools@11.25.3:
+    resolution: {integrity: sha512-gcM7O9mjhDs8UjtAJjHxUuSX2ZHufXJU7+GheXTlZVA+Uj5RRoAt6AU/FmtcqQtfhr2TNwADebgiVFzVlkLoUg==}
     engines: {node: ^14.18.0 || >=16.4.0}
     hasBin: true
     dependencies:
@@ -4537,6 +4537,7 @@ packages:
       node-fetch: 2.6.7
       open: 6.4.0
       ora: 5.4.1
+      p-limit: 3.1.0
       portfinder: 1.0.32
       progress: 2.0.3
       proxy-agent: 5.0.0
