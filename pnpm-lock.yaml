@@ -19,8 +19,8 @@ dependencies:
 
 devDependencies:
   '@aws-sdk/client-s3':
-    specifier: 3.310.0
-    version: 3.310.0
+    specifier: 3.312.0
+    version: 3.312.0
   '@aws-sdk/credential-provider-ini':
     specifier: 3.310.0
     version: 3.310.0
@@ -182,14 +182,14 @@ packages:
       tslib: 2.5.0
     dev: true
 
-  /@aws-sdk/client-s3@3.310.0:
-    resolution: {integrity: sha512-be7uNqRTGLFcS4xNHtz3cGz01HfNdW0AI/TpYMd3Ul4YSErAoC59PKEc56eyrBTHIa5hHjd2YsMtTB/9jAdL5A==}
+  /@aws-sdk/client-s3@3.312.0:
+    resolution: {integrity: sha512-aqlll2g7eKwV0j+IAK4Ly7c0CRVSI712VTdItAWpLSQPw1VVUP9IKaIsBTiigoOBCJq+fb2+ufFrSTUAPdEzPQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-crypto/sha1-browser': 3.0.0
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sts': 3.310.0
+      '@aws-sdk/client-sts': 3.312.0
       '@aws-sdk/config-resolver': 3.310.0
       '@aws-sdk/credential-provider-node': 3.310.0
       '@aws-sdk/eventstream-serde-browser': 3.310.0
@@ -325,8 +325,8 @@ packages:
       - aws-crt
     dev: true
 
-  /@aws-sdk/client-sts@3.310.0:
-    resolution: {integrity: sha512-V1LyJwmWuo0OaPIWrE/BDNr14FJdnBTVCmCnEnq1DKVQI/ihVr8HuDsSM4K8jaywWNJaQFNvAKOVuCY2BdmIyA==}
+  /@aws-sdk/client-sts@3.312.0:
+    resolution: {integrity: sha512-t0U7vRvWaMjrzBUo6tPrHe6HE97Blqx+b4GOjFbcbLtzxLlcRfhnWJik0Lp8hJtVqzNoN5mL4OeYgK7CRpL/Sw==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
