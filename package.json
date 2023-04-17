@@ -69,8 +69,8 @@
     }
   },
   "devDependencies": {
-    "@aws-sdk/client-s3": "3.312.0",
-    "@aws-sdk/credential-provider-ini": "3.310.0",
+    "@aws-sdk/client-s3": "3.315.0",
+    "@aws-sdk/credential-provider-ini": "3.315.0",
     "@aws-sdk/types": "3.310.0",
     "@commitlint/cli": "17.6.0",
     "@commitlint/config-conventional": "17.6.0",
