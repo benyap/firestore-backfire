@@ -19,8 +19,8 @@ dependencies:
 
 devDependencies:
   '@aws-sdk/client-s3':
-    specifier: 3.316.0
-    version: 3.316.0
+    specifier: 3.317.0
+    version: 3.317.0
   '@aws-sdk/credential-provider-ini':
     specifier: 3.316.0
     version: 3.316.0
@@ -182,8 +182,8 @@ packages:
       tslib: 2.5.0
     dev: true
 
-  /@aws-sdk/client-s3@3.316.0:
-    resolution: {integrity: sha512-nmlvXf7c1Nz9VR/VlplgsZqPqe7eg5RYuuIb70rX/4Joe5x98sJqz72hyLblwQTB47lwPLK+qvHps9aVOY2QhA==}
+  /@aws-sdk/client-s3@3.317.0:
+    resolution: {integrity: sha512-Y7AZMO/ikKFARsGYv7LKNELTDqJHjEpDTGEBBWnFkVoTmlquBsa9r0tU2nofP3uxSIkySPkkQpR50Zm/Q6zWyw==}
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-crypto/sha1-browser': 3.0.0
