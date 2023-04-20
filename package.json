@@ -90,7 +90,7 @@
     "resolve-tspaths": "0.8.13",
     "rimraf": "5.0.0",
     "typescript": "5.0.4",
-    "vite": "4.2.2",
+    "vite": "4.3.0",
     "vitest": "0.30.1"
   }
 }
