@@ -75,7 +75,7 @@
     "@commitlint/cli": "17.6.1",
     "@commitlint/config-conventional": "17.6.1",
     "@google-cloud/firestore": "6.5.0",
-    "@google-cloud/storage": "6.9.5",
+    "@google-cloud/storage": "6.10.0",
     "@release-it/bumper": "4.0.2",
     "@release-it/conventional-changelog": "5.1.1",
     "@swc/cli": "0.1.62",
