@@ -86,7 +86,7 @@
     "firebase-tools": "11.29.1",
     "husky": "8.0.3",
     "prettier": "2.8.8",
-    "release-it": "15.10.2",
+    "release-it": "15.10.3",
     "resolve-tspaths": "0.8.13",
     "rimraf": "5.0.0",
     "typescript": "5.0.4",
