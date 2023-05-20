@@ -11,6 +11,7 @@ This documentation is for 2.x. Find documentation for 1.x
 
 ### ✨ Features ✨ <!-- omit in toc -->
 
+- Import and export your Firestore data with ease
 - Specify which documents or collections are imported or exported using paths or
   by matching regex patterns
 - Control the depth of subcollections to import or export
