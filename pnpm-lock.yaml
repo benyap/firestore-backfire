@@ -61,8 +61,8 @@ devDependencies:
     specifier: 8.0.1
     version: 8.0.1
   firebase-tools:
-    specifier: 12.1.0
-    version: 12.1.0
+    specifier: 12.2.0
+    version: 12.2.0
   husky:
     specifier: 8.0.3
     version: 8.0.3
@@ -4546,8 +4546,8 @@ packages:
       semver-regex: 4.0.5
     dev: true
 
-  /firebase-tools@12.1.0:
-    resolution: {integrity: sha512-nMZHbZCTgREf5yAKNkI47Qg1vY5bLwj4+8C8mfDKOZmCRbYFBmarE+7Pv4e2KZ6O2W+6SHuIW3afDJccnEOkBA==}
+  /firebase-tools@12.2.0:
+    resolution: {integrity: sha512-Z4JPQaIJ3uHG9OeyzeDFBxw2NMQ8qNEZEGZADJTjUfIwWI9rsg8XF8JkJ+eDJ2nBFvyljTlU3cWGxypPWf5kjw==}
     engines: {node: '>=16.13.0 || >=18.0.0'}
     hasBin: true
     dependencies:
