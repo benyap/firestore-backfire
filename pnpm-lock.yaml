@@ -41,8 +41,8 @@ devDependencies:
     specifier: 8.0.2
     version: 8.0.2
   '@google-cloud/firestore':
-    specifier: 6.6.0
-    version: 6.6.0
+    specifier: 6.6.1
+    version: 6.6.1
   '@google-cloud/storage':
     specifier: 6.10.1
     version: 6.10.1
@@ -1507,8 +1507,8 @@ packages:
     dev: true
     optional: true
 
-  /@google-cloud/firestore@6.6.0:
-    resolution: {integrity: sha512-XDWsmCtQQFs0RoXZaq3fCYe4jRtAAFmW38ezGLKWSjLQ5FNv7jxpBGtdITBM2PDI0tFNCyeogjqsDbI6CIVeuQ==}
+  /@google-cloud/firestore@6.6.1:
+    resolution: {integrity: sha512-Z41j2h0mrgBH9qNIVmbRLqGKc6XmdJtWipeKwdnGa/bPTP1gn2SGTrYyWnpfsLMEtzKSYieHPSkAFp5kduF2RA==}
     engines: {node: '>=12.0.0'}
     dependencies:
       fast-deep-equal: 3.1.3
