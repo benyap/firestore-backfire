@@ -76,7 +76,7 @@
     "@commitlint/config-conventional": "17.6.5",
     "@faker-js/faker": "8.0.2",
     "@google-cloud/firestore": "6.6.1",
-    "@google-cloud/storage": "6.10.1",
+    "@google-cloud/storage": "6.11.0",
     "@release-it/bumper": "4.0.2",
     "@release-it/conventional-changelog": "5.1.1",
     "@swc/cli": "0.1.62",
