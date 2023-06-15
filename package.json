@@ -84,7 +84,7 @@
     "@types/node": "20.2.3",
     "@vitest/coverage-c8": "0.31.4",
     "concurrently": "8.2.0",
-    "firebase-tools": "12.3.0",
+    "firebase-tools": "12.3.1",
     "husky": "8.0.3",
     "prettier": "2.8.8",
     "release-it": "15.10.5",
