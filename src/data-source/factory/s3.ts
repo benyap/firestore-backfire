@@ -1,3 +1,5 @@
+import type { AwsCredentialIdentityProvider } from "@aws-sdk/types";
+
 import { ensureDependencyInstalled } from "~/utils";
 
 import { DataSourceError } from "../errors";
@@ -32,10 +34,9 @@ export async function getS3Options(options: DataSourceOptions) {
       "required to use S3 data source with shared credentials"
     );
     const SharedCredential = await import("@aws-sdk/credential-provider-ini");
-    return {
-      awsCredential: SharedCredential.fromIni({ profile: awsProfile }),
-      awsRegion,
-    };
+    const awsCredential: AwsCredentialIdentityProvider =
+      SharedCredential.fromIni({ profile: awsProfile });
+    return { awsCredential, awsRegion };
   }
 
   throw new DataSourceError("no credentials provided for S3 data source");

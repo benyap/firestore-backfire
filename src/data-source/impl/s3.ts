@@ -7,8 +7,12 @@ import {
   CreateMultipartUploadCommand,
   UploadPartCommand,
   CompleteMultipartUploadCommand,
+  GetObjectOutput,
 } from "@aws-sdk/client-s3";
-import type { Credentials, CredentialProvider } from "@aws-sdk/types";
+import type {
+  AwsCredentialIdentity,
+  AwsCredentialIdentityProvider,
+} from "@aws-sdk/types";
 
 import { dir } from "~/utils";
 
@@ -36,7 +40,7 @@ class S3Source {
 
   constructor(
     readonly path: string,
-    credentials: Credentials | CredentialProvider,
+    credentials: AwsCredentialIdentity | AwsCredentialIdentityProvider,
     region?: string | undefined
   ) {
     if (!this.path.endsWith(".ndjson")) this.path += ".ndjson";
@@ -85,7 +89,7 @@ export class S3Reader extends StreamReader {
 
   constructor(
     path: string,
-    credentials: Credentials | CredentialProvider,
+    credentials: AwsCredentialIdentity | AwsCredentialIdentityProvider,
     region?: string | undefined
   ) {
     super();
@@ -100,7 +104,7 @@ export class S3Reader extends StreamReader {
     await this.source.assertBucketExists();
     await this.source.assertFileExists();
     const command = new GetObjectCommand(this.source);
-    const response = await this.source.client.send(command);
+    const response: GetObjectOutput = await this.source.client.send(command);
     this.stream = response.Body as Readable;
   }
 }
@@ -118,7 +122,7 @@ export class S3Writer implements IDataSourceWriter {
 
   constructor(
     path: string,
-    credentials: Credentials | CredentialProvider,
+    credentials: AwsCredentialIdentity | AwsCredentialIdentityProvider,
     region?: string | undefined
   ) {
     this.source = new S3Source(path, credentials, region);
