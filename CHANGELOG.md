@@ -1,5 +1,54 @@
 
 
+## [2.5.2](https://github.com/benyap/firestore-backfire/compare/2.5.1...2.5.2) (2023-07-03)
+
+
+### Bug Fixes
+
+* **deps:** update dependency commander to v11 ([#382](https://github.com/benyap/firestore-backfire/issues/382)) ([e67ae7f](https://github.com/benyap/firestore-backfire/commit/e67ae7f2ce77a302c2e9437905f798232cd4fe33))
+* **deps:** update dependency cosmiconfig to v8.2.0 ([#372](https://github.com/benyap/firestore-backfire/issues/372)) ([c7d7512](https://github.com/benyap/firestore-backfire/commit/c7d7512704f1d12475620b8a0e021c20a0510c8f))
+
+
+### Internal
+
+* add script to generate test data ([a05a241](https://github.com/benyap/firestore-backfire/commit/a05a241b5cad98b1cbc7081b045e742130904ddf))
+* **deps:** update aws-sdk-js-v3 monorepo ([#364](https://github.com/benyap/firestore-backfire/issues/364)) ([616d3c1](https://github.com/benyap/firestore-backfire/commit/616d3c15824f27b1c2bf2078205823a9fd175122))
+* **deps:** update aws-sdk-js-v3 monorepo ([#377](https://github.com/benyap/firestore-backfire/issues/377)) ([6d3a01f](https://github.com/benyap/firestore-backfire/commit/6d3a01f4cbee504b613297b223c06aaad3b89000))
+* **deps:** update aws-sdk-js-v3 monorepo ([#380](https://github.com/benyap/firestore-backfire/issues/380)) ([f9de1db](https://github.com/benyap/firestore-backfire/commit/f9de1db483feaebb1771ad557851a2a3233f75b5))
+* **deps:** update aws-sdk-js-v3 monorepo to v3.337.0 ([#353](https://github.com/benyap/firestore-backfire/issues/353)) ([4d907ea](https://github.com/benyap/firestore-backfire/commit/4d907ea6d9c6289caa7f37868d7ce01a1191a8f8))
+* **deps:** update aws-sdk-js-v3 monorepo to v3.338.0 ([#354](https://github.com/benyap/firestore-backfire/issues/354)) ([6300e6f](https://github.com/benyap/firestore-backfire/commit/6300e6f13aba61f63a9648541e5c8964509b6dc2))
+* **deps:** update aws-sdk-js-v3 monorepo to v3.341.0 ([#359](https://github.com/benyap/firestore-backfire/issues/359)) ([0b41a63](https://github.com/benyap/firestore-backfire/commit/0b41a63132f0202a62e6c19ed548cf26504c5950))
+* **deps:** update aws-sdk-js-v3 monorepo to v3.345.0 ([#370](https://github.com/benyap/firestore-backfire/issues/370)) ([9fc95ab](https://github.com/benyap/firestore-backfire/commit/9fc95ab80f59522f98ccac11c4aafcf4c04bd032))
+* **deps:** update commitlint monorepo to v17.6.5 ([#361](https://github.com/benyap/firestore-backfire/issues/361)) ([78b4a30](https://github.com/benyap/firestore-backfire/commit/78b4a301d9b0f9d441738eff8b42a90dc6d10afc))
+* **deps:** update commitlint monorepo to v17.6.6 ([#385](https://github.com/benyap/firestore-backfire/issues/385)) ([40feec3](https://github.com/benyap/firestore-backfire/commit/40feec3d9ea3b393f2d4c37c5e79ed3fe021fa54))
+* **deps:** update dependency @faker-js/faker to v8.0.2 ([#360](https://github.com/benyap/firestore-backfire/issues/360)) ([772a612](https://github.com/benyap/firestore-backfire/commit/772a61247a3cb41687438da6b29d403425a08b1c))
+* **deps:** update dependency @google-cloud/firestore to v6.6.0 ([#352](https://github.com/benyap/firestore-backfire/issues/352)) ([7ccc61c](https://github.com/benyap/firestore-backfire/commit/7ccc61c21c9624bd957abc52576d744cd2bb7e1c))
+* **deps:** update dependency @google-cloud/firestore to v6.6.1 ([#366](https://github.com/benyap/firestore-backfire/issues/366)) ([60e2476](https://github.com/benyap/firestore-backfire/commit/60e24762421a06e07f8fa7934f7b2dbadbf2bb4d))
+* **deps:** update dependency @google-cloud/storage to v6.11.0 ([#373](https://github.com/benyap/firestore-backfire/issues/373)) ([716a7e6](https://github.com/benyap/firestore-backfire/commit/716a7e68d6022e892cbfc242c1dac0a4395646a1))
+* **deps:** update dependency @swc/core to v1.3.60 ([#357](https://github.com/benyap/firestore-backfire/issues/357)) ([a2e1a37](https://github.com/benyap/firestore-backfire/commit/a2e1a37417cd5acf8ce1c305fa00180c799175c8))
+* **deps:** update dependency @swc/core to v1.3.61 ([#362](https://github.com/benyap/firestore-backfire/issues/362)) ([c4dcf7e](https://github.com/benyap/firestore-backfire/commit/c4dcf7e843c3569425c1940428c647d8e7dd1249))
+* **deps:** update dependency @swc/core to v1.3.62 ([#371](https://github.com/benyap/firestore-backfire/issues/371)) ([744682c](https://github.com/benyap/firestore-backfire/commit/744682ccd7ccd0efb23ce2c3a9e0cfb323c07f4d))
+* **deps:** update dependency @swc/core to v1.3.64 ([#379](https://github.com/benyap/firestore-backfire/issues/379)) ([c1818f1](https://github.com/benyap/firestore-backfire/commit/c1818f116b18af466f231c6e6a6a8f7a75091b24))
+* **deps:** update dependency @swc/core to v1.3.67 ([#384](https://github.com/benyap/firestore-backfire/issues/384)) ([9f20a35](https://github.com/benyap/firestore-backfire/commit/9f20a35fa3afec60161da8d7fd79d5633dc60e3b))
+* **deps:** update dependency @types/node to v20.3.3 ([#386](https://github.com/benyap/firestore-backfire/issues/386)) ([c2846eb](https://github.com/benyap/firestore-backfire/commit/c2846ebb8edcdcbbc77a4c80d4e98784cd2629a6))
+* **deps:** update dependency concurrently to v8.1.0 ([#365](https://github.com/benyap/firestore-backfire/issues/365)) ([63ecb87](https://github.com/benyap/firestore-backfire/commit/63ecb876afd40ba64c66783a69aba5ac429627c2))
+* **deps:** update dependency concurrently to v8.2.0 ([#378](https://github.com/benyap/firestore-backfire/issues/378)) ([8681a7f](https://github.com/benyap/firestore-backfire/commit/8681a7f984b7256faf7cc8b37b0eba09f3a8c1e7))
+* **deps:** update dependency firebase-tools to v12.2.0 ([#355](https://github.com/benyap/firestore-backfire/issues/355)) ([8cf5094](https://github.com/benyap/firestore-backfire/commit/8cf509493fec69737eb1e46d3cd904bce5aa8604))
+* **deps:** update dependency firebase-tools to v12.2.1 ([#356](https://github.com/benyap/firestore-backfire/issues/356)) ([19074e6](https://github.com/benyap/firestore-backfire/commit/19074e681bb3b3af21bf8eb3f445a4ffaeaf6b53))
+* **deps:** update dependency firebase-tools to v12.3.0 ([#368](https://github.com/benyap/firestore-backfire/issues/368)) ([8f5aaf7](https://github.com/benyap/firestore-backfire/commit/8f5aaf7c57ce97a663c560b116424b708f542f2a))
+* **deps:** update dependency firebase-tools to v12.3.1 ([#376](https://github.com/benyap/firestore-backfire/issues/376)) ([f1487e6](https://github.com/benyap/firestore-backfire/commit/f1487e63e9764303fb742d5a269240997eea5006))
+* **deps:** update dependency firebase-tools to v12.4.2 ([#381](https://github.com/benyap/firestore-backfire/issues/381)) ([3e55211](https://github.com/benyap/firestore-backfire/commit/3e55211cce2ca059a07c7534af9e2786816d3290))
+* **deps:** update dependency release-it to v15.10.5 ([#369](https://github.com/benyap/firestore-backfire/issues/369)) ([c9baba0](https://github.com/benyap/firestore-backfire/commit/c9baba0255e40106e685ab5f00720bb9d0854ac4))
+* **deps:** update dependency release-it to v15.11.0 ([#374](https://github.com/benyap/firestore-backfire/issues/374)) ([7385043](https://github.com/benyap/firestore-backfire/commit/7385043447d6d7f405d37cc2cf2587edf89d139b))
+* **deps:** update dependency typescript to v5.1.3 ([#367](https://github.com/benyap/firestore-backfire/issues/367)) ([a81c975](https://github.com/benyap/firestore-backfire/commit/a81c97528679fab943b384d61e63405c638535a2))
+* **deps:** update dependency typescript to v5.1.6 ([#387](https://github.com/benyap/firestore-backfire/issues/387)) ([e3be069](https://github.com/benyap/firestore-backfire/commit/e3be069e1ecee3d43971acd95dc00a55dd672e61))
+* **deps:** update dependency vite to v4.3.9 ([#358](https://github.com/benyap/firestore-backfire/issues/358)) ([8573da8](https://github.com/benyap/firestore-backfire/commit/8573da8254a77aea74133771182488f106ce651b))
+* **deps:** update vitest monorepo to v0.31.4 ([#363](https://github.com/benyap/firestore-backfire/issues/363)) ([9d4ac02](https://github.com/benyap/firestore-backfire/commit/9d4ac02d7976aaf5a058c138819dcbc7ce0e82a1))
+* **deps:** update vitest monorepo to v0.32.0 ([#375](https://github.com/benyap/firestore-backfire/issues/375)) ([4b8451f](https://github.com/benyap/firestore-backfire/commit/4b8451fc8371ec600e1c3f0f3a7741b9741216be))
+* **deps:** update vitest monorepo to v0.32.4 ([#383](https://github.com/benyap/firestore-backfire/issues/383)) ([28e0cc4](https://github.com/benyap/firestore-backfire/commit/28e0cc4c202c57de5a40985274e346392a63e86f))
+* reduce stale job frequency ([caff775](https://github.com/benyap/firestore-backfire/commit/caff775f7e71c353b330e9992a91278e7102fba9))
+* update typings ([dc00491](https://github.com/benyap/firestore-backfire/commit/dc004919a354c611095247a9a15da0f990d5920b))
+
 ## [2.5.1](https://github.com/benyap/firestore-backfire/compare/2.5.0...2.5.1) (2023-05-22)
 
 
