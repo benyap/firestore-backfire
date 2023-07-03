@@ -69,9 +69,9 @@
     }
   },
   "devDependencies": {
-    "@aws-sdk/client-s3": "3.352.0",
-    "@aws-sdk/credential-provider-ini": "3.352.0",
-    "@aws-sdk/types": "3.347.0",
+    "@aws-sdk/client-s3": "3.363.0",
+    "@aws-sdk/credential-provider-ini": "3.363.0",
+    "@aws-sdk/types": "3.357.0",
     "@commitlint/cli": "17.6.6",
     "@commitlint/config-conventional": "17.6.6",
     "@faker-js/faker": "8.0.2",
