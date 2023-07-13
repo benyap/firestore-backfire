@@ -44,8 +44,8 @@ devDependencies:
     specifier: 6.6.1
     version: 6.6.1
   '@google-cloud/storage':
-    specifier: 6.11.0
-    version: 6.11.0
+    specifier: 6.12.0
+    version: 6.12.0
   '@release-it/bumper':
     specifier: 5.0.0
     version: 5.0.0(release-it@16.1.0)
@@ -1272,8 +1272,8 @@ packages:
       - supports-color
     dev: true
 
-  /@google-cloud/storage@6.11.0:
-    resolution: {integrity: sha512-p5VX5K2zLTrMXlKdS1CiQNkKpygyn7CBFm5ZvfhVj6+7QUsjWvYx9YDMkYXdarZ6JDt4cxiu451y9QUIH82ZTw==}
+  /@google-cloud/storage@6.12.0:
+    resolution: {integrity: sha512-78nNAY7iiZ4O/BouWMWTD/oSF2YtYgYB3GZirn0To6eBOugjXVoK+GXgUXOl+HlqbAOyHxAVXOlsj3snfbQ1dw==}
     engines: {node: '>=12'}
     dependencies:
       '@google-cloud/paginator': 3.0.7
@@ -1285,6 +1285,7 @@ packages:
       duplexify: 4.1.2
       ent: 2.2.0
       extend: 3.0.2
+      fast-xml-parser: 4.2.5
       gaxios: 5.0.2
       google-auth-library: 8.7.0
       mime: 3.0.0
