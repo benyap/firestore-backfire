@@ -68,8 +68,8 @@ devDependencies:
     specifier: 8.2.0
     version: 8.2.0
   firebase-tools:
-    specifier: 12.4.2
-    version: 12.4.2
+    specifier: 12.4.4
+    version: 12.4.4
   husky:
     specifier: 8.0.3
     version: 8.0.3
@@ -4646,8 +4646,8 @@ packages:
       semver-regex: 4.0.5
     dev: true
 
-  /firebase-tools@12.4.2:
-    resolution: {integrity: sha512-4oYbIq+htEi/sXRV1RN8Q/3r27+/VMcOw1G795KMEXgFluw9adWEegbobKyOMqN7VKF+M0jMeFUiGbWwlNUv8w==}
+  /firebase-tools@12.4.4:
+    resolution: {integrity: sha512-Zvk+NX2X2FqsGj91QgWoj17OjJ0E+W95azyIomeoS1SF1MKGHNh1W/HMCHVGngYeIABgmZc0AJr3+33M5owl1w==}
     engines: {node: '>=16.13.0 || >=18.0.0'}
     hasBin: true
     dependencies:
@@ -4696,7 +4696,7 @@ packages:
       request: 2.88.2
       retry: 0.13.1
       rimraf: 3.0.2
-      semver: 5.7.1
+      semver: 7.5.2
       stream-chain: 2.2.5
       stream-json: 1.7.5
       strip-ansi: 6.0.1
@@ -9425,6 +9425,7 @@ packages:
   /vm2@3.9.19:
     resolution: {integrity: sha512-J637XF0DHDMV57R6JyVsTak7nIL8gy5KH4r1HiwWLf/4GBbb5MKL5y7LpmF4A8E2nR6XmzpmMFQ7V7ppPTmUQg==}
     engines: {node: '>=6.0'}
+    deprecated: The library contains critical security issues and should not be used for production! The maintenance of the project has been discontinued. Consider migrating your code to isolated-vm.
     hasBin: true
     dependencies:
       acorn: 8.9.0
