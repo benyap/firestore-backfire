@@ -47,8 +47,8 @@ devDependencies:
     specifier: 6.11.0
     version: 6.11.0
   '@release-it/bumper':
-    specifier: 4.0.2
-    version: 4.0.2(release-it@15.11.0)
+    specifier: 5.0.0
+    version: 5.0.0(release-it@15.11.0)
   '@release-it/conventional-changelog':
     specifier: 5.1.1
     version: 5.1.1(release-it@15.11.0)
@@ -1642,22 +1642,22 @@ packages:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
     dev: true
 
-  /@release-it/bumper@4.0.2(release-it@15.11.0):
-    resolution: {integrity: sha512-HjiFIBNvb67cLTbzdm6EqiSRwpB4MJY4TGJFY/ac5qnIxERWK5gx1zBnwbJZffDSoS46hJMugoXrDbITEfX4gA==}
-    engines: {node: '>=14'}
+  /@release-it/bumper@5.0.0(release-it@15.11.0):
+    resolution: {integrity: sha512-s5DNaLhM177WSaV8GtHTKbEmkKmszsqChktFUVpAmoLDlUW4WmXq/S92DSfC9BHdM7SFhVTHsjgZBYReRpp3zw==}
+    engines: {node: '>=16'}
     peerDependencies:
-      release-it: ^15.2.0
+      release-it: ^16.0.0
     dependencies:
       '@iarna/toml': 2.2.5
       detect-indent: 7.0.1
-      fast-glob: 3.2.12
-      ini: 3.0.1
+      fast-glob: 3.3.0
+      ini: 4.1.1
       js-yaml: 4.1.0
       lodash.castarray: 4.4.0
       lodash.get: 4.4.2
       lodash.set: 4.3.2
       release-it: 15.11.0
-      semver: 7.3.8
+      semver: 7.5.2
     dev: true
 
   /@release-it/conventional-changelog@5.1.1(release-it@15.11.0):
@@ -4484,6 +4484,17 @@ packages:
       micromatch: 4.0.5
     dev: true
 
+  /fast-glob@3.3.0:
+    resolution: {integrity: sha512-ChDuvbOypPuNjO8yIDf36x7BlZX1smcUMTTcyoIjycexOxd6DFsKsg21qVBzEmr3G7fUKIRy2/psii+CIUt7FA==}
+    engines: {node: '>=8.6.0'}
+    dependencies:
+      '@nodelib/fs.stat': 2.0.5
+      '@nodelib/fs.walk': 1.2.8
+      glob-parent: 5.1.2
+      merge2: 1.4.1
+      micromatch: 4.0.5
+    dev: true
+
   /fast-json-stable-stringify@2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==}
     dev: true
@@ -5575,9 +5586,9 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /ini@3.0.1:
-    resolution: {integrity: sha512-it4HyVAUTKBc6m8e1iXWvXSTdndF7HbdN713+kvLrymxTaU4AUBWrJ4vEooP+V7fexnVD3LKcBshjGGPefSMUQ==}
-    engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
+  /ini@4.1.1:
+    resolution: {integrity: sha512-QQnnxNyfvmHFIsj7gkPcYymR8Jdw/o7mp5ZFihxn6h8Ci6fh3Dx4E1gPjpQEpIuPo9XVNY/ZUwh4BPMjGyL01g==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dev: true
 
   /inquirer@8.2.5:
