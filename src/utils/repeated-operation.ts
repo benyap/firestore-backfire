@@ -4,7 +4,7 @@ export type RepeatedOperationOptions = {
   when: () => boolean;
   action: (
     controller: AbortController,
-    attempt: number
+    attempt: number,
   ) => void | Promise<void>;
   until: () => boolean;
   onStart: () => void;
@@ -110,7 +110,7 @@ export class RepeatedOperation {
 
       if (!this.operationController)
         return reject(
-          new FailedToStartOperationError("controller unavailable")
+          new FailedToStartOperationError("controller unavailable"),
         );
 
       if (this.interval < 0)

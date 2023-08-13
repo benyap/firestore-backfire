@@ -10,7 +10,7 @@ import { FirestoreConnectionOptions, FirestoreFactory } from "~/firestore";
  */
 export async function countFirestoreCollections(
   connection: FirestoreConnectionOptions | Firestore,
-  path: string | undefined | null
+  path: string | undefined | null,
 ) {
   const firestore = FirestoreFactory.create(connection);
   const ref = path ? firestore.doc(path) : firestore;

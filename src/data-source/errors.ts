@@ -24,8 +24,8 @@ export class DataSourceOverwriteError extends DataSourceError {
   constructor(path: string) {
     super(
       `cannot overwrite existing data at ${dir(
-        path
-      )} unless \`overwrite\` is set to true`
+        path,
+      )} unless \`overwrite\` is set to true`,
     );
   }
 }

@@ -24,7 +24,7 @@ export interface IDataSourceReader {
    * If {@link onData} is not asynchronous, it will not be returned.
    */
   read(
-    onData: (data: string) => void | Promise<void>
+    onData: (data: string) => void | Promise<void>,
   ): Promise<Promise<void>[]>;
 }
 
@@ -42,7 +42,7 @@ export abstract class StreamReader implements IDataSourceReader {
   abstract open(): Promise<void>;
 
   async read(
-    onData: (data: string) => void | Promise<void>
+    onData: (data: string) => void | Promise<void>,
   ): Promise<Promise<void>[]> {
     const promises: Promise<void>[] = [];
     return new Promise((resolve, reject) => {

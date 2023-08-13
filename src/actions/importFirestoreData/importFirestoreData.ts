@@ -22,7 +22,7 @@ import { Importer } from "./Importer";
 export async function importFirestoreData(
   connection: FirestoreConnectionOptions | Firestore,
   reader: IDataSourceReader,
-  options: ImportFirestoreDataOptions & LoggingOptions = {}
+  options: ImportFirestoreDataOptions & LoggingOptions = {},
 ) {
   const level = options.quiet
     ? "silent"
@@ -55,6 +55,6 @@ export async function importFirestoreData(
     timer.stop(`Imported ${plural(imported, "document")} from ${path}`);
   else
     timer.stop(
-      `Imported ${plural(imported, "document")} from ${path} to ${project}`
+      `Imported ${plural(imported, "document")} from ${path} to ${project}`,
     );
 }

@@ -23,7 +23,7 @@ export function capitalize(message: string) {
 }
 
 export function count(
-  n: number | string | unknown[] | TrackableNumber | TrackableList<unknown>
+  n: number | string | unknown[] | TrackableNumber | TrackableList<unknown>,
 ) {
   let count: number | null = null;
   if (typeof n === "number") count = n;
@@ -36,7 +36,7 @@ export function count(
 export function plural(
   num: number | unknown[],
   word: string,
-  plural = `${word}s`
+  plural = `${word}s`,
 ) {
   num = Array.isArray(num) ? num.length : num;
   return `${count(num)} ${num === 1 ? word : plural}`;

@@ -20,19 +20,19 @@ export const ProjectOption = ({
       ? "the Firebase project to import data to"
       : action === "export"
       ? "the Firebase project to export data from"
-      : "the Firebase project to read from"
+      : "the Firebase project to read from",
   );
 
 export const KeyFileOption = () =>
   new Option(
     "-K, --keyFile <path>",
-    "path to Firebase service account credentials file"
+    "path to Firebase service account credentials file",
   );
 
 export const EmulatorOption = () =>
   new Option(
     "-E, --emulator [host]",
-    "use the Firestore emulator (default: `localhost:8080` if host is not specified)"
+    "use the Firestore emulator (default: `localhost:8080` if host is not specified)",
   );
 
 export const AdcOption = () =>
@@ -42,7 +42,7 @@ export const AdcOption = () =>
 
 export const StringifyOption = () =>
   new Option("--stringify [indent]", "JSON.stringify the output").argParser(
-    Parser.integer({ min: 1 })
+    Parser.integer({ min: 1 }),
   );
 
 export const LimitOption = ({
@@ -53,7 +53,7 @@ export const LimitOption = ({
     "-l, --limit <limit>",
     `limit the number of documents/collections to ${action}${
       countable ? " (ignored if --count is used)" : ""
-    }`
+    }`,
   ).argParser(Parser.integer({ min: 0 }));
 
 export const CountOption = () =>
@@ -65,31 +65,31 @@ export const PathsOption = ({ action }: { action: "import" | "export" }) =>
 export const MatchOption = ({ action }: { action: "import" | "export" }) =>
   new Option(
     "-m, --match <regex...>",
-    `specify regex patterns that a document path must match to be ${action}ed`
+    `specify regex patterns that a document path must match to be ${action}ed`,
   ).argParser(Parser.regexList());
 
 export const IgnoreOption = () =>
   new Option(
     "-i, --ignore <regex...>",
-    "specify regex patterns that will ignore a document if its path matches (takes precedence over --match)"
+    "specify regex patterns that will ignore a document if its path matches (takes precedence over --match)",
   ).argParser(Parser.regexList());
 
 export const DepthOption = ({ action }: { action: "import" | "export" }) =>
   new Option(
     "-d, --depth <number>",
-    `subcollection depth to ${action} (root collection depth = 0, all subcollections ${action}ed if not specified)`
+    `subcollection depth to ${action} (root collection depth = 0, all subcollections ${action}ed if not specified)`,
   ).argParser(Parser.integer({ min: 0, max: 100 }));
 
 export const OverwriteOption = () =>
   new Option(
     "-o, --overwrite",
-    "overwrite any existing data at the output path"
+    "overwrite any existing data at the output path",
   );
 
 export const WriteModeOption = () =>
   new Option(
     "-w, --mode <mode>",
-    "specify the behaviour when importing existing documents"
+    "specify the behaviour when importing existing documents",
   ).choices(["create", "insert", "merge", "overwrite"]);
 
 export const DebugOption = () =>
@@ -98,19 +98,19 @@ export const DebugOption = () =>
 export const VerboseOption = () =>
   new Option(
     "-v, --verbose",
-    "print verbose level logs and higher (overrides --debug)"
+    "print verbose level logs and higher (overrides --debug)",
   );
 
 export const QuietOption = () =>
   new Option(
     "-q, --quiet",
-    "silence all logs (overrides --debug and --verbose)"
+    "silence all logs (overrides --debug and --verbose)",
   );
 
 export const UpdateRateOption = () =>
   new Option(
     "--update <seconds>",
-    "interval (in seconds) at which update logs are printed"
+    "interval (in seconds) at which update logs are printed",
   )
     .default(5)
     .argParser(Parser.integer({ min: 1 }));
@@ -119,37 +119,37 @@ export const UpdateRateOption = () =>
 
 export const ExploreIntervalOption = () =>
   new Option("--exploreInterval <millseconds>", "see documentation").argParser(
-    Parser.integer({ min: 1 })
+    Parser.integer({ min: 1 }),
   );
 
 export const ExploreChunkSizeOption = () =>
   new Option("--exploreChunkSize <size>", "see documentation").argParser(
-    Parser.integer({ min: 1 })
+    Parser.integer({ min: 1 }),
   );
 
 export const DownloadIntervalOption = () =>
   new Option("--downloadInterval <millseconds>", "see documentation").argParser(
-    Parser.integer({ min: 1 })
+    Parser.integer({ min: 1 }),
   );
 
 export const DownloadChunkSizeOption = () =>
   new Option("--downloadChunkSize <size>", "see documentation").argParser(
-    Parser.integer({ min: 1 })
+    Parser.integer({ min: 1 }),
   );
 
 export const FlushOption = () =>
   new Option("--flush <seconds>", "see documentation").argParser(
-    Parser.integer({ min: 1 })
+    Parser.integer({ min: 1 }),
   );
 
 export const ProcessIntervalOption = () =>
   new Option("--processInterval <size>", "see documentation").argParser(
-    Parser.integer({ min: 1 })
+    Parser.integer({ min: 1 }),
   );
 
 export const ProcessLimitOption = () =>
   new Option("--processLimit <limit>", "see documentation").argParser(
-    Parser.integer({ min: 1 })
+    Parser.integer({ min: 1 }),
   );
 
 // Google Cloud Storage data source options
@@ -157,13 +157,13 @@ export const ProcessLimitOption = () =>
 export const GcpProjectOption = () =>
   new Option(
     "--gcpProject <projectId>",
-    "used with Google Cloud Storage data source"
+    "used with Google Cloud Storage data source",
   );
 
 export const GcpKeyFileOption = () =>
   new Option(
     "--gcpKeyFile <path>",
-    "used with Google Cloud Storage data source"
+    "used with Google Cloud Storage data source",
   );
 
 export const GcpAdcOption = () =>

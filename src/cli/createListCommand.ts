@@ -41,7 +41,7 @@ export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
       const output = await listFirestoreDocuments(
         config.connection,
         path,
-        options
+        options,
       );
       output.forEach((id) => console.log(id));
     });
@@ -64,7 +64,7 @@ export function createListCommand(cli: Command, globalOptions: GlobalOptions) {
       const output = await listFirestoreCollections(
         connection,
         path,
-        action as any
+        action as any,
       );
       output.forEach((id) => console.log(id));
       process.exit(0);

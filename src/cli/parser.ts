@@ -2,7 +2,7 @@ import { InvalidArgumentError } from "commander";
 
 export class Parser {
   static integer(
-    options: { min?: number; max?: number } = {}
+    options: { min?: number; max?: number } = {},
   ): (value: string) => number {
     const { min, max } = options;
     return (value) => {

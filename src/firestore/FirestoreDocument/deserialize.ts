@@ -32,7 +32,7 @@ export class DeserializationError extends EError {}
  */
 export function deserializeDocument(
   document: Partial<SerializedFirestoreDocument>,
-  firestore: Firestore
+  firestore: Firestore,
 ): DeserializedFirestoreDocument {
   try {
     if (typeof document.path !== "string") throw new Error("missing path");
@@ -44,7 +44,7 @@ export function deserializeDocument(
         setValueByPath(
           document.data,
           path,
-          deserializeFirestoreTimestamp(data)
+          deserializeFirestoreTimestamp(data),
         );
       }
       delete document.timestamps;
@@ -66,7 +66,7 @@ export function deserializeDocument(
         setValueByPath(
           document.data,
           path,
-          deserializeFirestoreDocumentReference(firestore, data)
+          deserializeFirestoreDocumentReference(firestore, data),
         );
       }
       delete document.documents;
@@ -78,7 +78,7 @@ export function deserializeDocument(
         setValueByPath(
           document.data,
           path,
-          deserializeFirestoreQuery(firestore, data)
+          deserializeFirestoreQuery(firestore, data),
         );
       }
       delete document.queries;
@@ -100,7 +100,7 @@ export function deserializeDocument(
  * @returns The deserialized object if it was valid, `null` otherwise.
  */
 function deserializeFirestoreTimestamp(
-  data?: Partial<SerializedTimestamp>
+  data?: Partial<SerializedTimestamp>,
 ): Timestamp | null {
   const { _seconds, _nanoseconds } = data ?? {};
   if (_seconds !== undefined && _nanoseconds !== undefined)
@@ -115,7 +115,7 @@ function deserializeFirestoreTimestamp(
  * @returns The deserialized object if it was valid, `null` otherwise.
  */
 function deserializeFirestoreGeopoint(
-  data?: Partial<SerializedGeoPoint>
+  data?: Partial<SerializedGeoPoint>,
 ): GeoPoint | null {
   const { _latitude, _longitude } = data ?? {};
   if (_latitude !== undefined && _longitude !== undefined)
@@ -132,7 +132,7 @@ function deserializeFirestoreGeopoint(
  */
 function deserializeFirestoreDocumentReference(
   firestore: Firestore,
-  data?: Partial<SerializedDocumentReference>
+  data?: Partial<SerializedDocumentReference>,
 ): DocumentReference | null {
   const { _path } = data ?? {};
   if (_path && _path.segments && _path.segments.length > 0)
@@ -149,7 +149,7 @@ function deserializeFirestoreDocumentReference(
  */
 function deserializeFirestoreQuery(
   firestore: Firestore,
-  data?: Partial<SerializedQuery>
+  data?: Partial<SerializedQuery>,
 ): Query | CollectionReference | null {
   if (!data?._queryOptions) return null;
 
@@ -209,7 +209,7 @@ function deserializeFirestoreQuery(
     if (direction === "DIRECTION_UNSPECIFIED") return;
     ref = ref.orderBy(
       field.segments.join("."),
-      direction === "ASCENDING" ? "asc" : "desc"
+      direction === "ASCENDING" ? "asc" : "desc",
     );
   });
 
@@ -241,7 +241,7 @@ function deserializeFirestoreQuery(
  * Deserialize a protobuf definition value.
  */
 function _deserializeFirestoreValue(
-  value: FirestoreProtoValueDefinition
+  value: FirestoreProtoValueDefinition,
 ): FirestoreProtoValue {
   if ("nullValue" in value) return null;
   if ("booleanValue" in value) return value.booleanValue ?? null;
@@ -268,10 +268,13 @@ function _deserializeFirestoreValue(
   if ("mapValue" in value) {
     const { fields } = value.mapValue ?? {};
     if (!fields) return null;
-    return Object.keys(fields).reduce((object, field) => {
-      object[field] = _deserializeFirestoreValue(fields[field]!);
-      return object;
-    }, {} as { [key: string]: any });
+    return Object.keys(fields).reduce(
+      (object, field) => {
+        object[field] = _deserializeFirestoreValue(fields[field]!);
+        return object;
+      },
+      {} as { [key: string]: any },
+    );
   }
   return null;
 }

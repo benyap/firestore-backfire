@@ -29,7 +29,7 @@ dataSourceFactory.register({
     async useFactory(path, options) {
       const opt = await getGCSOptions(options);
       const GCSReader = await import("../impl/gcs").then(
-        (m) => m.GoogleCloudStorageReader
+        (m) => m.GoogleCloudStorageReader,
       );
       if (opt.gcpCredentials)
         return new GCSReader(path, opt.gcpProject, opt.gcpCredentials);
@@ -42,7 +42,7 @@ dataSourceFactory.register({
     async useFactory(path, options) {
       const opt = await getGCSOptions(options);
       const GCSWriter = await import("../impl/gcs").then(
-        (m) => m.GoogleCloudStorageWriter
+        (m) => m.GoogleCloudStorageWriter,
       );
       if (opt.gcpCredentials)
         return new GCSWriter(path, opt.gcpProject, opt.gcpCredentials);
@@ -69,7 +69,7 @@ dataSourceFactory.register({
             accessKeyId: opt.awsAccessKeyId,
             secretAccessKey: opt.awsSecretAccessKey,
           },
-          opt.awsRegion
+          opt.awsRegion,
         );
     },
   },
@@ -86,7 +86,7 @@ dataSourceFactory.register({
             accessKeyId: opt.awsAccessKeyId,
             secretAccessKey: opt.awsSecretAccessKey,
           },
-          opt.awsRegion
+          opt.awsRegion,
         );
     },
   },

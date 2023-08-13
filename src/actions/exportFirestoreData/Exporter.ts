@@ -49,7 +49,7 @@ export class Exporter {
   constructor(
     private connection: FirestoreConnectionOptions | Firestore,
     private writer: IDataSourceWriter,
-    private logger: Logger
+    private logger: Logger,
   ) {}
 
   async run(options: ExportOptions) {
@@ -64,7 +64,7 @@ export class Exporter {
     const overwritten = await this.writer.open(overwrite);
     if (overwritten)
       this.logger.debug(
-        `Overwriting existing data at ${dir(this.writer.path)}`
+        `Overwriting existing data at ${dir(this.writer.path)}`,
       );
 
     // Get starting paths to explore
@@ -143,7 +143,7 @@ export class Exporter {
         `${count(this.exploring)} exploring`,
         `${count(this.exploreQueue)} to explore`,
         `${count(this.reads)} reads`,
-      ].join(", ")
+      ].join(", "),
     );
   }
 
@@ -171,7 +171,7 @@ export class Exporter {
 
     const [docPaths, colPaths] = split(paths, isDocumentPath);
     const docPathsFiltered = docPaths.filter((path) =>
-      typeof depth === "number" ? documentPathDepth(path) < depth : true
+      typeof depth === "number" ? documentPathDepth(path) < depth : true,
     );
     this.exploring.decrement(docPaths.length - docPathsFiltered.length);
 
@@ -183,11 +183,11 @@ export class Exporter {
 
   private async exploreForDocuments(
     paths: string[],
-    limit?: number | undefined
+    limit?: number | undefined,
   ) {
     if (paths.length > 0)
       this.logger.debug(
-        `Exploring for documents in ${plural(paths, "collection")}`
+        `Exploring for documents in ${plural(paths, "collection")}`,
       );
 
     for (const path of paths) {
@@ -230,7 +230,7 @@ export class Exporter {
   private async exploreForSubcollections(paths: string[]) {
     if (paths.length > 0)
       this.logger.debug(
-        `Exploring for subcollections in ${plural(paths, "document")}`
+        `Exploring for subcollections in ${plural(paths, "document")}`,
       );
 
     if (this.limitReached) {
@@ -243,8 +243,8 @@ export class Exporter {
     // The number of paths shouldn't exceed `exploreChunkSize` anyway
     const subcollectionsList = await Promise.all(
       paths.map((path) =>
-        (path ? this.firestore.doc(path) : this.firestore).listCollections()
-      )
+        (path ? this.firestore.doc(path) : this.firestore).listCollections(),
+      ),
     );
 
     const subcollections = subcollectionsList.flat();
@@ -294,7 +294,7 @@ export class Exporter {
       if (readyToExport.length >= remaining) this.limitReached = true;
       readyToExport = readyToExport.splice(0, remaining);
       this.logger.verbose(
-        `Exports remaining: ${count(remaining)} / ${count(limit)}`
+        `Exports remaining: ${count(remaining)} / ${count(limit)}`,
       );
     }
 
@@ -307,7 +307,7 @@ export class Exporter {
 
     const [paths, snapshots] = splitStrict(
       readyToExport,
-      (ex): ex is string => typeof ex === "string"
+      (ex): ex is string => typeof ex === "string",
     );
 
     const refs = paths.map((path) => this.firestore.doc(path));
@@ -319,7 +319,7 @@ export class Exporter {
       .map((snapshot) => {
         const document = FirestoreDocument.serialize(
           snapshot.ref.path,
-          snapshot.data()
+          snapshot.data(),
         );
         if (document) return JSON.stringify(document);
         return null;
@@ -331,7 +331,7 @@ export class Exporter {
     this.exporting.decrement(readyToExport.length);
 
     this.logger.debug(
-      `Successfully exported ${plural(serializedDocuments, "document")}`
+      `Successfully exported ${plural(serializedDocuments, "document")}`,
     );
   }
 }

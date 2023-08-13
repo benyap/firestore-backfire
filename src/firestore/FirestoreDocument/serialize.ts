@@ -17,7 +17,7 @@ import { deleteFieldByPath } from "~/utils";
  */
 export function serializeDocument(
   path: string,
-  data: unknown
+  data: unknown,
 ): SerializedFirestoreDocument | null {
   const json = toJSON(data);
   const document: SerializedFirestoreDocument = { path, data: json };
@@ -79,7 +79,7 @@ function toJSON(object: any) {
  */
 function findFirestoreFields(
   object: { [key: string]: any },
-  path: string[] = []
+  path: string[] = [],
 ) {
   let timestamps: string[] = [];
   let geopoints: string[] = [];

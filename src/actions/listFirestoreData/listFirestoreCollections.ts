@@ -13,7 +13,7 @@ import { ListFirestoreDataOptions } from "./types";
 export async function listFirestoreCollections(
   connection: FirestoreConnectionOptions | Firestore,
   path: string | undefined | null,
-  options: ListFirestoreDataOptions = {}
+  options: ListFirestoreDataOptions = {},
 ): Promise<string[]> {
   const firestore = FirestoreFactory.create(connection);
   const ref = path ? firestore.doc(path) : firestore;

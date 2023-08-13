@@ -32,7 +32,7 @@ class GoogleCloudStorageSource {
   constructor(
     readonly path: string,
     projectId: string,
-    credentials?: string | CredentialBody
+    credentials?: string | CredentialBody,
   ) {
     if (!this.path.endsWith(".ndjson")) this.path += ".ndjson";
 
@@ -58,7 +58,7 @@ class GoogleCloudStorageSource {
 
     if (seperator === -1 || name === ".ndjson")
       throw new DataSourceError(
-        `Invalid Google Cloud Storage file path: ${dir(this.path)}`
+        `Invalid Google Cloud Storage file path: ${dir(this.path)}`,
       );
 
     this.bucket = this.storage.bucket(bucket);
@@ -69,7 +69,7 @@ class GoogleCloudStorageSource {
     const [bucketExists] = await this.bucket.exists();
     if (!bucketExists)
       throw new DataSourceUnreachableError(
-        "bucket does not exist or is not accessible"
+        "bucket does not exist or is not accessible",
       );
   }
 
@@ -77,7 +77,7 @@ class GoogleCloudStorageSource {
     const [fileExists] = await this.file.exists();
     if (!fileExists)
       throw new DataSourceUnreachableError(
-        "file does not exist or is not accessible"
+        "file does not exist or is not accessible",
       );
   }
 }
@@ -90,7 +90,7 @@ export class GoogleCloudStorageReader extends StreamReader {
   constructor(
     path: string,
     projectId: string,
-    credentials?: string | CredentialBody
+    credentials?: string | CredentialBody,
   ) {
     super();
     this.source = new GoogleCloudStorageSource(path, projectId, credentials);
@@ -115,7 +115,7 @@ export class GoogleCloudStorageWriter extends StreamWriter {
   constructor(
     path: string,
     projectId: string,
-    credentials?: string | CredentialBody
+    credentials?: string | CredentialBody,
   ) {
     super();
     this.source = new GoogleCloudStorageSource(path, projectId, credentials);

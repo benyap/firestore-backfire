@@ -34,7 +34,7 @@ import {
 
 export function createExportCommand(
   cli: Command,
-  globalOptions: GlobalOptions
+  globalOptions: GlobalOptions,
 ) {
   cli
     .command("export <path>")

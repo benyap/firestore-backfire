@@ -44,7 +44,7 @@ export class Importer {
   constructor(
     private connection: FirestoreConnectionOptions | Firestore,
     private reader: IDataSourceReader,
-    private logger: Logger
+    private logger: Logger,
   ) {}
 
   async run(options: ImportOptions) {
@@ -130,7 +130,7 @@ export class Importer {
             // `${count(this.processing)} processing`,
             `${count(this.skipped)} skipped`,
             `${count(this.failed)} failed to import`,
-          ].join(", ")
+          ].join(", "),
         );
       },
     });
@@ -148,7 +148,7 @@ export class Importer {
     object: unknown,
     writer: FirebaseFirestore.BulkWriter,
     errors: FirebaseFirestore.BulkWriterError[],
-    options: ImportOptions
+    options: ImportOptions,
   ) {
     if (object === null || typeof object !== "object") {
       this.processing.decrement(1);
@@ -161,7 +161,7 @@ export class Importer {
     try {
       document = FirestoreDocument.deserialize(
         object as Partial<SerializedFirestoreDocument>,
-        this.firestore
+        this.firestore,
       );
     } catch (error) {
       this.processing.decrement(1);

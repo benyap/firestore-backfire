@@ -22,7 +22,7 @@ import { Exporter } from "./Exporter";
 export async function exportFirestoreData(
   connection: FirestoreConnectionOptions | Firestore,
   writer: IDataSourceWriter,
-  options: ExportFirestoreDataOptions & LoggingOptions = {}
+  options: ExportFirestoreDataOptions & LoggingOptions = {},
 ) {
   const level = options.quiet
     ? "silent"
@@ -54,6 +54,6 @@ export async function exportFirestoreData(
     timer.stop(`Exported ${plural(exported, "document")} to ${path}`);
   else
     timer.stop(
-      `Exported ${plural(exported, "document")} from ${project} to ${path}`
+      `Exported ${plural(exported, "document")} from ${project} to ${path}`,
     );
 }

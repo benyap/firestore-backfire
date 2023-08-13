@@ -7,7 +7,7 @@
  */
 export function getValueByPath<T = any>(
   object: { [key: string]: any },
-  path: string | string[]
+  path: string | string[],
 ): T | undefined {
   // Get path segments
   const segments = Array.isArray(path) ? path : path.split(".");
@@ -37,7 +37,7 @@ export function setValueByPath<T>(
   object: { [key: string]: any },
   path: string | string[],
   value: T,
-  options: { createMissingKeys?: boolean } = {}
+  options: { createMissingKeys?: boolean } = {},
 ) {
   const { createMissingKeys = true } = options;
 
@@ -76,7 +76,7 @@ export function setValueByPath<T>(
  */
 export function deleteFieldByPath(
   object: { [key: string]: any },
-  path: string | string[]
+  path: string | string[],
 ) {
   // Get path segments
   const segments = Array.isArray(path) ? path : path.split(".");

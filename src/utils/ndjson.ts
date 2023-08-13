@@ -17,7 +17,7 @@ export class NDJSON {
    */
   static parse<T = unknown>(
     text: string,
-    options: { safe?: boolean } = {}
+    options: { safe?: boolean } = {},
   ): T[] {
     const fail = Symbol("fail");
     return text

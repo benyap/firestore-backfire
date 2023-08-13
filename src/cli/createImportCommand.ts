@@ -33,7 +33,7 @@ import {
 
 export function createImportCommand(
   cli: Command,
-  globalOptions: GlobalOptions
+  globalOptions: GlobalOptions,
 ) {
   cli
     .command("import <path>")

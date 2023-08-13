@@ -13,7 +13,7 @@ import {
  */
 export type IDataSourceCreator<
   T extends IDataSourceReader | IDataSourceWriter,
-  CustomOptions = { [key: string]: any }
+  CustomOptions = { [key: string]: any },
 > =
   | {
       /**
@@ -23,7 +23,7 @@ export type IDataSourceCreator<
        */
       useClass: new (
         path: string,
-        options: DataSourceOptions & CustomOptions
+        options: DataSourceOptions & CustomOptions,
       ) => T;
       useFactory?: never;
     }
@@ -34,7 +34,7 @@ export type IDataSourceCreator<
        */
       useFactory: (
         path: string,
-        options: DataSourceOptions & CustomOptions
+        options: DataSourceOptions & CustomOptions,
       ) => Promise<T>;
       useClass?: never;
     };
@@ -84,7 +84,7 @@ export interface IDataSource<T extends { [key: string]: any } = {}> {
  * through the `dataSourceFactory` export.
  */
 export class DataSourceFactory<
-  DefaultOptions extends { [key: string]: any } = DataSourceOptions
+  DefaultOptions extends { [key: string]: any } = DataSourceOptions,
 > {
   private sources: { [id: string]: IDataSource<any> } = {};
 
@@ -148,7 +148,7 @@ export class DataSourceFactory<
    */
   async createReader<T extends { [key: string]: any }>(
     path: string,
-    options: DefaultOptions & T
+    options: DefaultOptions & T,
   ): Promise<IDataSourceReader> {
     const { id, reader } = this.getDataSource(path);
     if (!reader) throw new DataSourceNotImplementedError(id, "reader");
@@ -165,7 +165,7 @@ export class DataSourceFactory<
    */
   async createWriter<T extends { [key: string]: any }>(
     path: string,
-    options: DefaultOptions & T
+    options: DefaultOptions & T,
   ): Promise<IDataSourceWriter> {
     const { id, writer } = this.getDataSource(path);
     if (!writer) throw new DataSourceNotImplementedError(id, "writer");

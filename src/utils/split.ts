@@ -7,7 +7,7 @@
  */
 export function split<T>(
   list: T[],
-  predicate: (item: T, index: number) => boolean
+  predicate: (item: T, index: number) => boolean,
 ) {
   return list.reduce(
     (result, item, index) => {
@@ -15,7 +15,7 @@ export function split<T>(
       else result[1].push(item);
       return result;
     },
-    [[], []] as [T[], T[]]
+    [[], []] as [T[], T[]],
   );
 }
 
@@ -31,7 +31,7 @@ export function split<T>(
  */
 export function splitStrict<T, A extends T>(
   list: T[],
-  predicate: (item: T, index: number) => item is A
+  predicate: (item: T, index: number) => item is A,
 ) {
   return list.reduce(
     (result, item, index) => {
@@ -39,6 +39,6 @@ export function splitStrict<T, A extends T>(
       else result[1].push(item as Exclude<T, A>);
       return result;
     },
-    [[], []] as [A[], Exclude<T, A>[]]
+    [[], []] as [A[], Exclude<T, A>[]],
   );
 }

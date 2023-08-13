@@ -19,7 +19,7 @@ export enum LogLevel {
 }
 
 const LogLevelLength = Math.max(
-  ...Object.values(LogLevel).map((l) => l.length)
+  ...Object.values(LogLevel).map((l) => l.length),
 );
 
 export class Logger {
@@ -40,7 +40,7 @@ export class Logger {
    */
   static create(
     context: string,
-    level: "silent" | "info" | "debug" | "verbose" | LogLevel[] = "info"
+    level: "silent" | "info" | "debug" | "verbose" | LogLevel[] = "info",
   ) {
     let levels: LogLevel[] = Array.isArray(level) ? level : [];
 
@@ -76,7 +76,7 @@ export class Logger {
   private constructor(
     public readonly context: string,
     levels: LogLevel[],
-    outputMap: Partial<{ [key in LogLevel]: typeof console.log }> = {}
+    outputMap: Partial<{ [key in LogLevel]: typeof console.log }> = {},
   ) {
     this.levels = new Set(levels);
     this.outputMap = {

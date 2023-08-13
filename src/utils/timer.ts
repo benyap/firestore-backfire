@@ -47,7 +47,7 @@ export class TimerInstance {
   constructor(
     private startTime: number,
     private logger?: LogFunction,
-    public readonly message?: string
+    public readonly message?: string,
   ) {
     if (message) this.logger?.(message);
   }

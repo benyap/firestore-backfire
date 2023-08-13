@@ -13,7 +13,7 @@ import { GetFirestoreDataOptions } from "./types";
 export function getFirestoreData(
   connection: FirestoreConnectionOptions | Firestore,
   path: string,
-  options: { stringify: true | number }
+  options: { stringify: true | number },
 ): Promise<string>;
 
 /**
@@ -25,14 +25,14 @@ export function getFirestoreData(
 export function getFirestoreData(
   connection: FirestoreConnectionOptions | Firestore,
   path: string,
-  options?: { stringify?: false }
+  options?: { stringify?: false },
 ): Promise<FirebaseFirestore.DocumentData>;
 
 // Implementation
 export async function getFirestoreData(
   connection: FirestoreConnectionOptions | Firestore,
   path: string,
-  options: GetFirestoreDataOptions = {}
+  options: GetFirestoreDataOptions = {},
 ) {
   const firestore = FirestoreFactory.create(connection);
   const snapshot = await firestore.doc(path).get();

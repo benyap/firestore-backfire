@@ -48,7 +48,7 @@ export function isFirestoreGeoPoint(object: any): object is GeoPoint {
  * @returns `true` if the object is a Firestore DocumentReference.
  */
 export function isFirestoreDocumentReference(
-  object: any
+  object: any,
 ): object is DocumentReference {
   if (typeof object === "object")
     return "_firestore" in object && "_path" in object;

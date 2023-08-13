@@ -65,7 +65,7 @@ function greedyPick<T>(first: T, second: T) {
  */
 export async function resolveConfig(
   globalOptions: GlobalOptions,
-  cliOptions: AllOptions
+  cliOptions: AllOptions,
 ): Promise<ResolvedConfig> {
   const config: ResolvedConfig = {
     connection: {},
@@ -86,7 +86,7 @@ export async function resolveConfig(
   const { key: connectionKey, value: connection } = pick(
     "emulator",
     "credentials",
-    "keyFile"
+    "keyFile",
   );
 
   if (project) config.connection.project = project;

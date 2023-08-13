@@ -9,7 +9,7 @@ import { FirestoreConnectionOptions, FirestoreFactory } from "~/firestore";
  * @param path Specify the path to the collection to count documents in.
  */ export async function countFirestoreDocuments(
   connection: FirestoreConnectionOptions | Firestore,
-  path: string
+  path: string,
 ) {
   const firestore = FirestoreFactory.create(connection);
   const count = await firestore.collection(path).count().get();

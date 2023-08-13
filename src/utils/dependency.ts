@@ -14,7 +14,7 @@ export class MissingPeerDependencyError extends EError {
  */
 export function ensureDependencyInstalled(
   packageName: string,
-  info?: string
+  info?: string,
 ): void {
   const installed = isDependencyInstalled(packageName);
   if (!installed) {

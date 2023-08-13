@@ -15,12 +15,12 @@ export async function getGCSOptions(options: DataSourceOptions) {
 
   if (!gcpKeyFile && !gcpCredentials && !gcpAdc)
     throw new DataSourceError(
-      "either `gcpAdc`, `gcpKeyFile` or `gcpCredentials` is required"
+      "either `gcpAdc`, `gcpKeyFile` or `gcpCredentials` is required",
     );
 
   ensureDependencyInstalled(
     "@google-cloud/storage",
-    "required to use Google Cloud Storage data source"
+    "required to use Google Cloud Storage data source",
   );
 
   if (gcpCredentials) return { gcpProject, gcpCredentials };
@@ -28,6 +28,6 @@ export async function getGCSOptions(options: DataSourceOptions) {
   if (gcpAdc) return { gcpProject };
 
   throw new DataSourceError(
-    "no credentials provided for Google Cloud Storage data source"
+    "no credentials provided for Google Cloud Storage data source",
   );
 }

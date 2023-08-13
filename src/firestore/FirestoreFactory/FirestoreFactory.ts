@@ -26,7 +26,7 @@ export class FirestoreFactory {
 
   static createWithCredentials(
     projectId: string,
-    credentials: Required<NonNullable<Settings["credentials"]>>
+    credentials: Required<NonNullable<Settings["credentials"]>>,
   ) {
     return new Firestore({ projectId, credentials });
   }

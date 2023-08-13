@@ -41,7 +41,7 @@ class S3Source {
   constructor(
     readonly path: string,
     credentials: AwsCredentialIdentity | AwsCredentialIdentityProvider,
-    region?: string | undefined
+    region?: string | undefined,
   ) {
     if (!this.path.endsWith(".ndjson")) this.path += ".ndjson";
 
@@ -65,7 +65,7 @@ class S3Source {
     } catch (error) {
       throw new DataSourceUnreachableError(
         "bucket does not exist or is not accessible",
-        error as Error
+        error as Error,
       );
     }
   }
@@ -76,7 +76,7 @@ class S3Source {
     } catch (error) {
       throw new DataSourceUnreachableError(
         "file does not exist or is not accessible",
-        error as Error
+        error as Error,
       );
     }
   }
@@ -90,7 +90,7 @@ export class S3Reader extends StreamReader {
   constructor(
     path: string,
     credentials: AwsCredentialIdentity | AwsCredentialIdentityProvider,
-    region?: string | undefined
+    region?: string | undefined,
   ) {
     super();
     this.source = new S3Source(path, credentials, region);
@@ -123,7 +123,7 @@ export class S3Writer implements IDataSourceWriter {
   constructor(
     path: string,
     credentials: AwsCredentialIdentity | AwsCredentialIdentityProvider,
-    region?: string | undefined
+    region?: string | undefined,
   ) {
     this.source = new S3Source(path, credentials, region);
   }
@@ -184,7 +184,7 @@ export class S3Writer implements IDataSourceWriter {
     if (this.upload.buffer.length > 0) {
       const part = this.uploadPart(
         this.upload.buffer,
-        this.upload.parts.length + 1
+        this.upload.parts.length + 1,
       );
       this.upload.parts.push(part);
     }

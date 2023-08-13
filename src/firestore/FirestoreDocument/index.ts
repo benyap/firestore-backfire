@@ -22,7 +22,7 @@ export class FirestoreDocument {
    */
   static serialize(
     path: string,
-    data: unknown
+    data: unknown,
   ): SerializedFirestoreDocument | null {
     return serializeDocument(path, data);
   }
@@ -36,7 +36,7 @@ export class FirestoreDocument {
    */
   static deserialize(
     document: Partial<SerializedFirestoreDocument>,
-    firestore: Firestore
+    firestore: Firestore,
   ): DeserializedFirestoreDocument {
     return deserializeDocument(document, firestore);
   }

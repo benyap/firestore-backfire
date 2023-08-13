@@ -13,7 +13,7 @@ import { ListFirestoreDataOptions } from "./types";
 export async function listFirestoreDocuments(
   connection: FirestoreConnectionOptions | Firestore,
   path: string,
-  options: ListFirestoreDataOptions = {}
+  options: ListFirestoreDataOptions = {},
 ): Promise<string[]> {
   const firestore = FirestoreFactory.create(connection);
   const snapshot = await firestore.collection(path).listDocuments();
