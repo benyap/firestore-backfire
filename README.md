@@ -541,9 +541,12 @@ import {
   exportFirestoreData,
 } from "firestore-backfire";
 
+// Create the reader and writer.
+// The `options` object should provide the credentials to
+// connect to data sources if required (such as GCS or S3).
 const path = "s3://my-bucket/exported-data.ndjson";
-const reader = await dataSourceFactory.createReader(path);
-const writer = await dataSourceFactory.createWriter(path);
+const reader = await dataSourceFactory.createReader(path, options);
+const writer = await dataSourceFactory.createWriter(path, options);
 
 // Use the reader and writer
 await importFirestoreData(connection, reader, options);
