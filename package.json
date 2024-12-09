@@ -88,7 +88,7 @@
     "husky": "8.0.3",
     "prettier": "3.0.1",
     "release-it": "16.1.5",
-    "resolve-tspaths": "0.8.15",
+    "resolve-tspaths": "0.8.23",
     "rimraf": "5.0.1",
     "typescript": "5.1.6",
     "vite": "4.4.9",
