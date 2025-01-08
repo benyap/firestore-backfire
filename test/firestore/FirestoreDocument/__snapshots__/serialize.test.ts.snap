@@ -198,6 +198,7 @@ exports[`serializeDocument > serializes plain documents 1`] = `
     "content": "Dear John,
 
 Hello world!",
+    "empty": null,
     "from": "example@email.com",
     "tags": {
       "important": true,

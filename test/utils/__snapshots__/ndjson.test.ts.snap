@@ -34,7 +34,7 @@ exports[`NDJSON > parse > skips invalid lines of JSON when options.safe is true 
 ]
 `;
 
-exports[`NDJSON > parse > throws error when parsing invalid NDJSON 1`] = `"Unexpected end of JSON input"`;
+exports[`NDJSON > parse > throws error when parsing invalid NDJSON 1`] = `"Expected ',' or ']' after array element in JSON at position 4 (line 1 column 5)"`;
 
 exports[`NDJSON > stringify > stringifies a list of objects 1`] = `
 "1
