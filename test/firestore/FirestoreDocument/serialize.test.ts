@@ -17,6 +17,7 @@ describe(serializeDocument.name, () => {
       content: "Dear John,\n\nHello world!",
       attachments: 2,
       tags: { work: true, important: true },
+      empty: null,
     });
     expect(doc).toMatchSnapshot();
   });
