@@ -93,11 +93,11 @@ export const WriteModeOption = () =>
   ).choices(["create", "insert", "merge", "overwrite"]);
 
 export const DebugOption = () =>
-  new Option("-d, --debug", "print debug level logs and higher");
+  new Option("--debug", "print debug level logs and higher");
 
 export const VerboseOption = () =>
   new Option(
-    "-v, --verbose",
+    "--verbose",
     "print verbose level logs and higher (overrides --debug)",
   );
 
