@@ -29,7 +29,17 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "MarcVanDaele90",
+      "name": "Marc@Wijsr",
+      "avatar_url": "https://avatars.githubusercontent.com/u/90178346?v=4",
+      "profile": "https://github.com/MarcVanDaele90",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "commitType": "docs"
 }
