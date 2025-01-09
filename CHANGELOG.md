@@ -1,4 +1,17 @@
+# Changelog
 
+## 2.6.0 (2025-01-09)
+
+* docs: add MarcVanDaele90 as a contributor for bug (#447) ([a12c0f2](https://github.com/benyap/firestore-backfire/commit/a12c0f2)), closes [#447](https://github.com/benyap/firestore-backfire/issues/447)
+* chore: add compatibility with newer Firestore library versions ([a7f750f](https://github.com/benyap/firestore-backfire/commit/a7f750f))
+* chore: fix build output directory ([92a9171](https://github.com/benyap/firestore-backfire/commit/92a9171))
+* chore: format, fix typos ([757e5b1](https://github.com/benyap/firestore-backfire/commit/757e5b1))
+* chore(deps): update actions/cache action to v4 (#443) ([887934e](https://github.com/benyap/firestore-backfire/commit/887934e)), closes [#443](https://github.com/benyap/firestore-backfire/issues/443)
+* chore(deps): update actions/checkout action to v4 (#444) ([21ac45d](https://github.com/benyap/firestore-backfire/commit/21ac45d)), closes [#444](https://github.com/benyap/firestore-backfire/issues/444)
+* chore(deps): update pnpm/action-setup action to v2.4.1 (#438) ([9f67ddc](https://github.com/benyap/firestore-backfire/commit/9f67ddc)), closes [#438](https://github.com/benyap/firestore-backfire/issues/438)
+* chore(deps): upgrade dependencies ([8997bdd](https://github.com/benyap/firestore-backfire/commit/8997bdd))
+* feat: remove shorthand for `--verbose` and `--debug` options ([2c048f1](https://github.com/benyap/firestore-backfire/commit/2c048f1))
+* fix: `null` values being exported as `{}` ([52312eb](https://github.com/benyap/firestore-backfire/commit/52312eb))
 
 ## [2.5.3](https://github.com/benyap/firestore-backfire/compare/2.5.2...2.5.3) (2023-08-13)
 
