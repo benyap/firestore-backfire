@@ -31,7 +31,7 @@ export function getValueByPath<T = any>(
  * @param path The path in the object to set.
  * @param value The value to set.
  * @param options.createMissingKeys Create missing keys in the path. Defaults to `true`.
- * @returns The udpated object.
+ * @returns The updated object.
  */
 export function setValueByPath<T>(
   object: { [key: string]: any },

@@ -32,15 +32,15 @@ describe(collectionPathDepth.name, () => {
   test("returns nested depth correctly", () => {
     expect(collectionPathDepth("emails/1/contents")).toMatchInlineSnapshot(`1`);
     expect(
-      collectionPathDepth("emails/1/contents/a/parts")
+      collectionPathDepth("emails/1/contents/a/parts"),
     ).toMatchInlineSnapshot(`2`);
   });
 
   test("throws an error when given document path", () => {
     expect(() =>
-      collectionPathDepth("emails/1")
+      collectionPathDepth("emails/1"),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"collection paths must have an odd number of segments"`
+      `[Error: collection paths must have an odd number of segments]`,
     );
   });
 });
@@ -53,15 +53,15 @@ describe(documentPathDepth.name, () => {
   test("returns nested depth correctly", () => {
     expect(documentPathDepth("emails/1/contents/1")).toMatchInlineSnapshot(`1`);
     expect(
-      documentPathDepth("emails/1/contents/a/parts/0")
+      documentPathDepth("emails/1/contents/a/parts/0"),
     ).toMatchInlineSnapshot(`2`);
   });
 
   test("throws an error when given collection path", () => {
     expect(() =>
-      documentPathDepth("emails")
+      documentPathDepth("emails"),
     ).toThrowErrorMatchingInlineSnapshot(
-      `"document paths must have an even number of segments"`
+      `[Error: document paths must have an even number of segments]`,
     );
   });
 });
