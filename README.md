@@ -118,8 +118,8 @@ You can also use it in your `package.json` scripts.
 // package.json
 {
   "scripts": {
-    "import-my-data": "backfire import path-to-my-data ..."
-  }
+    "import-my-data": "backfire import path-to-my-data ...",
+  },
 }
 ```
 
@@ -129,7 +129,7 @@ All options listed in the documentation have a CLI flag equivalent unless
 otherwise specified. The flag will always be `--` followed by the option name.
 For example, the option `limit` can be passed on the CLI using `--limit`. In
 most cases, a shorthand may be available. Use the `backfire [command] --help`
-command to see the available options and their repsective flags.
+command to see the available options and their respective flags.
 
 #### CLI examples <!-- omit in toc -->
 
@@ -236,7 +236,7 @@ interface.
 | ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | paths               | `string[]` | Provide a list of paths where you want to export data from. This can be a collection path (e.g. `emails`), or a path to a document (e.g. `emails/1`). If not specified, all paths will be exported, starting from the root collections. |
 | match               | `RegExp[]` | Provide a list of regex patterns that a document path must match to be exported.                                                                                                                                                        |
-| ignore              | `RegExp[]` | Provide a list of regex patterns that prevent a document from being exported when its path matches any of the patterns. Takes precendence over `match`.                                                                                 |
+| ignore              | `RegExp[]` | Provide a list of regex patterns that prevent a document from being exported when its path matches any of the patterns. Takes precedence over `match`.                                                                                  |
 | depth               | `number`   | Limit the subcollection depth to export documents from. Documents in the root collection have a depth of 0. If not specified, no limit is applied.                                                                                      |
 | limit               | `number`   | Limit the number of documents to export. If not specified, no limit is applied.                                                                                                                                                         |
 | overwrite           | `boolean`  | Overwrite any existing data at the output path. Defaults to `false`.                                                                                                                                                                    |
@@ -304,7 +304,7 @@ interface.
 | ----------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | paths             | `string[]`                                    | Provide a list of paths where you want to import data from. This can be a collection path (e.g. `emails`), or a path to a document (e.g. `emails/1`). If not specified, all paths will be imported. |
 | match             | `RegExp[]`                                    | Provide a list of regex patterns that a document path must match to be imported.                                                                                                                    |
-| ignore            | `RegExp[]`                                    | Provide a list of regex patterns that prevent a document from being imported if its path matches any of the patterns. Takes precendence over `match`.                                               |
+| ignore            | `RegExp[]`                                    | Provide a list of regex patterns that prevent a document from being imported if its path matches any of the patterns. Takes precedence over `match`.                                                |
 | depth             | `number`                                      | Limit the subcollection depth to import documents from. Documents in the root collection have a depth of 0. If not specified, no limit is applied.                                                  |
 | limit             | `number`                                      | Limit the number of documents to import. If not specified, no limit is applied.                                                                                                                     |
 | mode              | `"create"` `"insert"` `"overwrite"` `"merge"` | Specify how to handle importing documents that would overwrite existing data. See the [import mode](#import-mode) section for more information. Defaults to `create`.                               |
@@ -321,8 +321,8 @@ cases. Considered internal, so may change as implementation changes.
 The `mode` option specifies how to handle importing documents that would
 overwrite existing data in Firestore. The default import mode is `create`.
 
-- `create` mode will log an error when impporting documents that already exist
-  in Firestore, and existing documents will not be modified.
+- `create` mode will log an error when importing documents that already exist in
+  Firestore, and existing documents will not be modified.
 - `insert` mode will only import documents that do not exist, and existing
   documents will not be modified.
 - `overwrite` mode will import documents that do not exist, and completely
@@ -435,7 +435,7 @@ options for the connection. Follows the
 
 As an alternative, these options can also be provided through a
 [configuration file](#configuration-file) or as environment variables. Note that
-CLI options will always take precendence over environment variables.
+CLI options will always take precedence over environment variables.
 
 - `GOOGLE_CLOUD_PROJECT` can be used to provide `project`
 - `GOOGLE_APPLICATION_CREDENTIALS` can be used to provide `keyFile`
@@ -447,7 +447,7 @@ providing connection options.
 ## Data sources
 
 A data source provides a way to to read and write data to an external location.
-This pacakge comes with a few implementations, and exports interfaces for you to
+This package comes with a few implementations, and exports interfaces for you to
 implement your own ones in Node if the provided implementations do not suit your
 needs.
 
@@ -506,11 +506,11 @@ CLI options or through a [configuration file](#configuration-file).
 | ------------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | awsRegion          | `string` | The AWS region to use.                                                                                                                                                                       |
 | awsProfile         | `string` | The name of the profile to use from your local AWS credentials. Requires [@aws-sdk/credential-provider-ini](https://www.npmjs.com/package/@aws-sdk/credential-provider-ini) to be installed. |
-| awsAccessKeyId     | `string` | The access key id to use. This takes precendence over the `awsProfile` option, which means that if you provide `awsProfile` as well as access keys, the access keys will be used.            |
-| awsSecretAccessKey | `string` | The secret access key to use. This takes precendence over the `awsProfile` option, which means that if you provide `awsProfile` as well as access keys, the access keys will be used.        |
+| awsAccessKeyId     | `string` | The access key id to use. This takes precedence over the `awsProfile` option, which means that if you provide `awsProfile` as well as access keys, the access keys will be used.             |
+| awsSecretAccessKey | `string` | The secret access key to use. This takes precedence over the `awsProfile` option, which means that if you provide `awsProfile` as well as access keys, the access keys will be used.         |
 
 - The `awsRegion` option is always required
-- You can choose to use either `awsProfile`, or `awsAcecssKeyId` and
+- You can choose to use either `awsProfile`, or `awsAccessKeyId` and
   `awsSecretAccessKey`
 
 Alternatively, these values can also be provided through the corresponding

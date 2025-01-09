@@ -27,10 +27,10 @@ export async function exportFirestoreData(
   const level = options.quiet
     ? "silent"
     : options.verbose
-    ? "verbose"
-    : options.debug
-    ? "debug"
-    : "info";
+      ? "verbose"
+      : options.debug
+        ? "debug"
+        : "info";
   const path = dir(writer.path);
   const logger = Logger.create("export", level);
   const log = logger.info.bind(logger);

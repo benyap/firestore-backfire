@@ -27,10 +27,10 @@ export async function importFirestoreData(
   const level = options.quiet
     ? "silent"
     : options.verbose
-    ? "verbose"
-    : options.debug
-    ? "debug"
-    : "info";
+      ? "verbose"
+      : options.debug
+        ? "debug"
+        : "info";
 
   const path = dir(reader.path);
   const logger = Logger.create("import", level);
