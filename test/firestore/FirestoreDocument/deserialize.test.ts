@@ -28,7 +28,7 @@ describe(deserializeDocument.name, () => {
           tags: { work: true, important: true },
         },
       },
-      firestore
+      firestore,
     );
     expect(data).toMatchSnapshot();
   });
@@ -40,17 +40,26 @@ describe(deserializeDocument.name, () => {
         path: "documents/1",
         data: {
           id: "1",
-          date: { _seconds: seconds, _nanoseconds: 0 } as SerializedTimestamp,
+          date: {
+            _seconds: seconds,
+            _nanoseconds: 0,
+          } satisfies SerializedTimestamp,
           nested: {
             dates: [
-              { _seconds: seconds, _nanoseconds: 0 } as SerializedTimestamp,
-              { _seconds: seconds, _nanoseconds: 0 } as SerializedTimestamp,
+              {
+                _seconds: seconds,
+                _nanoseconds: 0,
+              } satisfies SerializedTimestamp,
+              {
+                _seconds: seconds,
+                _nanoseconds: 0,
+              } satisfies SerializedTimestamp,
             ],
           },
         },
         timestamps: ["date", "nested.dates.0", "nested.dates.1"],
       },
-      firestore
+      firestore,
     );
     expect(data).toMatchSnapshot();
     expect(data.data.date.toDate()).toMatchSnapshot();
@@ -62,17 +71,17 @@ describe(deserializeDocument.name, () => {
         path: "documents/1",
         data: {
           id: "1",
-          point: { _latitude: 10, _longitude: 20 } as SerializedGeoPoint,
+          point: { _latitude: 10, _longitude: 20 } satisfies SerializedGeoPoint,
           nested: {
             places: [
-              { _latitude: 11, _longitude: 20 } as SerializedGeoPoint,
-              { _latitude: 12, _longitude: 20 } as SerializedGeoPoint,
+              { _latitude: 11, _longitude: 20 } satisfies SerializedGeoPoint,
+              { _latitude: 12, _longitude: 20 } satisfies SerializedGeoPoint,
             ],
           },
         },
         geopoints: ["point", "nested.places.0", "nested.places.1"],
       },
-      firestore
+      firestore,
     );
     expect(data).toMatchSnapshot();
   });
@@ -86,17 +95,17 @@ describe(deserializeDocument.name, () => {
           reference: {
             _firestore: { projectId: "demo" },
             _path: { segments: ["documents", "2"] },
-          } as SerializedDocumentReference,
+          } satisfies SerializedDocumentReference,
           references: [
             {
               _firestore: { projectId: "demo" },
               _path: { segments: ["documents", "2"] },
-            } as SerializedDocumentReference,
+            } satisfies SerializedDocumentReference,
           ],
         },
         documents: ["reference", "references.0"],
       },
-      firestore
+      firestore,
     );
     expect(data).toMatchSnapshot();
     const ref = firestore.doc("documents/2");
@@ -115,25 +124,25 @@ describe(deserializeDocument.name, () => {
             _queryOptions: {
               parentPath: { segments: [] },
               collectionId: "documents",
-              fieldFilters: [],
+              filters: [],
               fieldOrders: [],
             },
-          } as SerializedQuery,
+          } satisfies SerializedQuery,
           references: [
             {
               _firestore: { projectId: "demo" },
               _queryOptions: {
                 parentPath: { segments: [] },
                 collectionId: "documents",
-                fieldFilters: [],
+                filters: [],
                 fieldOrders: [],
               },
-            } as SerializedQuery,
+            } satisfies SerializedQuery,
           ],
         },
         queries: ["reference", "references.0"],
       },
-      firestore
+      firestore,
     );
     expect(data).toMatchSnapshot();
     const ref = firestore.collection("documents");
@@ -152,7 +161,7 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: ["documents", "1"] },
                 collectionId: "threads",
-                fieldFilters: [
+                filters: [
                   {
                     op: "GREATER_THAN",
                     field: { segments: ["details", "count"] },
@@ -166,11 +175,11 @@ describe(deserializeDocument.name, () => {
                 ],
                 fieldOrders: [],
               },
-            } as SerializedQuery,
+            } satisfies SerializedQuery,
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
       expect(data).toMatchSnapshot();
 
@@ -191,7 +200,7 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: ["documents", "1"] },
                 collectionId: "threads",
-                fieldFilters: [
+                filters: [
                   { field: { segments: ["id"] }, op: "EQUAL", value: "1" },
                   {
                     field: { segments: ["user"] },
@@ -201,11 +210,11 @@ describe(deserializeDocument.name, () => {
                 ],
                 fieldOrders: [],
               },
-            } as SerializedQuery,
+            } satisfies SerializedQuery,
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
 
       expect(data).toMatchSnapshot();
@@ -225,7 +234,7 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: ["documents", "1"] },
                 collectionId: "threads",
-                fieldFilters: [
+                filters: [
                   {
                     field: { segments: ["id"] },
                     op: "IN",
@@ -239,11 +248,11 @@ describe(deserializeDocument.name, () => {
                 ],
                 fieldOrders: [],
               },
-            } as SerializedQuery,
+            } satisfies SerializedQuery,
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
 
       expect(data).toMatchSnapshot();
@@ -265,17 +274,17 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: ["documents", "1"] },
                 collectionId: "threads",
-                fieldFilters: [],
+                filters: [],
                 fieldOrders: [
                   { field: { segments: ["id"] }, direction: "ASCENDING" },
                   { field: { segments: ["date"] }, direction: "DESCENDING" },
                 ],
               },
-            } as SerializedQuery,
+            } satisfies SerializedQuery,
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
 
       expect(data).toMatchSnapshot();
@@ -295,7 +304,7 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: [""] },
                 collectionId: "documents",
-                fieldFilters: [],
+                filters: [],
                 fieldOrders: [
                   { field: { segments: ["id"] }, direction: "ASCENDING" },
                 ],
@@ -304,11 +313,11 @@ describe(deserializeDocument.name, () => {
                   values: [{ integerValue: 10 }],
                 },
               },
-            } as SerializedQuery,
+            } satisfies SerializedQuery,
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
 
       expect(data).toMatchSnapshot();
@@ -328,7 +337,7 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: [""] },
                 collectionId: "documents",
-                fieldFilters: [],
+                filters: [],
                 fieldOrders: [
                   {
                     field: { segments: ["properties"] },
@@ -352,11 +361,11 @@ describe(deserializeDocument.name, () => {
                   ],
                 },
               },
-            } as SerializedQuery,
+            } satisfies SerializedQuery,
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
 
       expect(data).toMatchSnapshot();
@@ -378,7 +387,7 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: [""] },
                 collectionId: "documents",
-                fieldFilters: [],
+                filters: [],
                 fieldOrders: [
                   {
                     field: { segments: ["properties"] },
@@ -407,11 +416,11 @@ describe(deserializeDocument.name, () => {
                   ],
                 },
               },
-            } as SerializedQuery,
+            } satisfies SerializedQuery,
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
 
       expect(data).toMatchSnapshot();
@@ -433,7 +442,7 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: [""] },
                 collectionId: "documents",
-                fieldFilters: [],
+                filters: [],
                 fieldOrders: [
                   { field: { segments: ["average"] }, direction: "ASCENDING" },
                   {
@@ -455,11 +464,11 @@ describe(deserializeDocument.name, () => {
                   ],
                 },
               },
-            } as SerializedQuery,
+            } satisfies SerializedQuery,
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
 
       expect(data).toMatchSnapshot();
@@ -482,7 +491,7 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: [""] },
                 collectionId: "documents",
-                fieldFilters: [],
+                filters: [],
                 fieldOrders: [],
                 limit: 10,
                 limitType: 0,
@@ -491,7 +500,7 @@ describe(deserializeDocument.name, () => {
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
 
       expect(data).toMatchSnapshot();
@@ -511,16 +520,16 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: [""] },
                 collectionId: "documents",
-                fieldFilters: [],
+                filters: [],
                 fieldOrders: [],
                 limit: 10,
                 limitType: 1,
               },
-            } as SerializedQuery,
+            } satisfies SerializedQuery,
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
 
       expect(data).toMatchSnapshot();
@@ -540,7 +549,7 @@ describe(deserializeDocument.name, () => {
               _queryOptions: {
                 parentPath: { segments: [""] },
                 collectionId: "documents",
-                fieldFilters: [],
+                filters: [],
                 fieldOrders: [],
                 offset: 10,
               },
@@ -548,7 +557,7 @@ describe(deserializeDocument.name, () => {
           },
           queries: ["ref"],
         },
-        firestore
+        firestore,
       );
 
       expect(data).toMatchSnapshot();
