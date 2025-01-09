@@ -757,10 +757,13 @@ Thanks goes to these wonderful people
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://github.com/benyap"><img src="https://avatars.githubusercontent.com/u/19235373?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Ben Yap</b></sub></a><br /><a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Code">💻</a> <a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Tests">⚠️</a> <a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/anderjf"><img src="https://avatars.githubusercontent.com/u/1616266?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Anderson José de França</b></sub></a><br /><a href="#ideas-anderjf" title="Ideas, Planning, & Feedback">🤔</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/benyap"><img src="https://avatars.githubusercontent.com/u/19235373?v=4?s=80" width="80px;" alt="Ben Yap"/><br /><sub><b>Ben Yap</b></sub></a><br /><a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Code">💻</a> <a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Tests">⚠️</a> <a href="https://github.com/benyap/firestore-backfire/commits?author=benyap" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/anderjf"><img src="https://avatars.githubusercontent.com/u/1616266?v=4?s=80" width="80px;" alt="Anderson José de França"/><br /><sub><b>Anderson José de França</b></sub></a><br /><a href="#ideas-anderjf" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/MarcVanDaele90"><img src="https://avatars.githubusercontent.com/u/90178346?v=4?s=80" width="80px;" alt="Marc@Wijsr"/><br /><sub><b>Marc@Wijsr</b></sub></a><br /><a href="https://github.com/benyap/firestore-backfire/issues?q=author%3AMarcVanDaele90" title="Bug reports">🐛</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->
