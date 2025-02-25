@@ -80,7 +80,7 @@
     "@release-it/bumper": "7.0.0",
     "@release-it/conventional-changelog": "10.0.0",
     "@swc/cli": "0.6.0",
-    "@swc/core": "1.10.4",
+    "@swc/core": "1.11.1",
     "@types/node": "22.10.5",
     "@vitest/coverage-v8": "2.1.8",
     "concurrently": "9.1.2",
